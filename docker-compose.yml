@@ -1,0 +1,26 @@
+
+services:
+  # ─────────────────────────────────────────
+  # Base de datos PostgreSQL (local / dev)
+  # ─────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: banetton_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: banetton
+    ports:
+      - "5432:5432"
+    volumes:
+      - banetton_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  banetton_pgdata:
+    name: banetton_pgdata
