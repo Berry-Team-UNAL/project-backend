@@ -12,14 +12,14 @@ export default function Home() {
           <p className="text-green-400">✓ Next.js App Router activo</p>
           <p className="text-green-400">✓ Prisma ORM configurado</p>
           <p className="text-green-400">✓ Supabase PostgreSQL conectado</p>
-          <p className="text-blue-400 mt-4">GET  /api/products</p>
-          <p className="text-blue-400">POST /api/products</p>
+          <p className="text-blue-400 mt-4">GET  /api/roles</p>
+          <p className="text-blue-400">POST /api/roles</p>
         </div>
         <a
-          href="/api/products"
+          href="/api/roles"
           className="inline-block bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg transition"
         >
-          Ver productos →
+          Ver roles →
         </a>
       </div>
     </main>

@@ -1,6 +1,6 @@
 @echo off
 REM =============================================================
-REM setup.bat — Banetton · Preparacion inicial del proyecto
+REM setup.bat — Banneton · Preparacion inicial del proyecto
 REM Universidad Nacional de Colombia · Ingenieria de Software
 REM =============================================================
 REM Uso: setup.bat
@@ -31,7 +31,7 @@ if not exist .env (
 REM ── 4. Levantar base de datos en Docker ──────────────────────
 echo Levantando base de datos PostgreSQL en Docker...
 docker compose up -d postgres
-echo   OK — contenedor banetton_db iniciado
+echo   OK — contenedor banneton_db iniciado
 
 REM ── 5. Esperar a que Postgres este listo ─────────────────────
 echo Esperando 5 segundos para que PostgreSQL inicie...
@@ -56,7 +56,7 @@ echo   OK — build exitoso
 REM ── 9. Listo ─────────────────────────────────────────────────
 echo.
 echo =============================================
-echo   Banetton listo para desarrollo
+echo   Banneton listo para desarrollo
 echo   Inicia con: npm run dev
-echo   API en:     http://localhost:3000/api/products
+echo   API en:     http://localhost:3000/api/roles
 echo =============================================

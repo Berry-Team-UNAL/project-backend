@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// GET /api/products — Lista todos los roles (entidad base del sistema)
+// GET /api/roles — Lista todos los roles (entidad base del sistema)
 export async function GET() {
   try {
     const roles = await prisma.rol.findMany({
@@ -17,7 +17,7 @@ export async function GET() {
   }
 }
 
-// POST /api/products — Crea un nuevo rol
+// POST /api/roles — Crea un nuevo rol
 export async function POST(request: Request) {
   try {
     const body = await request.json();

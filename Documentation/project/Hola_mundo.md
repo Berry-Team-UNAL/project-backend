@@ -1,5 +1,7 @@
-# Hola Mundo — Banetton
+# Hola Mundo — Banneton
 ## Tutorial: Next.js + Prisma + PostgreSQL (Supabase) + Docker
+
+**Proyecto:** Banneton
 
 **Universidad Nacional de Colombia — Sede Bogotá**  
 **Facultad de Ingeniería — Ingeniería de Sistemas y Computación**  
@@ -35,7 +37,7 @@ docker --version  # Docker 24+
 ## 3. Crear el proyecto Next.js
 
 ```bash
-npx create-next-app@latest banetton \
+npx create-next-app@latest Banneton \
   --typescript \
   --tailwind \
   --eslint \
@@ -43,7 +45,7 @@ npx create-next-app@latest banetton \
   --no-src-dir \
   --import-alias "@/*"
 
-cd banetton
+cd Banneton
 ```
 
 Este comando genera la estructura base con:
@@ -103,7 +105,7 @@ export default defineConfig({
 });
 ```
 
-Y en `prisma/schema.prisma`, el datasource **no** incluye la URL:
+Y en `prisma/schema.prisma`, el datasource **no** incluye la URL directamente:
 
 ```prisma
 generator client {
@@ -115,16 +117,12 @@ datasource db {
   provider = "postgresql"
 }
 
-// Entidad de ejemplo: Producto
-model Product {
-  id          Int      @id @default(autoincrement())
-  name        String
-  description String?
-  price       Float
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt     @map("updated_at")
+// Entidad de ejemplo: Rol (control de acceso de usuarios)
+model Rol {
+  id_rol     Int    @id @default(autoincrement())
+  nombre_rol String @unique @db.VarChar(30)
 
-  @@map("products")
+  @@map("rol")
 }
 ```
 
@@ -173,27 +171,53 @@ if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
 
 ## 9. Crear la API REST
 
-Archivo `app/api/products/route.ts`:
+Archivo `app/api/roles/route.ts`:
 
 ```typescript
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-// GET /api/products
+// GET /api/roles — Lista todos los roles
 export async function GET() {
-  const products = await prisma.product.findMany({
-    orderBy: { createdAt: "desc" },
-  });
-  return NextResponse.json({ ok: true, data: products });
+  try {
+    const roles = await prisma.rol.findMany({
+      orderBy: { id_rol: "asc" },
+    });
+    return NextResponse.json({ ok: true, data: roles });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { ok: false, error: "Error al obtener datos" },
+      { status: 500 }
+    );
+  }
 }
 
-// POST /api/products
+// POST /api/roles — Crea un nuevo rol
 export async function POST(request: Request) {
-  const { name, description, price } = await request.json();
-  const product = await prisma.product.create({
-    data: { name, description, price: Number(price) },
-  });
-  return NextResponse.json({ ok: true, data: product }, { status: 201 });
+  try {
+    const body = await request.json();
+    const { nombre_rol } = body;
+
+    if (!nombre_rol) {
+      return NextResponse.json(
+        { ok: false, error: "nombre_rol es requerido" },
+        { status: 400 }
+      );
+    }
+
+    const rol = await prisma.rol.create({
+      data: { nombre_rol },
+    });
+
+    return NextResponse.json({ ok: true, data: rol }, { status: 201 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { ok: false, error: "Error al crear registro" },
+      { status: 500 }
+    );
+  }
 }
 ```
 
@@ -207,16 +231,16 @@ Archivo `docker-compose.yml`:
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: banetton_db
+    container_name: banneton_db
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: PASSWORD
-      POSTGRES_DB: banetton
+      POSTGRES_DB: banneton
     ports:
       - "5432:5432"
     volumes:
-      - banetton_pgdata:/var/lib/postgresql/data
+      - banneton_pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -224,8 +248,8 @@ services:
       retries: 5
 
 volumes:
-  banetton_pgdata:
-    name: banetton_pgdata
+  banneton_pgdata:
+    name: banneton_pgdata
 ```
 
 Levantar el contenedor:
@@ -243,7 +267,7 @@ docker ps -a
 Salida esperada:
 ```
 CONTAINER ID   IMAGE               COMMAND                  STATUS         PORTS                    NAMES
-01106ce1a2d9   postgres:16-alpine  "docker-entrypoint.s…"  Up 10 seconds  0.0.0.0:5432->5432/tcp   banetton_db
+01106ce1a2d9   postgres:16-alpine  "docker-entrypoint.s…"  Up 10 seconds  0.0.0.0:5432->5432/tcp   banneton_db
 ```
 
 ---
@@ -260,12 +284,12 @@ Abrir en el navegador: [http://localhost:3000](http://localhost:3000)
 
 ## 12. Prueba desde Postman
 
-### GET — Listar productos
+### GET — Listar roles
 
 | Campo | Valor |
 |---|---|
 | Método | `GET` |
-| URL | `http://localhost:3000/api/products` |
+| URL | `http://localhost:3000/api/roles` |
 
 **Respuesta esperada:**
 ```json
@@ -277,20 +301,18 @@ Abrir en el navegador: [http://localhost:3000](http://localhost:3000)
 
 ---
 
-### POST — Crear un producto
+### POST — Crear un rol
 
 | Campo | Valor |
 |---|---|
 | Método | `POST` |
-| URL | `http://localhost:3000/api/products` |
+| URL | `http://localhost:3000/api/roles` |
 | Headers | `Content-Type: application/json` |
 
 **Body (raw JSON):**
 ```json
 {
-  "name": "Camiseta Banetton",
-  "description": "Producto de prueba",
-  "price": 49.99
+  "nombre_rol": "admin"
 }
 ```
 
@@ -299,12 +321,8 @@ Abrir en el navegador: [http://localhost:3000](http://localhost:3000)
 {
   "ok": true,
   "data": {
-    "id": 1,
-    "name": "Camiseta Banetton",
-    "description": "Producto de prueba",
-    "price": 49.99,
-    "createdAt": "2026-05-08T00:19:57.474Z",
-    "updatedAt": "2026-05-08T00:19:57.474Z"
+    "id_rol": 1,
+    "nombre_rol": "admin"
   }
 }
 ```
@@ -314,17 +332,17 @@ Abrir en el navegador: [http://localhost:3000](http://localhost:3000)
 ## 13. Estructura final del proyecto
 
 ```
-banetton/
+Banneton/
 ├── app/
 │   ├── api/
 │   │   └── products/
-│   │       └── route.ts       # API REST: GET y POST
+│   │       └── route.ts       # API REST: GET y POST sobre Rol
 │   ├── layout.tsx
 │   └── page.tsx               # Página de inicio
 ├── lib/
 │   └── prisma.ts              # Singleton Prisma
 ├── prisma/
-│   └── schema.prisma          # Modelo de datos
+│   └── schema.prisma          # Modelo de datos (Rol, Usuario, etc.)
 ├── Documentacion/
 │   ├── Proyecto/
 │   │   └── Hola_mundo.pdf     # Este tutorial

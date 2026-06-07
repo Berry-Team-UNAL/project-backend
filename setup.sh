@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================
-# setup.sh — Banetton · Preparación inicial del proyecto
+# setup.sh — Banneton · Preparación inicial del proyecto
 # Universidad Nacional de Colombia · Ingeniería de Software
 # =============================================================
 # Uso: bash setup.sh
@@ -33,7 +33,7 @@ fi
 # ── 4. Levantar base de datos en Docker ──────────────────────
 echo "Levantando base de datos PostgreSQL en Docker..."
 docker compose up -d postgres
-echo "  OK — contenedor banetton_db iniciado"
+echo "  OK — contenedor banneton_db iniciado"
 
 # ── 5. Esperar a que Postgres esté listo ─────────────────────
 echo "Esperando a que PostgreSQL esté disponible..."
@@ -59,7 +59,7 @@ echo "  OK — build exitoso"
 # ── 9. Listo ─────────────────────────────────────────────────
 echo ""
 echo "============================================="
-echo "  Banetton listo para desarrollo"
+echo "  Banneton listo para desarrollo"
 echo "  Inicia el servidor con: npm run dev"
-echo "  API disponible en:      http://localhost:3000/api/products"
+echo "  API disponible en:      http://localhost:3000/api/roles"
 echo "============================================="
