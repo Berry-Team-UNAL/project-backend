@@ -1,36 +1,23 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# project-docs
+Documentación y tareas
 
-## Getting Started
+Nombre del proyecto: Banneton 
+Grupo: Berry
 
-First, run the development server:
+Contacto:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Gabriel Jeronimo Puentes Umbarila (gpuentesu@unal.edu.co)
+Nicolas Alexander Marin Valencia (Nimarinv@unal.edu.co)
+Samuel Mateo Guerrero Sanjuan (Samguerrerosa@unal.edu.co)
+Sergio Nicolas Vanegas Martinez (Sevanegasm@unal.edu.co)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Descripción:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Este proyecto nace de la necesidad real de un emprendedor de panadería pastelería que produce bollería artesanal de alta complejidad técnica: pan rollito, roles de canela, roscón
 
-## Learn More
+El núcleo del problema es que la gestión de recetas en panadería profesional NO es una lista plana de ingredientes. Es un sistema jerárquico de preparaciones, porcentajes técnicos y procesos interdependientes, que normalmente se gestiona manualmente por medio hojas de cálculo, sistema propenso a errores humanos.
 
-To learn more about Next.js, take a look at the following resources:
+![alt text](unnamed-1.png)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
