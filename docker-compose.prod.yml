@@ -1,6 +1,6 @@
 # =============================================================
-# docker-compose.yml — Banneton · Desarrollo
-# Hot-reload activo mediante volúmenes
+# docker-compose.prod.yml — Banneton · Producción
+# Build completo, sin volúmenes de código
 # =============================================================
 
 services:
@@ -13,16 +13,9 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/banneton"
-      NEXT_TELEMETRY_DISABLED: "1"
-    volumes:
-      - .:/app            # Código fuente local → contenedor (hot-reload)
-      - /app/node_modules # node_modules del contenedor (no se sobreescribe)
-      - /app/.next        # build cache del contenedor
-    command: pnpm dev
+      DATABASE_URL: ${DATABASE_URL}
     depends_on:
-      postgres:
-        condition: service_healthy
+      - postgres
 
   # ─────────────────────────────────────────
   # Base de datos PostgreSQL
@@ -32,18 +25,11 @@ services:
     container_name: banneton_db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       POSTGRES_DB: banneton
-    ports:
-      - "5432:5432"
     volumes:
       - banneton_pgdata:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
 volumes:
   banneton_pgdata:
