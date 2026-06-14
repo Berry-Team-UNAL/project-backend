@@ -1,9 +1,9 @@
 'use client';
-import { calcularTiempoFinalDeHorneado } from '../lib/horno';
+import { calcFinalOvenTime } from '../lib/horno';
 
-import { DatosHorneado } from '../lib/horno';
+import { SetData } from '../lib/horno';
 
-import { ResultadoEstimacion } from '../lib/horno';
+import { FinalEstimation } from '../lib/horno';
 
 import React, { useState } from 'react';
 
@@ -38,20 +38,20 @@ export default function ProductionEstimatorModal({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const datos : DatosHorneado  = {
-      unidades: formData.unidades,
-      unidadesPorTanda: formData.unidadesPorTanda,
-      tiempoDeHorneado: formData.tiempoDeHorneado,
-      tiempoDeManiobra: formData.tiempoDeManiobra,  
-      numeroDeHornos: formData.numeroDeHornos
+    const datos : SetData  = {
+      units: formData.unidades,
+      unitsPerSet: formData.unidadesPorTanda,
+      ovenTime: formData.tiempoDeHorneado,
+      handlingTime: formData.tiempoDeManiobra,  
+      ovenNumber: formData.numeroDeHornos
     }
 
-    const resultado : ResultadoEstimacion = calcularTiempoFinalDeHorneado(datos)
+    const resultado : FinalEstimation = calcFinalOvenTime(datos)
 // <------ FALTA UN CONSTRUCTOR PARA CUMPLIR CON CLEAN CODE ------>
-    alert("Tiempo: " + resultado.tiempoFinalMinutos + " minutos" +
-      "\n Numero de Tandas: " + resultado.numeroDeTandas +
-    "\n Tiempo de maniobra: " + resultado.tiempoTotalDeManiobra + " minutos" +
-    "\n Tiempo en el horno: " + resultado.tiempoTotalEnHorno + " minutos" );
+    alert("Tiempo: " + resultado.finalTimeMinutes + " minutos" +
+      "\n Numero de Tandas: " + resultado.setNumber +
+    "\n Tiempo de maniobra: " + resultado.totalHandlingTime + " minutos" +
+    "\n Tiempo en el horno: " + resultado.totalTimeOven + " minutos" );
   };
 
   return (
