@@ -146,7 +146,7 @@ export default function RecetasPage() {
               Pan de Molde Integral
 						</h1>
 						<Badge className="bg-[#E8B86D] text-[#3D3229] hover:bg-[#E8B86D]/90 px-4 py-1">
-              En edici&oacute;n
+              En edicion
 						</Badge>
 					</div>
 					<p className="text-sm text-muted-foreground">
