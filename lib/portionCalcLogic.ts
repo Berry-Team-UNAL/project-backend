@@ -15,7 +15,7 @@ export interface FinalEstimation {
 
 export function calclNumberOfSets(units: number, unitsPerSet: number, ovenNumber: number): number {
 	if (unitsPerSet <= 0 || ovenNumber <= 0) {
-		throw new Error("La capacidad por set y el número de hornos deben ser mayores a cero.");
+		throw new Error("The capacity per set and the number of ovens must be greater than zero.");
 	}
     
 	if (units <= 0) {return 0;} 
@@ -25,14 +25,14 @@ export function calclNumberOfSets(units: number, unitsPerSet: number, ovenNumber
 }
 
 export function calcTimeInOven(sets: number, ovenTime: number): number {
-	if (ovenTime < 0) {throw new Error("El tiempo en el horno no puede ser negativo.");}
+	if (ovenTime < 0) {throw new Error("Time in the oven cannot be negative.");}
 	if (sets === 0) {return 0;}
     
 	return sets * ovenTime;
 }
 
 export function CalcHandlingTime(handlingTime: number, sets: number, ovenNumber: number): number {
-	if (handlingTime < 0) {throw new Error("El tiempo de manejo no puede ser negativo.");}
+	if (handlingTime < 0) {throw new Error("Handling time cannot be negative.");}
 	if (sets === 0) {return 0;}
 	if (sets === 1) {return handlingTime;}
     
@@ -43,7 +43,7 @@ export function calcFinalOvenTime(datos: SetData): FinalEstimation {
 	const { units, unitsPerSet, ovenTime, handlingTime, ovenNumber } = datos;
 
 	if (units < 0 || unitsPerSet < 0 || ovenTime < 0 || handlingTime < 0 || ovenNumber < 0) {
-		throw new Error("No se permiten valores negativos en los datos de estimación.");
+		throw new Error("Negative values ​​are not allowed in the estimation data.");
 	}
 
 	if (units === 0) {
