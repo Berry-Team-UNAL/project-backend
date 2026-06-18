@@ -1,8 +1,12 @@
-import { isCircularyDependent } from "./subrecipeLogic";
+import { error } from "console";
+import { isCircularyDependent, RecipeRelation } from "./subrecipeLogic";
+
+export type MeasurementUnit = 'percentage' | 'grams';
 
 export interface ComponentInRecipe{
     componentId: number;
     quantity: number;
+    unit: MeasurementUnit;
 }
 
 export interface Recipe{
@@ -11,14 +15,31 @@ export interface Recipe{
     components: ComponentInRecipe[];
 }
 
+function validateQuantity(
+    quantity: number,
+    unit: MeasurementUnit
+): void{
+    if(quantity<= 0){
+        throw new Error("The amount must be greater than 0");
+    }
+    if(unit === "percentage" && quantity >100){
+        throw new Error("The percentage cannot be greater than 100")
+    }
 
-export function addComponentPercentage(
+}
+
+export function addComponent(
 
     recipeToChange: Recipe
 ,
     newComponent: ComponentInRecipe,
 
+    allExistingRelationships: RecipeRelation[]
+
 ): Recipe{
+    
+    validateQuantity(newComponent.quantity, newComponent.unit);
+
     
     if(newComponent.quantity<= 0){
         throw new Error("The amount must be greater than 0")
@@ -31,42 +52,28 @@ export function addComponentPercentage(
     }
 
 
-    const circularDependencyExists = isCircularyDependent(recipeToChange.recipeId, newComponent.componentId, ...recipeToChange.components)
+    const circularDependencyExists = isCircularyDependent(recipeToChange.recipeId, newComponent.componentId, allExistingRelationships)
     if(circularDependencyExists){
         throw new Error("Circular dependency detected")
     }
 
-    if(newComponent.quantity <0 || newComponent.quantity > 100){
-        throw new Error("The percentage must be between 0 and 100")
-    }
-
+    
     return{
         ...recipeToChange,
         components: [...recipeToChange.components, newComponent]
         //Doesnt this return a list with all the components except the new one and then the lsit with the new one? isn't this redundancy?
     }
-    // valor temporal
-    return {recipeId: 1, name: "s", components: [...recipeToChange.components, newComponent]};
+    
 }
 
 
 
 
 
-// me confunde el retorno de añadir un componente, acaso devuelve una receta, que son IDs, nombre, y su arreglo de relaciones? y luego devuelve lo anterior pero desde la perspectiva del neuvo componente?
-export function isExistingComponent(
+export function removeComponent(
 
 
 ): boolean{
 
 return false;
 }
-
-export function isValidQuantity(
-
-
-): boolean{
-
-return false;
-}
-
