@@ -1,4 +1,3 @@
-import { error } from "console";
 import { isCircularyDependent, RecipeRelation } from "./subrecipeLogic";
 
 export type MeasurementUnit = 'percentage' | 'grams';
@@ -10,10 +9,11 @@ export interface ComponentInRecipe{
 }
 
 export interface Recipe{
-    recipeId: number
+    recipeId: number;
     name: string;
     unitWeight: number;
     batchUnits: number;
+    batchOvenTime?: number
     realWeight?: number;
     creatorId: string;
     createdAt: Date;
@@ -26,8 +26,10 @@ export interface Recipe{
 }
 
 function validateQuantity(
+
     quantity: number,
     unit: MeasurementUnit
+
 ): void{
     if(quantity<= 0){
         throw new Error("The amount must be greater than 0");
@@ -39,12 +41,14 @@ function validateQuantity(
 }
 
 export function createRecipe(
+
     id: number,
     name: string,
     unitWeight: number,
     batchUnits: number,
     creatorId: string,
     realWeight?: number
+
 ): Recipe {
 
     if (!name.trim()) throw new Error("Recipe name cannot be empty");
@@ -74,20 +78,14 @@ export function createRecipe(
 
 export function addComponent(
 
-    recipeToChange: Recipe
-,
+    recipeToChange: Recipe,
     newComponent: ComponentInRecipe,
-
     allExistingRelationships: RecipeRelation[]
 
 ): Recipe{
     
     validateQuantity(newComponent.quantity, newComponent.unit);
 
-    
-    if(newComponent.quantity<= 0){
-        throw new Error("The amount must be greater than 0")
-    }
 
 
     const exists = recipeToChange.components.find(c => c.componentId === newComponent.componentId); 
@@ -105,19 +103,18 @@ export function addComponent(
     return{
         ...recipeToChange,
         components: [...recipeToChange.components, newComponent]
-        //Doesnt this return a list with all the components except the new one and then the lsit with the new one? isn't this redundancy?
     }
-    
 }
 
 
 export function removeComponent(
-    componentToEliminate: number,
+
+    componentIdToEliminate: number,
     recipeToChange: Recipe
 
 ): Recipe{
 
-    const exists = recipeToChange.components.some(c=> c.componentId ===componentToEliminate);
+    const exists = recipeToChange.components.some(c=> c.componentId ===componentIdToEliminate);
     if(!exists){
         throw new Error("The component to eliminate doesn't exist in this recipe");
     }
@@ -125,7 +122,7 @@ export function removeComponent(
 
     return{
         ...recipeToChange,
-        components: recipeToChange.components.filter(c=> c.componentId !==componentToEliminate)
+        components: recipeToChange.components.filter(c=> c.componentId !==componentIdToEliminate)
 
     };
 }
