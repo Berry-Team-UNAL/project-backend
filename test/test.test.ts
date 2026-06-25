@@ -5,14 +5,14 @@ import {
 	CalcHandlingTime, 
 	calcFinalOvenTime,
 	SetData
-} from "../lib/portionCalcLogic"; 
+} from "../domain/portionCalcLogic"; 
 
 import{computeIngredientRealCost,
     computeBruteCostPerPound,
     computeBruteCostPerKilo,
     computeRealCostPerPound,
     computeRealCostPerKilo,
-    computeHydrationAmount} from '../lib/ingredientLogic';
+    computeHydrationAmount} from '../domain/ingredientLogic';
 
 import{
 	isCircularyDependent,
@@ -152,7 +152,7 @@ describe("Oven Time Estimation Functions", () => {
 	});
 });
 
-describe("ingredient data computing functions", () => {
+describe("Ingredient logic functions", () => {
 	describe("1. computeIngredientRealCost", () => {
 
 		it("It should return the same cost if the loss is 0", () => {

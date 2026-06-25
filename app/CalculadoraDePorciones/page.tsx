@@ -1,9 +1,9 @@
 "use client";
-import { calcFinalOvenTime } from "../../lib/portionCalcLogic";
+import { calcFinalOvenTime } from "../../domain/portionCalcLogic";
 
-import { SetData } from "../../lib/portionCalcLogic";
+import { SetData } from "../../domain/portionCalcLogic";
 
-import { FinalEstimation } from "../../lib/portionCalcLogic";
+import { FinalEstimation } from "../../domain/portionCalcLogic";
 
 import React, { useState } from "react";
 
