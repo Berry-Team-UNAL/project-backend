@@ -8,7 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
-import type * as runtime from "@prisma/client/runtime/client"
+import type * as runtime from "@prisma/client/runtime/library"
 import type * as $Enums from "../enums"
 import type * as Prisma from "../internal/prismaNamespace"
 
@@ -171,7 +171,7 @@ export type RolGroupByOutputType = {
   _max: RolMaxAggregateOutputType | null
 }
 
-export type GetRolGroupByPayload<T extends rolGroupByArgs> = Prisma.PrismaPromise<
+type GetRolGroupByPayload<T extends rolGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<RolGroupByOutputType, T['by']> &
       {
@@ -1031,11 +1031,6 @@ export type rolFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Skip the first `n` rols.
    */
   skip?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-   * 
-   * Filter by unique combinations of rols.
-   */
   distinct?: Prisma.RolScalarFieldEnum | Prisma.RolScalarFieldEnum[]
 }
 

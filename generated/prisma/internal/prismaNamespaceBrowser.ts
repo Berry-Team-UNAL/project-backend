@@ -24,30 +24,28 @@ export const Decimal = runtime.Decimal
 
 
 export const NullTypes = {
-  DbNull: runtime.NullTypes.DbNull as (new (secret: never) => typeof runtime.DbNull),
-  JsonNull: runtime.NullTypes.JsonNull as (new (secret: never) => typeof runtime.JsonNull),
-  AnyNull: runtime.NullTypes.AnyNull as (new (secret: never) => typeof runtime.AnyNull),
+  DbNull: runtime.objectEnumValues.classes.DbNull as (new (secret: never) => typeof runtime.objectEnumValues.instances.DbNull),
+  JsonNull: runtime.objectEnumValues.classes.JsonNull as (new (secret: never) => typeof runtime.objectEnumValues.instances.JsonNull),
+  AnyNull: runtime.objectEnumValues.classes.AnyNull as (new (secret: never) => typeof runtime.objectEnumValues.instances.AnyNull),
 }
 /**
  * Helper for filtering JSON entries that have `null` on the database (empty on the db)
  *
  * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
  */
-export const DbNull = runtime.DbNull
-
+export const DbNull = runtime.objectEnumValues.instances.DbNull
 /**
  * Helper for filtering JSON entries that have JSON `null` values (not empty on the db)
  *
  * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
  */
-export const JsonNull = runtime.JsonNull
-
+export const JsonNull = runtime.objectEnumValues.instances.JsonNull
 /**
  * Helper for filtering JSON entries that are `Prisma.DbNull` or `Prisma.JsonNull`
  *
  * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
  */
-export const AnyNull = runtime.AnyNull
+export const AnyNull = runtime.objectEnumValues.instances.AnyNull
 
 
 export const ModelName = {
@@ -98,7 +96,8 @@ export const Catalogo_componenteScalarFieldEnum = {
   id_componente: 'id_componente',
   nombre: 'nombre',
   tipo_componente: 'tipo_componente',
-  unidad_medida: 'unidad_medida'
+  unidad_medida: 'unidad_medida',
+  activo: 'activo'
 } as const
 
 export type Catalogo_componenteScalarFieldEnum = (typeof Catalogo_componenteScalarFieldEnum)[keyof typeof Catalogo_componenteScalarFieldEnum]
@@ -110,6 +109,7 @@ export const Detalle_formulacionScalarFieldEnum = {
   id_componente_hijo: 'id_componente_hijo',
   id_articulo_especifico: 'id_articulo_especifico',
   cantidad_usada: 'cantidad_usada',
+  unidad_medida_usada: 'unidad_medida_usada',
   nota_preparacion: 'nota_preparacion'
 } as const
 
@@ -141,10 +141,7 @@ export const Receta_subrecetaScalarFieldEnum = {
   id_componente: 'id_componente',
   ppu_objetivo: 'ppu_objetivo',
   unidades_tanda: 'unidades_tanda',
-  porcentaje_grasa_total: 'porcentaje_grasa_total',
-  porcentaje_agua_hidratacion: 'porcentaje_agua_hidratacion',
   porcentaje_merma_coccion: 'porcentaje_merma_coccion',
-  costo_por_unidad_calculado: 'costo_por_unidad_calculado',
   creado_por: 'creado_por',
   creado_en: 'creado_en',
   actualizado_en: 'actualizado_en'

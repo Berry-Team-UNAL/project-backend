@@ -8,7 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
-import type * as runtime from "@prisma/client/runtime/client"
+import type * as runtime from "@prisma/client/runtime/library"
 import type * as $Enums from "../enums"
 import type * as Prisma from "../internal/prismaNamespace"
 
@@ -251,7 +251,7 @@ export type Articulo_proveedorGroupByOutputType = {
   _max: Articulo_proveedorMaxAggregateOutputType | null
 }
 
-export type GetArticulo_proveedorGroupByPayload<T extends articulo_proveedorGroupByArgs> = Prisma.PrismaPromise<
+type GetArticulo_proveedorGroupByPayload<T extends articulo_proveedorGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Articulo_proveedorGroupByOutputType, T['by']> &
       {
@@ -1699,11 +1699,6 @@ export type articulo_proveedorFindManyArgs<ExtArgs extends runtime.Types.Extensi
    * Skip the first `n` articulo_proveedors.
    */
   skip?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-   * 
-   * Filter by unique combinations of articulo_proveedors.
-   */
   distinct?: Prisma.Articulo_proveedorScalarFieldEnum | Prisma.Articulo_proveedorScalarFieldEnum[]
 }
 
