@@ -107,3 +107,62 @@ model usuario {
   receta_subreceta receta_subreceta[]
   rol              rol                @relation(fields: [id_rol], references: [id_rol], onDelete: NoAction, onUpdate: NoAction)
 }
+
+model receta_subreceta {
+  id_componente            Int                   @id
+  ppu_objetivo             Decimal?              @db.Decimal(10, 2)
+  unidades_tanda           Int?                  @default(1)
+  porcentaje_merma_coccion Decimal?              @default(0.00) @db.Decimal(5, 2)
+  creado_por               Int?
+  creado_en                DateTime?             @default(now()) @db.Timestamp(6)
+  actualizado_en           DateTime?             @db.Timestamp(6)
+  detalle_formulacion      detalle_formulacion[]
+  usuario                  usuario?              @relation(fields: [creado_por], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction)
+  catalogo_componente      catalogo_componente   @relation(fields: [id_componente], references: [id_componente], onDelete: Cascade, onUpdate: NoAction)
+
+  sesion_receta            sesion_receta[]
+  reporte_produccion       reporte_produccion[]
+}
+
+model condicion_ambiental {
+  id_condicion        Int      @id @default(autoincrement())
+  humedad             Decimal  @db.Decimal(5, 2)
+  temperatura         Decimal  @db.Decimal(5, 2)
+  altitud             Decimal  @db.Decimal(7, 2)
+  presion_barometrica Decimal  @db.Decimal(7, 2)
+  creado_en           DateTime @default(now()) @db.Timestamp(6)
+
+  reporte_produccion  reporte_produccion[]
+}
+
+model sesion_receta {
+  id_sesion          Int       @id @default(autoincrement())
+  id_receta          Int
+  indice_paso_actual Int       @default(0)
+  completado         Boolean   @default(false)
+  progreso           Decimal   @default(0.00) @db.Decimal(5, 2)
+  checklist          Json      @default("{}") // { [idDetalle]: { completado: true, marcadoEn: "ISOString" } }
+  creado_en          DateTime  @default(now()) @db.Timestamp(6)
+  actualizado_en     DateTime? @updatedAt @db.Timestamp(6)
+
+  receta_subreceta   receta_subreceta      @relation(fields: [id_receta], references: [id_componente], onDelete: Cascade, onUpdate: NoAction)
+  reporte_produccion reporte_produccion[]
+}
+
+model reporte_produccion {
+  id_reporte          Int      @id @default(autoincrement())
+  fecha               DateTime @db.Date
+  hora                String   @db.VarChar(20)
+  numero_lote         String   @unique @db.VarChar(50)
+  cantidad            Decimal  @db.Decimal(10, 2)
+  personal            String   @db.VarChar(100)
+  notas               String?
+
+  id_condicion        Int
+  id_receta           Int?
+  id_sesion           Int?
+
+  condicion_ambiental condicion_ambiental @relation(fields: [id_condicion], references: [id_condicion], onDelete: NoAction, onUpdate: NoAction)
+  receta_subreceta    receta_subreceta?   @relation(fields: [id_receta], references: [id_componente], onDelete: NoAction, onUpdate: NoAction)
+  sesion_receta       sesion_receta?      @relation(fields: [id_sesion], references: [id_sesion], onDelete: NoAction, onUpdate: NoAction)
+}

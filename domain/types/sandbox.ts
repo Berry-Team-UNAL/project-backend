@@ -70,6 +70,23 @@ export interface SandboxComparison {
   modifiedMetrics: SandboxMetrics
 }
 
+export interface ProcessStep {
+  id: string
+  name: string
+  order: number
+}
+
+export interface MasterRecipe {
+  id: string
+  name: string
+  version: string
+  components: RecipeComponent[]
+  ingredients: Ingredient[]
+  subrecipeVersions: SubrecipeVersion[]
+  bakingParameters: BakingParameters
+  steps: ProcessStep[]
+}
+
 export const SANDBOX_EXPIRY_MINUTES = 30;
 export const HYDRATION_MIN_PERCENTAGE = 40;
 export const HYDRATION_MAX_PERCENTAGE = 90;
