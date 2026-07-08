@@ -12,7 +12,7 @@ WORKDIR /app
 
 # Copiar manifiestos primero (cache de capas Docker)
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
+RUN pnpm install --no-frozen-lockfile
 
 # Generar cliente Prisma
 COPY prisma ./prisma
