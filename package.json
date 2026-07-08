@@ -24,7 +24,6 @@
     "@radix-ui/react-tooltip": "^1.2.9",
     "@supabase/supabase-js": "^2.105.3",
     "@types/pg": "^8.20.0",
-    "next": "latest",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.18.0",
