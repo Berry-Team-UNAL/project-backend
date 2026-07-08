@@ -28,7 +28,7 @@ export async function ejecutarLogin(formData: FormData) {
 	if (!usuarioEncontrado || !usuarioEncontrado.activo || usuarioEncontrado.password !== passwordInput) {
 		redirect("/login?error=invalid");
 	}
-
+ 
 	const cookieStore = await cookies();
 	const nombreRol = usuarioEncontrado.rol.nombre_rol.toLowerCase();
 
