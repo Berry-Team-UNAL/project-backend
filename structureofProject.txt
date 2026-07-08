@@ -1,0 +1,181 @@
+.
+├── app
+│   ├── api
+│   │   ├── ingredients
+│   │   │   └── route.ts
+│   │   ├── login
+│   │   │   └── login.ts
+│   │   ├── roles
+│   │   │   └── route.ts
+│   │   ├── sandbox
+│   │   │   ├── [id]
+│   │   │   │   └── route.ts
+│   │   │   └── route.ts
+│   │   ├── scale1
+│   │   │   ├── formulas
+│   │   │   │   └── route.ts
+│   │   │   └── route.ts
+│   │   ├── subrecetas
+│   │   │   └── [id]
+│   │   │       ├── route.ts
+│   │   │       └── versiones
+│   │   │           └── [versionId]
+│   │   │               └── route.ts
+│   │   └── tarifas
+│   │       ├── costeo
+│   │       │   └── [recipeId]
+│   │       │       └── route.ts
+│   │       └── route.ts
+│   ├── calculadora-porciones
+│   │   └── page.tsx
+│   ├── (dashboard)
+│   │   ├── configuracion
+│   │   │   └── page.tsx
+│   │   ├── costos
+│   │   │   └── page.tsx
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── recetas
+│   │   │   └── page.tsx
+│   │   └── reportes
+│   │       └── page.tsx
+│   ├── favicon.ico
+│   ├── globals.css
+│   ├── ingredients
+│   │   └── page.tsx
+│   ├── layout.tsx
+│   ├── login
+│   │   └── page.tsx
+│   ├── recipes
+│   │   └── page.tsx
+│   └── scale
+│       └── page.tsx
+├── components
+│   └── ui
+│       ├── alert-dialog.tsx
+│       ├── badge.tsx
+│       ├── breadcrumb.tsx
+│       ├── button.tsx
+│       ├── card.tsx
+│       ├── input.tsx
+│       ├── label.tsx
+│       ├── select.tsx
+│       ├── sonner.tsx
+│       ├── tooltip.tsx
+│       └── utils.ts
+├── docker-compose.prod.yml
+├── docker-compose.yml
+├── Dockerfile
+├── domain
+│   ├── data
+│   │   ├── recipes.ts
+│   │   ├── sacaleLogic.ts
+│   │   ├── subrecipes.ts
+│   │   └── utilities.ts
+│   ├── ingredientLogic.ts
+│   ├── portionCalcLogic.ts
+│   ├── prisma.ts
+│   ├── recipeLogic.ts
+│   ├── subrecipeLogic.ts
+│   ├── types
+│   │   ├── recipe.ts
+│   │   ├── sandbox.ts
+│   │   ├── subrecipe.ts
+│   │   └── utilities.ts
+│   ├── useCases
+│   └── utils.ts
+├── eslint.config.mjs
+├── eslint.config.mts
+├── lib
+├── next.config.ts
+├── next-env.d.ts
+├── node_modules
+│   ├── class-variance-authority -> .pnpm/class-variance-authority@0.7.1/node_modules/class-variance-authority
+│   ├── clsx -> .pnpm/clsx@2.1.1/node_modules/clsx
+│   ├── @eslint
+│   │   └── js -> ../.pnpm/@eslint+js@10.0.1_eslint@9.39.4_jiti@2.7.0_/node_modules/@eslint/js
+│   ├── eslint -> .pnpm/eslint@9.39.4_jiti@2.7.0/node_modules/eslint
+│   ├── eslint-config-next -> .pnpm/eslint-config-next@15.1.0_eslint@9.39.4_jiti@2.7.0__typescript@5.9.3/node_modules/eslint-config-next
+│   ├── eslint-plugin-react -> .pnpm/eslint-plugin-react@7.37.5_eslint@9.39.4_jiti@2.7.0_/node_modules/eslint-plugin-react
+│   ├── globals -> .pnpm/globals@17.7.0/node_modules/globals
+│   ├── jiti -> .pnpm/jiti@2.7.0/node_modules/jiti
+│   ├── lucide-react -> .pnpm/lucide-react@1.18.0_react@19.2.4/node_modules/lucide-react
+│   ├── next -> .pnpm/next@16.2.6_react-dom@19.2.4_react@19.2.4__react@19.2.4/node_modules/next
+│   ├── pg -> .pnpm/pg@8.21.0/node_modules/pg
+│   ├── @prisma
+│   │   ├── adapter-pg -> ../.pnpm/@prisma+adapter-pg@7.8.0/node_modules/@prisma/adapter-pg
+│   │   ├── client -> ../.pnpm/@prisma+client@6.19.3_prisma@6.19.3_typescript@5.9.3__typescript@5.9.3/node_modules/@prisma/client
+│   │   └── config -> ../.pnpm/@prisma+config@7.8.0/node_modules/@prisma/config
+│   ├── prisma -> .pnpm/prisma@6.19.3_typescript@5.9.3/node_modules/prisma
+│   ├── @radix-ui
+│   │   ├── react-alert-dialog -> ../.pnpm/@radix-ui+react-alert-dialog@1.1.16_@types+react-dom@19.2.3_@types+react@19.2.17__@type_888e319f2b1383ecc710df5641ea7e8c/node_modules/@radix-ui/react-alert-dialog
+│   │   ├── react-dialog -> ../.pnpm/@radix-ui+react-dialog@1.1.16_@types+react-dom@19.2.3_@types+react@19.2.17__@types+reac_96a4c972317d5ef6e6c50e6e91d9054b/node_modules/@radix-ui/react-dialog
+│   │   ├── react-label -> ../.pnpm/@radix-ui+react-label@2.1.9_@types+react-dom@19.2.3_@types+react@19.2.17__@types+react@_38657b379df0e38570144ac31c6e1ffe/node_modules/@radix-ui/react-label
+│   │   ├── react-select -> ../.pnpm/@radix-ui+react-select@2.3.0_@types+react-dom@19.2.3_@types+react@19.2.17__@types+react_117f0303989c6411a8f643a66a62b9c3/node_modules/@radix-ui/react-select
+│   │   ├── react-slot -> ../.pnpm/@radix-ui+react-slot@1.2.5_@types+react@19.2.17_react@19.2.4/node_modules/@radix-ui/react-slot
+│   │   └── react-tooltip -> ../.pnpm/@radix-ui+react-tooltip@1.2.9_@types+react-dom@19.2.3_@types+react@19.2.17__@types+reac_d73eee4c495393f122486c4184281257/node_modules/@radix-ui/react-tooltip
+│   ├── react -> .pnpm/react@19.2.4/node_modules/react
+│   ├── react-dom -> .pnpm/react-dom@19.2.4_react@19.2.4/node_modules/react-dom
+│   ├── sonner -> .pnpm/sonner@2.0.7_react-dom@19.2.4_react@19.2.4__react@19.2.4/node_modules/sonner
+│   ├── @supabase
+│   │   └── supabase-js -> ../.pnpm/@supabase+supabase-js@2.108.2/node_modules/@supabase/supabase-js
+│   ├── @tailwindcss
+│   │   └── postcss -> ../.pnpm/@tailwindcss+postcss@4.3.1/node_modules/@tailwindcss/postcss
+│   ├── tailwindcss -> .pnpm/tailwindcss@4.3.1/node_modules/tailwindcss
+│   ├── tailwind-merge -> .pnpm/tailwind-merge@3.6.0/node_modules/tailwind-merge
+│   ├── @types
+│   │   ├── node -> ../.pnpm/@types+node@20.19.43/node_modules/@types/node
+│   │   ├── pg -> ../.pnpm/@types+pg@8.20.0/node_modules/@types/pg
+│   │   ├── react -> ../.pnpm/@types+react@19.2.17/node_modules/@types/react
+│   │   ├── react-dom -> ../.pnpm/@types+react-dom@19.2.3_@types+react@19.2.17/node_modules/@types/react-dom
+│   │   └── uuid -> ../.pnpm/@types+uuid@11.0.0/node_modules/@types/uuid
+│   ├── typescript -> .pnpm/typescript@5.9.3/node_modules/typescript
+│   ├── typescript-eslint -> .pnpm/typescript-eslint@8.63.0_eslint@9.39.4_jiti@2.7.0__typescript@5.9.3/node_modules/typescript-eslint
+│   ├── uuid -> .pnpm/uuid@14.0.0/node_modules/uuid
+│   └── vitest -> .pnpm/vitest@2.1.9_@types+node@20.19.43_lightningcss@1.32.0/node_modules/vitest
+├── package.json
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── postcss.config.mjs
+├── prisma
+│   └── schema.prisma
+├── prisma.config.ts
+├── project_structure.txt
+├── public
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── next.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── README.md
+├── services
+│   ├── ingredient
+│   │   ├── DeleteIngredient.usecase.ts
+│   │   ├── ModifyIngredient.usecase.ts
+│   │   └── RegisterIngredient.usecase.ts
+│   ├── sandboxService.ts
+│   ├── scaleService.ts
+│   ├── subrecipeVersionService.ts
+│   └── utilityCostService.ts
+├── setup.bat
+├── setup.sh
+├── structureofProject.txt
+├── structure.txt
+├── test
+│   ├── generalTests.test.ts
+│   ├── recipeLogic.test.ts
+│   ├── sandboxService.test.ts
+│   ├── subrecipeVersionService.test.ts
+│   ├── test-conexion.ts
+│   └── utilityCostService.test.ts
+├── test.session.sql
+├── tsconfig.json
+├── tsconfig.tsbuildinfo
+├── utils
+│   ├── sandboxUtils.ts
+│   ├── subrecipeUtils.ts
+│   └── utilityCostUtils.ts
+├── validador.ts
+└── vitest.config.ts
+
+84 directories, 95 files
