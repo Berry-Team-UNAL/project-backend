@@ -1,18 +1,14 @@
-// registerIngredient.usecase.ts
-import { prisma } from "@/domain/prisma"; // Notice the curly braces!
-
-
-export interface RegisterIngredientCommand {
-    nombre: string;
-    unidad_medida: string;
-    aporta_a_base_panadera: boolean;
-    costo_por_unidad: number;
-    porcentaje_agua: number;
-    porcentaje_grasa: number;
-    porcentaje_merma: number;
+/* eslint-disable camelcase */
+import { prisma } from "@/domain/prisma";
+export interface CreateIngredientDTO {
+	nombre: string;
+	tipo_componente: string;
+	unidad_medida: string;
+	aporta_a_base_panadera?: boolean;
 }
 
 export class RegisterIngredientUseCase {
+<<<<<<< HEAD
     
 	// The async function that executes the action
 	async execute(data: RegisterIngredientCommand) {
@@ -62,6 +58,31 @@ export class RegisterIngredientUseCase {
 		} catch (error) {
 			console.error("Database error while registering ingredient:", error);
 			throw new Error("Could not register the ingredient in the database.");
+=======
+	async execute(data: CreateIngredientDTO) {
+		try {
+			const newIngredient = await prisma.catalogo_componente.create({
+				data: {
+					nombre: data.nombre,
+					tipo_componente: data.tipo_componente,
+					unidad_medida: data.unidad_medida,
+
+					ingrediente_base: {
+						create: {
+							aporta_a_base_panadera: data.aporta_a_base_panadera ?? false,
+						}
+					}
+				},
+
+				include: {
+					ingrediente_base: true
+				}
+			});
+
+			return newIngredient;
+		} catch (error) {
+			throw new Error("Error al registrar el ingrediente", { cause: error });
+>>>>>>> samGue-Backend
 		}
 	}
 }
