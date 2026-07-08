@@ -17,11 +17,7 @@ import{computeIngredientRealCost,
 import{
 	isCircularyDependent,
 	RecipeRelation
-<<<<<<< HEAD:test/test.test.ts
-} from "../lib/subrecipeLogic";
-=======
 } from "../domain/subrecipeLogic";
->>>>>>> samGue-Backend:test/generalTests.test.ts
 
 describe("Oven Time Estimation Functions", () => {
 
