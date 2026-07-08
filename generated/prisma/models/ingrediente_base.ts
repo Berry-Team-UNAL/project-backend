@@ -8,7 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
-import type * as runtime from "@prisma/client/runtime/client"
+import type * as runtime from "@prisma/client/runtime/library"
 import type * as $Enums from "../enums"
 import type * as Prisma from "../internal/prismaNamespace"
 
@@ -171,7 +171,7 @@ export type Ingrediente_baseGroupByOutputType = {
   _max: Ingrediente_baseMaxAggregateOutputType | null
 }
 
-export type GetIngrediente_baseGroupByPayload<T extends ingrediente_baseGroupByArgs> = Prisma.PrismaPromise<
+type GetIngrediente_baseGroupByPayload<T extends ingrediente_baseGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Ingrediente_baseGroupByOutputType, T['by']> &
       {
@@ -1121,11 +1121,6 @@ export type ingrediente_baseFindManyArgs<ExtArgs extends runtime.Types.Extension
    * Skip the first `n` ingrediente_bases.
    */
   skip?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-   * 
-   * Filter by unique combinations of ingrediente_bases.
-   */
   distinct?: Prisma.Ingrediente_baseScalarFieldEnum | Prisma.Ingrediente_baseScalarFieldEnum[]
 }
 

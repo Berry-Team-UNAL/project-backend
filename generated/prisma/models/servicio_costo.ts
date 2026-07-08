@@ -8,7 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
-import type * as runtime from "@prisma/client/runtime/client"
+import type * as runtime from "@prisma/client/runtime/library"
 import type * as $Enums from "../enums"
 import type * as Prisma from "../internal/prismaNamespace"
 
@@ -175,7 +175,7 @@ export type Servicio_costoGroupByOutputType = {
   _max: Servicio_costoMaxAggregateOutputType | null
 }
 
-export type GetServicio_costoGroupByPayload<T extends servicio_costoGroupByArgs> = Prisma.PrismaPromise<
+type GetServicio_costoGroupByPayload<T extends servicio_costoGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<Servicio_costoGroupByOutputType, T['by']> &
       {
@@ -1026,11 +1026,6 @@ export type servicio_costoFindManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Skip the first `n` servicio_costos.
    */
   skip?: number
-  /**
-   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-   * 
-   * Filter by unique combinations of servicio_costos.
-   */
   distinct?: Prisma.Servicio_costoScalarFieldEnum | Prisma.Servicio_costoScalarFieldEnum[]
 }
 
