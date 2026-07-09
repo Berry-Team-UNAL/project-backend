@@ -45,6 +45,7 @@ model detalle_formulacion {
   cantidad_usada         Decimal             @db.Decimal(10, 4)
   unidad_medida_usada    String              @db.VarChar(20) // <-- NUEVO: Fuente de la verdad
   nota_preparacion       String?             @db.VarChar(255)
+  aporta_a_base_panadera Boolean             @default(false)
   articulo_proveedor     articulo_proveedor? @relation(fields: [id_articulo_especifico], references: [id_articulo], onDelete: NoAction, onUpdate: NoAction)
   catalogo_componente    catalogo_componente @relation(fields: [id_componente_hijo], references: [id_componente], onDelete: NoAction, onUpdate: NoAction)
   receta_subreceta       receta_subreceta    @relation(fields: [id_receta_padre], references: [id_componente], onDelete: NoAction, onUpdate: NoAction)
@@ -55,7 +56,7 @@ model detalle_formulacion {
 
 model ingrediente_base {
   id_componente          Int                  @id
-  aporta_a_base_panadera Boolean?             @default(false)
+  // aporta_a_base_panadera Boolean?             @default(false)
   articulo_proveedor     articulo_proveedor[]
   catalogo_componente    catalogo_componente  @relation(fields: [id_componente], references: [id_componente], onDelete: Cascade, onUpdate: NoAction)
 }

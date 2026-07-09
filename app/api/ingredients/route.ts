@@ -24,7 +24,10 @@ export async function GET() {
     try {
         // 1. Buscamos el catálogo, incluimos la base, y DENTRO de la base, el artículo
         const ingredients = await prisma.catalogo_componente.findMany({
-            where: { activo: true }, 
+            where: { activo: true, tipo_componente: {
+                    notIn: ["RECETA", "SUBRECETA"]
+                } }, 
+            
             include: { 
                 ingrediente_base: {
                     include: {

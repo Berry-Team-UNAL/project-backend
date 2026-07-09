@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { BookOpen, Settings, DollarSign, BarChart3, Croissant } from "lucide-react";
+import { BookOpen, Settings, DollarSign, BarChart3, Croissant, Wheat, Calculator, Trees, Circle } from "lucide-react"; // Importamos 'Wheat' para los ingredientes
 import {
 	Select,
 	SelectContent,
@@ -12,11 +12,15 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
+// Agregamos "Ingredientes" a tu lista de navegación para cumplir con tu Roadmap
 const navItems = [
 	{ path: "/recetas", label: "Recetas", icon: BookOpen },
+	{ path: "/ingredientes", label: "Ingredientes", icon: Wheat }, // <-- NUEVA RUTA INTEGRADA
 	{ path: "/configuracion", label: "Configuración", icon: Settings },
 	{ path: "/costos", label: "Costos", icon: DollarSign },
 	{ path: "/reportes", label: "Reportes", icon: BarChart3 },
+	{ path: "/scale", label: "Escalar", icon: Circle },
+	{ path: "/calculadora-porciones", label: "Calculadora", icon: Calculator },
 ];
 
 export default function DashboardLayout({
@@ -41,7 +45,7 @@ export default function DashboardLayout({
 						</div>
 						<div>
 							<h1 className="text-xl font-semibold text-white">Banneton</h1>
-							<p className="text-xs text-white/70">Gesti&oacute;n Artesanal</p>
+							<p className="text-xs text-white/70">Gestión Artesanal</p>
 						</div>
 					</div>
 				</div>
@@ -78,7 +82,7 @@ export default function DashboardLayout({
 						</SelectTrigger>
 						<SelectContent>
 							<SelectItem value="maestro">Maestro Panadero</SelectItem>
-							<SelectItem value="jefe">Jefe de Panader&iacute;a</SelectItem>
+							<SelectItem value="jefe">Jefe de Panadería</SelectItem>
 							<SelectItem value="admin">Administrador</SelectItem>
 						</SelectContent>
 					</Select>

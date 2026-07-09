@@ -1,33 +1,47 @@
+// app/api/recipes/[id]/components/[childId]/route.ts
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
+import { RemoveComponentUseCase } from "@/services/recipes/RemoveComponent.usecase";
+import { ModifyComponentUseCase } from "@/services/recipes/ModifyComponent.usecase";
 
-const prisma = new PrismaClient();
-
-// ==========================================
-// DELETE: QUITAR UN INGREDIENTE DE LA RECETA
-// ==========================================
 export async function DELETE(
-    request: Request, 
+    request: Request,
     context: { params: Promise<{ id: string, childId: string }> }
 ) {
     try {
         const params = await context.params;
-        const parentId = parseInt(params.id);       // ID de la Receta
-        const childId = parseInt(params.childId);   // ID del Ingrediente a quitar
+        const parentId = parseInt(params.id);
+        const childId = parseInt(params.childId);
 
-        if (isNaN(parentId) || isNaN(childId)) throw new Error("IDs inválidos");
+        const useCase = new RemoveComponentUseCase();
+        await useCase.execute(parentId, childId);
 
-        // Borramos la relación en la tabla detalle_formulacion
-        await prisma.detalle_formulacion.deleteMany({
-            where: {
-                id_receta_padre: parentId,
-                id_componente_hijo: childId
-            }
+        return NextResponse.json({ message: "Insumo eliminado." }, { status: 200 });
+    } catch (error: any) {
+        return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+}
+
+export async function PUT(
+    request: Request,
+    context: { params: Promise<{ id: string, childId: string }> }
+) {
+    try {
+        const params = await context.params;
+        const parentId = parseInt(params.id);
+        const childId = parseInt(params.childId);
+        
+        const body = await request.json(); // { quantity, unit, aportaABase }
+
+        const useCase = new ModifyComponentUseCase();
+        const result = await useCase.execute(parentId, childId, {
+            childComponentId: childId,
+            quantity: body.quantity,
+            unit: body.unit,
+            aportaABase: body.aportaABase
         });
 
-        return NextResponse.json({ message: "Componente retirado de la receta" }, { status: 200 });
+        return NextResponse.json(result, { status: 200 });
     } catch (error: any) {
-        console.error("🔥 ERROR AL QUITAR INGREDIENTE:", error);
-        return NextResponse.json({ error: "Error al quitar componente" }, { status: 400 });
+        return NextResponse.json({ error: error.message }, { status: 400 });
     }
 }
