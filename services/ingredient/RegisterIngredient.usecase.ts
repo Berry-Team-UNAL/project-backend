@@ -57,7 +57,7 @@ export class RegisterIngredientUseCase {
 					
 					ingrediente_base: {
 						create: { 
-							aporta_a_base_panadera: data.aporta_a_base_panadera ?? false,
+
 							
 							// ¡EL ARTÍCULO VA AQUÍ ADENTRO!
 							articulo_proveedor: {

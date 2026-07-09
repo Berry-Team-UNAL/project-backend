@@ -13,18 +13,14 @@ export class ModifyComponentUseCase {
 
             if (!detalleActual) throw new Error("Insumo no encontrado en la receta.");
 
-            // 1. Sincronizar si aporta a la base
-            await prisma.ingrediente_base.updateMany({
-                where: { id_componente: childId },
-                data: { aporta_a_base_panadera: data.aportaABase }
-            });
+            // 1. ELIMINADO/COMENTADO: Quitamos la actualización de ingrediente_base por incompatibilidad del schema
 
-            // 2. GUARDAR EL VALOR PURO Y LA UNIDAD PURA (Sea gramos o % sin alterar)
+            // 2. GUARDAR EL VALOR PURO Y LA UNIDAD PURA
             const detalleActualizado = await prisma.detalle_formulacion.update({
                 where: { id_detalle: detalleActual.id_detalle },
                 data: {
                     cantidad_usada: data.quantity, 
-                    unidad_medida_usada: data.unit // "grams" o "percentage"
+                    unidad_medida_usada: data.unit // Guardará "grams" o "percentage" nativamente
                 }
             });
 

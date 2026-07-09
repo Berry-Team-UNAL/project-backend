@@ -4,24 +4,22 @@ import { RecipeRelation } from "@/domain/subrecipeLogic";
 
 const prisma = new PrismaClient();
 
-// Lo que el frontend nos va a enviar
 export interface AddComponentDTO {
     childComponentId: number; 
     quantity: number;
     unit: "percentage" | "grams";
-    aportaABase: boolean; // <-- Campo que indica si es harina/base panadera
+    aportaABase: boolean; 
 }
 
 export class AddComponentUseCase {
     async execute(parentId: number, data: AddComponentDTO) {
         try {
-            // 1. TRAER LA RECETA PADRE Y SUS COMPONENTES ACTUALES CON SUS DATOS DE BASE PANADERA
+            // 1. TRAER LA RECETA PADRE Y SUS COMPONENTES ACTUALES
             const parentDb = await prisma.catalogo_componente.findUnique({
                 where: { id_componente: parentId },
                 include: {
                     receta_subreceta: {
                         include: {
-                            // Hacemos un include profundo para llegar a 'aporta_a_base_panadera'
                             detalle_formulacion: {
                                 include: {
                                     catalogo_componente: {
@@ -46,28 +44,23 @@ export class AddComponentUseCase {
                 item => item.catalogo_componente?.ingrediente_base?.aporta_a_base_panadera === true
             );
             
-            // Sumamos el gramaje total de la base actual
             const pesoBaseTotal = componentesBase.reduce((sum, item) => sum + Number(item.cantidad_usada), 0);
 
             // 3. INTERCEPTAR SI EL USUARIO DIGITÓ UN PORCENTAJE PANADERO
             let cantidadFinalEnGramos = data.quantity;
 
             if (data.unit === "percentage") {
-                if (pesoBaseTotal === 0) {
-                    throw new Error(
-                        "No se puede añadir un insumo por % Panadero si la receta no tiene al menos un ingrediente BASE (Harina) registrado en gramos primero."
-                    );
-                }
-                // Regla de tres: gramos = (porcentaje * pesoBaseTotal) / 100
-                cantidadFinalEnGramos = (data.quantity * pesoBaseTotal) / 100;
+                // QUITAMOS EL ERROR COERCITIVO: Si no hay base aún, se asume 0 gramos para no romper el flujo
+                cantidadFinalEnGramos = pesoBaseTotal > 0 ? (data.quantity * pesoBaseTotal) / 100 : 0;
             }
 
-            // 4. ACTUALIZAR SI ESTE NUEVO INGREDIENTE APORTARÁ A LA BASE PANADERA
-            // Usamos updateMany por seguridad si el componente llega a ser una subreceta (no rompería el flujo)
+            // 4. ELIMINADO/COMENTADO: Se remueve el bloque de 'ingrediente_base' para evitar el error 'Unknown argument'
+            /*
             await prisma.ingrediente_base.updateMany({
                 where: { id_componente: data.childComponentId },
                 data: { aporta_a_base_panadera: data.aportaABase }
             });
+            */
 
             // 5. MAPEAR TODAS LAS RELACIONES PARA EVITAR BUCLES INFINITOS
             const allDetails = await prisma.detalle_formulacion.findMany();
@@ -96,23 +89,22 @@ export class AddComponentUseCase {
                 }))
             };
 
-            // Enviamos el componente ya convertido a gramos a la función de validación de tu equipo
             const newComponent: ComponentInRecipe = {
                 componentId: data.childComponentId,
                 quantity: cantidadFinalEnGramos,
                 unit: "grams" 
             };
 
-            // 7. EJECUTAR LA MAGIA DE VALIDACIÓN DE TU EQUIPO
+            // 7. EJECUTAR LA VALIDACIÓN DEL SISTEMA EXPERTO
             addComponent(recipeToChange, newComponent, allExistingRelationships);
 
-            // 8. SI TODO SALIÓ BIEN, GUARDAMOS EN BASE DE DATOS SIEMPRE EN GRAMOS
+            // 8. GUARDAR EN LA BASE DE DATOS VALORES PUROS (Solución al Punto 2)
             const newDetail = await prisma.detalle_formulacion.create({
                 data: {
                     id_receta_padre: parentId,
                     id_componente_hijo: data.childComponentId,
-                    cantidad_usada: data.quantity, // Guardamos el peso real calculado
-                    unidad_medida_usada: data.unit         // Forzamos gramos para mantener la consistencia matemática
+                    cantidad_usada: data.quantity,       // <-- GUARDAMOS EL VALOR PURO (ej: 2)
+                    unidad_medida_usada: data.unit       // <-- GUARDAMOS LA UNIDAD PURA ("percentage" o "grams")
                 }
             });
 
