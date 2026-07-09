@@ -1,0 +1,48 @@
+// -------------NO ELIMINEN ESTO NI LE MUEVAN QUE ESTO ES DEL LOGIN SE ACTIVA AL FINAL
+// import { NextResponse } from "next/server";
+// import type { NextRequest } from "next/server";
+
+// const ROLES_PERMITIDOS_POR_RUTA: Record<string, string[]> = {
+// 	"/admin": ["admin"],
+// 	"/scale": ["admin", "editor"],
+// 	"/recetas/editar": ["admin", "editor"],
+// 	"/formulas": ["admin", "editor"],
+// 	"/dashboard": ["admin", "editor", "panadero"],
+// };
+
+// export function middleware(request: NextRequest) {
+// 	const { pathname } = request.nextUrl;
+
+// 	// 🛑 Omitimos archivos estáticos, imágenes, Next.js interno y la API de login para no romper la app
+// 	if (
+// 		pathname.startsWith("/_next") || 
+// 		pathname.startsWith("/api/login") ||
+// 		pathname.includes(".")
+// 	) {
+// 		return NextResponse.next();
+// 	}
+
+// 	const cookieSesion = request.cookies.get("session_role");
+// 	const rolUsuario = cookieSesion?.value ? cookieSesion.value.toLowerCase() : null;
+
+// 	for (const [rutaBase, rolesPermitidos] of Object.entries(ROLES_PERMITIDOS_POR_RUTA)) {
+// 		if (pathname.startsWith(rutaBase)) {
+// 			if (!rolUsuario || !rolesPermitidos.includes(rolUsuario)) {
+// 				const urlRedireccion = rolUsuario 
+// 					? new URL("/?error=no-autorizado", request.url)
+// 					: new URL("/login", request.url);
+				
+// 				return NextResponse.redirect(urlRedireccion);
+// 			}
+// 		}
+// 	}
+
+// 	return NextResponse.next();
+// }
+
+// // 🎛️ Modificamos el Matcher para que intercepte TODO. Así Next.js se ve obligado a ejecutar el archivo sí o sí.
+// export const config = {
+// 	matcher: [
+// 		"/((?!_next/static|_next/image|favicon.ico|public).*)",
+// 	],
+// };

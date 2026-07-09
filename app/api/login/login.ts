@@ -44,6 +44,6 @@ export async function ejecutarLogin(formData: FormData) {
 	if (nombreRol === "administrador") {
 		redirect("/admin");
 	} else {
-		redirect("/produccion");
+		redirect("/dashboard");
 	}
 }
