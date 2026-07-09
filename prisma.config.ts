@@ -1,4 +1,4 @@
-import { defineConfig, env } from "@prisma/config"; // Asegúrate de que sea @prisma/config
+import { defineConfig } from "@prisma/config"; // Asegúrate de que sea @prisma/config
 
 export default defineConfig({
 	schema: "prisma/schema.prisma",
@@ -7,6 +7,6 @@ export default defineConfig({
 	},
 	datasource: {
 		// Ponemos la URL directamente aquí para saltarnos el problema del .env en la terminal
-		url: env("DATABASE_URL"),
+		url: process.env.DATABASE_URL,
 	},
 });
