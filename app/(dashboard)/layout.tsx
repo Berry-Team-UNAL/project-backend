@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { BookOpen, Settings, DollarSign, BarChart3, Croissant, Wheat, Calculator, Trees, Circle } from "lucide-react"; // Importamos 'Wheat' para los ingredientes
+import { BookOpen, Settings, DollarSign, BarChart3, Croissant, ClipboardCheck, CloudSun, ClipboardList, Circle, Calculator } from "lucide-react";
 import {
 	Select,
 	SelectContent,
@@ -15,7 +15,9 @@ import {
 // Agregamos "Ingredientes" a tu lista de navegación para cumplir con tu Roadmap
 const navItems = [
 	{ path: "/recetas", label: "Recetas", icon: BookOpen },
-	{ path: "/ingredientes", label: "Ingredientes", icon: Wheat }, // <-- NUEVA RUTA INTEGRADA
+	{ path: "/taller", label: "Modo Taller", icon: ClipboardCheck },
+	{ path: "/produccion", label: "Producción", icon: ClipboardList },
+	{ path: "/ambiente", label: "Ambiente", icon: CloudSun },
 	{ path: "/configuracion", label: "Configuración", icon: Settings },
 	{ path: "/costos", label: "Costos", icon: DollarSign },
 	{ path: "/reportes", label: "Reportes", icon: BarChart3 },
