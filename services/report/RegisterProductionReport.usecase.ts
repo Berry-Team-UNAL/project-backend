@@ -1,55 +1,78 @@
-// services/report/RegisterProductionReport.usecase.ts
-// RF_16 — Generar reporte de producción.
-// NOTA: Sin persistencia. Valida con domain logic y retorna el reporte simulado.
+import { PrismaClient } from "@prisma/client";
+import { RegisterProductionReportCommand } from "@/domain/types/report";
 
-import { validateProductionReport } from "@/domain/reportLogic";
-import { parseDateOnly, parseTimeOfDay, formatLoteIdentifier } from "@/utils/reportUtils";
-import {
-	ProductionReportValidationError,
-	RegisterProductionReportCommand,
-} from "@/domain/types/report";
-import { ProductionReportWithRelations } from "./productionReportInclude";
-
-export interface RegisterProductionReportResult {
-	report?: ProductionReportWithRelations;
-	errors?: ProductionReportValidationError[];
-}
+const prisma = new PrismaClient();
 
 export class RegisterProductionReportUseCase {
-	async execute(command: RegisterProductionReportCommand): Promise<RegisterProductionReportResult> {
-		const errors = validateProductionReport(command);
-		if (errors.length > 0) {
+	async execute(command: RegisterProductionReportCommand) {
+		const errors: Record<string, string> = {};
+
+		// 1. Validaciones de Negocio previas
+		if (!command.identificadorLote) {
+			errors.identificadorLote = "El identificador de lote es obligatorio.";
+		}
+		if (!command.idReceta) {
+			errors.idReceta = "Debe seleccionar una receta válida.";
+		}
+		if (!command.idResponsable) {
+			errors.idResponsable = "Debe asignar un responsable.";
+		}
+
+		if (Object.keys(errors).length > 0) {
 			return { errors };
 		}
 
-		const now = new Date();
-		const idReporte = Math.floor(Math.random() * 90000) + 10;
-		const identificadorLote = command.identificadorLote?.trim() || formatLoteIdentifier(idReporte, now);
+		try {
+			// 2. Ejecutar inserción atómica y transaccional
+			const nuevoReporte = await prisma.$transaction(async (tx) => {
+				// Crear el reporte base
+				const reporte = await tx.reporte_produccion.create({
+					data: {
+						identificador_lote: command.identificadorLote,
+						id_receta: command.idReceta,
+						fecha_produccion: new Date(command.fechaProduccion),
+						// Prisma requiere un objeto Date para campos de hora, mapeamos la string "HH:MM"
+						hora_produccion: new Date(`1970-01-01T${command.horaProduccion}:00`),
+						cantidad_producida: command.cantidadProducida,
+						unidad_medida: command.unidadMedida,
+						id_responsable: command.idResponsable,
+						id_supervisor: command.idSupervisor || null,
+						observaciones: command.observaciones || null,
+					},
+				});
 
-		const report: ProductionReportWithRelations = {
-			id_reporte: idReporte,
-			id_receta: command.idReceta,
-			identificador_lote: identificadorLote,
-			fecha_produccion: parseDateOnly(command.fechaProduccion),
-			hora_produccion: parseTimeOfDay(command.horaProduccion),
-			cantidad_producida: command.cantidadProducida,
-			unidad_medida: command.unidadMedida,
-			id_responsable: command.idResponsable,
-			id_supervisor: command.idSupervisor ?? null,
-			observaciones: command.observaciones ?? null,
-			creado_por: command.idCreadoPor ?? null,
-			creado_en: now,
-			receta_nombre: `Receta #${command.idReceta}`,
-			responsable_nombre: `Responsable #${command.idResponsable}`,
-			supervisor_nombre: command.idSupervisor ? `Supervisor #${command.idSupervisor}` : null,
-			tanda_produccion: (command.tandas ?? []).map((t, i) => ({
-				id_tanda: i + 1,
-				id_reporte: idReporte,
-				numero_tanda: t.numeroTanda,
-				cantidad: t.cantidad,
-			})),
-		};
+				// Si el formulario incluyó tandas dinámicas, las guardamos en lote vinculadas al reporte creado
+				if (command.tandas && command.tandas.length > 0) {
+					await tx.tanda_produccion.createMany({
+						data: command.tandas.map((tanda) => ({
+							id_reporte: reporte.id_reporte,
+							numero_tanda: tanda.numeroTanda,
+							cantidad: tanda.cantidad,
+						})),
+					});
+				}
 
-		return { report };
+				return reporte;
+			});
+
+			return { report: nuevoReporte };
+		} catch (error: any) {
+			console.error("Error en transacción de reporte de producción:", error);
+			
+			// Manejo de lote duplicado (P2002 es el código de restricción única en Prisma)
+			if (error.code === "P2002") {
+				return {
+					errors: {
+						identificadorLote: "El identificador de lote ya existe en el sistema.",
+					},
+				};
+			}
+
+			return {
+				errors: {
+					general: "Ocurrió un error inesperado al persistir el reporte de producción.",
+				},
+			};
+		}
 	}
 }

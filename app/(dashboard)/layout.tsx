@@ -10,7 +10,7 @@ import {
 const navItems = [
 	{ path: "/recetas", label: "Recetas", icon: BookOpen },
 	{ path: "/ingredientes", label: "Ingredientes", icon: Wheat },
-	{ path: "/taller", label: "Modo Taller", icon: ClipboardCheck },
+	//{ path: "/taller", label: "Modo Taller", icon: ClipboardCheck },
 	{ path: "/produccion", label: "Producción", icon: ClipboardList },
 	//{ path: "/ambiente", label: "Ambiente", icon: CloudSun },
 	//{ path: "/configuracion", label: "Configuración", icon: Settings },
@@ -18,7 +18,7 @@ const navItems = [
 	//{ path: "/reportes", label: "Reportes", icon: BarChart3 },
 	{ path: "/scale", label: "Escalar", icon: Circle },
 	{ path: "/calculadora-porciones", label: "Calculadora", icon: Calculator },
-	{ path: "/check", label: "CheckList", icon: Circle },
+	{ path: "/check", label: "CheckList", icon: ClipboardCheck },
 ];
 
 export default function DashboardLayout({

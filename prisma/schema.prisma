@@ -109,3 +109,32 @@ model usuario {
   receta_subreceta receta_subreceta[]
   rol              rol                @relation(fields: [id_rol], references: [id_rol], onDelete: NoAction, onUpdate: NoAction)
 }
+
+model reporte_produccion {
+	id_reporte          Int                @id @default(autoincrement())
+	identificador_lote  String             @unique @db.VarChar(50)
+	id_receta           Int
+	fecha_produccion    DateTime           @db.Date
+	hora_produccion     DateTime           @db.Time(6)
+	cantidad_producida  Decimal            @db.Decimal(10, 2)
+	unidad_medida       String             @db.VarChar(20)
+	id_responsable      Int
+	id_supervisor       Int?
+	observaciones       String?            @db.VarChar(500)
+	creado_en           DateTime?          @default(now()) @db.Timestamp(6)
+
+	// Mantener únicamente la relación interna hacia nuestras tandas nuevas
+	tanda_produccion    tanda_produccion[]
+}
+
+model tanda_produccion {
+	id_tanda            Int                @id @default(autoincrement())
+	id_reporte          Int
+	numero_tanda        Int
+	cantidad            Decimal            @db.Decimal(10, 2)
+
+	// Relación hacia nuestro propio reporte nuevo
+	reporte_produccion  reporte_produccion @relation(fields: [id_reporte], references: [id_reporte], onDelete: Cascade, onUpdate: NoAction)
+
+	@@unique([id_reporte, numero_tanda], map: "uk_reporte_tanda")
+}

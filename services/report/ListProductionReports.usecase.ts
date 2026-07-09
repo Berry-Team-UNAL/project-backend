@@ -1,56 +1,82 @@
-// services/report/ListProductionReports.usecase.ts
-// RF_16 — Historial de producción.
-// NOTA: Sin persistencia. Retorna reportes de ejemplo.
+import { PrismaClient } from "@prisma/client";
 
-import { ProductionReportWithRelations } from "./productionReportInclude";
-
-const SAMPLE_REPORTS: ProductionReportWithRelations[] = [
-	{
-		id_reporte: 1,
-		id_receta: 1,
-		identificador_lote: "BNN-2025-0001",
-		fecha_produccion: new Date("2025-03-10T00:00:00.000Z"),
-		hora_produccion: new Date("1970-01-01T06:00:00.000Z"),
-		cantidad_producida: 120,
-		unidad_medida: "unidades",
-		id_responsable: 1,
-		id_supervisor: null,
-		observaciones: "Producción sin novedades.",
-		creado_por: null,
-		creado_en: new Date("2025-03-10T06:30:00.000Z"),
-		receta_nombre: "Pan de molde integral",
-		responsable_nombre: "Carlos Gómez",
-		supervisor_nombre: null,
-		tanda_produccion: [
-			{ id_tanda: 1, id_reporte: 1, numero_tanda: 1, cantidad: 60 },
-			{ id_tanda: 2, id_reporte: 1, numero_tanda: 2, cantidad: 60 },
-		],
-	},
-	{
-		id_reporte: 2,
-		id_receta: 2,
-		identificador_lote: "BNN-2025-0002",
-		fecha_produccion: new Date("2025-03-12T00:00:00.000Z"),
-		hora_produccion: new Date("1970-01-01T07:00:00.000Z"),
-		cantidad_producida: 48,
-		unidad_medida: "unidades",
-		id_responsable: 2,
-		id_supervisor: 1,
-		observaciones: null,
-		creado_por: null,
-		creado_en: new Date("2025-03-12T07:45:00.000Z"),
-		receta_nombre: "Croissant clásico",
-		responsable_nombre: "Laura Martínez",
-		supervisor_nombre: "Carlos Gómez",
-		tanda_produccion: [
-			{ id_tanda: 3, id_reporte: 2, numero_tanda: 1, cantidad: 24 },
-			{ id_tanda: 4, id_reporte: 2, numero_tanda: 2, cantidad: 24 },
-		],
-	},
-];
+const prisma = new PrismaClient();
 
 export class ListProductionReportsUseCase {
-	async execute(): Promise<ProductionReportWithRelations[]> {
-		return SAMPLE_REPORTS;
+	async execute() {
+		// 1. Jalamos de un solo golpe los reportes con sus tandas nuevas
+		const reportesBase = await prisma.reporte_produccion.findMany({
+			include: {
+				tanda_produccion: true,
+			},
+			orderBy: {
+				creado_en: "desc",
+			},
+		});
+
+		if (reportesBase.length === 0) return [];
+
+		// 2. Extraemos los IDs únicos para hacer las consultas en bloque (Evita el problema N+1)
+		const recetaIds = Array.from(new Set(reportesBase.map((r) => r.id_receta)));
+		const usuarioIds = Array.from(
+			new Set(
+				reportesBase.flatMap((r) => [r.id_responsable, r.id_supervisor].filter(Boolean) as number[])
+			)
+		);
+
+		// 3. Consultas en paralelo de los modelos intocables usando sus llaves primarias
+		const [recetas, usuarios] = await Promise.all([
+			prisma.receta_subreceta.findMany({
+				where: { id_componente: { in: recetaIds } },
+				include: { catalogo_componente: true },
+			}),
+			prisma.usuario.findMany({
+				where: { id_usuario: { in: usuarioIds } },
+			}),
+		]);
+
+		// Indexamos en Mapas O(1) en memoria para asociar los datos de forma ultra rápida
+		const recetaMap = new Map(recetas.map((r) => [r.id_componente, r]));
+		const usuarioMap = new Map(usuarios.map((u) => [u.id_usuario, u]));
+
+		// 4. El "Join Lógico" estructurado exactamente como lo espera tu interfaz de React
+		return reportesBase.map((reporte) => {
+			const recetaObj = recetaMap.get(reporte.id_receta);
+			const respObj = usuarioMap.get(reporte.id_responsable);
+			const supObj = reporte.id_supervisor ? usuarioMap.get(reporte.id_supervisor) : null;
+
+			return {
+				id_reporte: reporte.id_reporte,
+				identificador_lote: reporte.identificador_lote,
+				fecha_produccion: reporte.fecha_produccion.toISOString().split("T")[0],
+				hora_produccion: reporte.hora_produccion.toISOString(),
+				cantidad_producida: reporte.cantidad_producida.toString(),
+				unidad_medida: reporte.unidad_medida,
+				observaciones: reporte.observaciones,
+				receta_subreceta: recetaObj
+					? {
+							catalogo_componente: {
+								nombre: recetaObj.catalogo_componente?.nombre ?? null,
+							},
+						}
+					: null,
+				responsable: respObj
+					? {
+							nombre_usuario: respObj.nombre_usuario,
+							apellido_usuario: respObj.apellido_usuario,
+						}
+					: null,
+				supervisor: supObj
+					? {
+							nombre_usuario: supObj.nombre_usuario,
+							apellido_usuario: supObj.apellido_usuario,
+						}
+					: null,
+				tanda_produccion: reporte.tanda_produccion.map((t) => ({
+					numero_tanda: t.numero_tanda,
+					cantidad: t.cantidad.toString(),
+				})),
+			};
+		});
 	}
 }
