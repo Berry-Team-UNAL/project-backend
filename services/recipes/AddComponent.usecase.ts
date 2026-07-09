@@ -38,10 +38,9 @@ export class AddComponentUseCase {
 				throw new Error(`La receta padre con ID ${parentId} no existe.`);
 			}
 
-			// 2. CALCULAR EL PESO TOTAL DE LOS INGREDIENTES QUE YA SON BASE (HARINAS)
 			const ingredientesExistentes = parentDb.receta_subreceta.detalle_formulacion;
 			const componentesBase = ingredientesExistentes.filter(
-				item => item.catalogo_componente?.ingrediente_base?.aporta_a_base_panadera === true
+				item => (item.catalogo_componente?.ingrediente_base as any)?.aporta_a_base_panadera === true
 			);
             
 			const pesoBaseTotal = componentesBase.reduce((sum, item) => sum + Number(item.cantidad_usada), 0);

@@ -28,7 +28,7 @@ export class RegisterProductionReportUseCase {
 				// Crear el reporte base
 				const reporte = await tx.reporte_produccion.create({
 					data: {
-						identificador_lote: command.identificadorLote,
+						identificador_lote: command.identificadorLote!,
 						id_receta: command.idReceta,
 						fecha_produccion: new Date(command.fechaProduccion),
 						// Prisma requiere un objeto Date para campos de hora, mapeamos la string "HH:MM"

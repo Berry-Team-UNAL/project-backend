@@ -4,11 +4,11 @@ import { createRecipe } from "@/domain/recipeLogic";
 const prisma = new PrismaClient();
 
 export interface CreateRecipeDTO {
-    nombre: string;
-    peso_unidad: number;
-    unidades_tanda: number;
-    creador_id: string; // Puede ser el ID o Nombre del usuario que la crea
-    tipo: "RECETA" | "SUBRECETA";
+	nombre: string;
+	pesoUnidad: number;
+	unidadesTanda: number;
+	creadorId: string; // Recibimos el ID desde la sesión como string
+	tipo: "RECETA" | "SUBRECETA";
 }
 
 export class CreateRecipeUseCase {
@@ -17,14 +17,12 @@ export class CreateRecipeUseCase {
 			// ==========================================
 			// 1. REGLAS DE NEGOCIO (Lógica de Dominio)
 			// ==========================================
-			// Usamos la función de tu equipo. Si el nombre está vacío o el peso es inválido,
-			// esto lanzará un error automáticamente. (Pasamos 0 como ID temporal).
 			const recetaValidada = createRecipe(
 				0, 
 				data.nombre, 
-				data.peso_unidad, 
-				data.unidades_tanda, 
-				data.creador_id
+				data.pesoUnidad, 
+				data.unidadesTanda, 
+				data.creadorId
 			);
 
 			// ==========================================
@@ -37,24 +35,30 @@ export class CreateRecipeUseCase {
 				throw new Error(`Ya existe una receta o componente llamado '${recetaValidada.name}'.`);
 			}
 
+			// Convertimos el creadorId a entero para satisfacer la llave foránea
+			const idUsuarioCreador = parseInt(data.creadorId, 10);
+			const creadorValido = isNaN(idUsuarioCreador) ? null : idUsuarioCreador;
+
 			// ==========================================
-			// 3. GUARDADO ARQUITECTÓNICO
+			// 3. GUARDADO ARQUITECTÓNICO ATÓMICO
 			// ==========================================
+			// Dejamos que la base de datos maneje el ID autoincremental de forma nativa
 			const nuevaReceta = await prisma.catalogo_componente.create({
 				data: {
 					nombre: recetaValidada.name,
 					tipo_componente: data.tipo,
 					unidad_medida: "UNIDAD", 
-                    
 					receta_subreceta: {
 						create: {
 							unidades_tanda: recetaValidada.batchUnits,
-							// AQUÍ GUARDAMOS EL PESO POR UNIDAD:
-							ppu_objetivo: recetaValidada.unitWeight 
+							ppu_objetivo: recetaValidada.unitWeight,
+							creado_por: creadorValido // Mapeo de la relación con usuario.id_usuario
 						}
 					}
 				},
-				include: { receta_subreceta: true }
+				include: { 
+					receta_subreceta: true 
+				}
 			});
 
 			return nuevaReceta;
