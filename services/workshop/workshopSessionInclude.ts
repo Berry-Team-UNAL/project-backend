@@ -1,12 +1,28 @@
 // services/workshop/workshopSessionInclude.ts
-import { Prisma } from "@prisma/client";
+// Tipos locales para sesiones de taller (sin dependencia de modelos Prisma no existentes).
 
-export const WORKSHOP_SESSION_INCLUDE = {
-	items: { orderBy: { orden: "asc" as const } },
-	receta_subreceta: { include: { catalogo_componente: true } },
-	creador: true,
-} satisfies Prisma.sesion_tallerInclude;
+import { WorkshopItemType, WorkshopSessionState } from "@/domain/types/workshop";
 
-export type WorkshopSessionWithRelations = Prisma.sesion_tallerGetPayload<{
-	include: typeof WORKSHOP_SESSION_INCLUDE;
-}>;
+export interface WorkshopItemWithRelations {
+	id_item: number;
+	id_sesion: number;
+	tipo: WorkshopItemType;
+	descripcion: string;
+	cantidad: number | null;
+	unidad_medida: string | null;
+	orden: number;
+	completado: boolean;
+	completado_en: Date | null;
+}
+
+export interface WorkshopSessionWithRelations {
+	id_sesion: number;
+	id_receta: number;
+	identificador_lote: string | null;
+	estado: WorkshopSessionState;
+	creado_por: number | null;
+	creado_en: Date;
+	actualizado_en: Date | null;
+	items: WorkshopItemWithRelations[];
+	receta_nombre?: string;
+}

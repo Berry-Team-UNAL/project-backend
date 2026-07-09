@@ -1,13 +1,30 @@
 // services/report/productionReportInclude.ts
-import { Prisma } from "@prisma/client";
+// Tipos locales para reportes de producción (sin dependencia de modelos Prisma no existentes).
 
-export const PRODUCTION_REPORT_INCLUDE = {
-	tanda_produccion: { orderBy: { numero_tanda: "asc" as const } },
-	receta_subreceta: { include: { catalogo_componente: true } },
-	responsable: true,
-	supervisor: true,
-} satisfies Prisma.reporte_produccionInclude;
+import { ProductionUnit } from "@/domain/types/report";
 
-export type ProductionReportWithRelations = Prisma.reporte_produccionGetPayload<{
-	include: typeof PRODUCTION_REPORT_INCLUDE;
-}>;
+export interface ProductionBatchWithRelations {
+	id_tanda: number;
+	id_reporte: number;
+	numero_tanda: number;
+	cantidad: number;
+}
+
+export interface ProductionReportWithRelations {
+	id_reporte: number;
+	id_receta: number;
+	identificador_lote: string;
+	fecha_produccion: Date;
+	hora_produccion: Date;
+	cantidad_producida: number;
+	unidad_medida: ProductionUnit;
+	id_responsable: number;
+	id_supervisor: number | null;
+	observaciones: string | null;
+	creado_por: number | null;
+	creado_en: Date;
+	tanda_produccion: ProductionBatchWithRelations[];
+	receta_nombre?: string;
+	responsable_nombre?: string;
+	supervisor_nombre?: string | null;
+}

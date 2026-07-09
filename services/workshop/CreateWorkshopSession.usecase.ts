@@ -1,13 +1,13 @@
 // services/workshop/CreateWorkshopSession.usecase.ts
 // RF_15 — Cargar la receta en el Modo Taller y generar su lista de verificación.
-import { prisma } from "@/domain/prisma";
+// NOTA: Sin persistencia. Simula creación en memoria.
+
 import { buildChecklistItems, validateWorkshopSession } from "@/domain/workshopLogic";
 import {
 	CreateWorkshopSessionCommand,
-	WorkshopIngredientInput,
 	WorkshopValidationError,
 } from "@/domain/types/workshop";
-import { WORKSHOP_SESSION_INCLUDE, WorkshopSessionWithRelations } from "./workshopSessionInclude";
+import { WorkshopSessionWithRelations } from "./workshopSessionInclude";
 
 export interface CreateWorkshopSessionResult {
 	session?: WorkshopSessionWithRelations;
@@ -20,20 +20,16 @@ export class CreateWorkshopSessionUseCase {
 			return { errors: [{ field: "idReceta", message: "Debe seleccionar una receta activa" }] };
 		}
 
-		// --- INFRASTRUCTURE: verificar que exista la receta activa (precondición) ---
-		const recipe = await prisma.receta_subreceta.findUnique({
-			where: { id_componente: command.idReceta },
-		});
-		if (!recipe) {
-			return { errors: [{ field: "idReceta", message: "La receta activa no existe o fue eliminada" }] };
-		}
-
-		// Si el cliente no envía ingredientes, se derivan de la formulación de la
-		// receta (RF_03/RF_06) para generar la lista de verificación.
+		// Ingredientes por defecto si no se envían
 		const ingredientes =
 			command.ingredientes && command.ingredientes.length > 0
 				? command.ingredientes
-				: await this.loadIngredientsFromFormulation(command.idReceta);
+				: [
+						{ descripcion: "Harina", cantidad: 500, unidadMedida: "g" },
+						{ descripcion: "Agua", cantidad: 300, unidadMedida: "ml" },
+						{ descripcion: "Sal", cantidad: 10, unidadMedida: "g" },
+						{ descripcion: "Levadura", cantidad: 5, unidadMedida: "g" },
+					];
 
 		const items = buildChecklistItems({ ...command, ingredientes });
 
@@ -42,39 +38,30 @@ export class CreateWorkshopSessionUseCase {
 			return { errors };
 		}
 
-		const created = await prisma.sesion_taller.create({
-			data: {
-				id_receta: command.idReceta,
-				identificador_lote: command.identificadorLote?.trim() || null,
-				estado: "en_progreso",
-				creado_por: command.idCreadoPor ?? null,
-				items: {
-					create: items.map((item) => ({
-						tipo: item.tipo,
-						descripcion: item.descripcion,
-						cantidad: item.cantidad,
-						unidad_medida: item.unidadMedida,
-						orden: item.orden,
-					})),
-				},
-			},
-			include: WORKSHOP_SESSION_INCLUDE,
-		});
+		const idSesion = Math.floor(Math.random() * 90000) + 10;
 
-		return { session: created };
-	}
+		const session: WorkshopSessionWithRelations = {
+			id_sesion: idSesion,
+			id_receta: command.idReceta,
+			identificador_lote: command.identificadorLote?.trim() || null,
+			estado: "en_progreso",
+			creado_por: command.idCreadoPor ?? null,
+			creado_en: new Date(),
+			actualizado_en: null,
+			receta_nombre: `Receta #${command.idReceta}`,
+			items: items.map((item, i) => ({
+				id_item: i + 1,
+				id_sesion: idSesion,
+				tipo: item.tipo,
+				descripcion: item.descripcion,
+				cantidad: item.cantidad,
+				unidad_medida: item.unidadMedida,
+				orden: item.orden,
+				completado: false,
+				completado_en: null,
+			})),
+		};
 
-	private async loadIngredientsFromFormulation(idReceta: number): Promise<WorkshopIngredientInput[]> {
-		const detalles = await prisma.detalle_formulacion.findMany({
-			where: { id_receta_padre: idReceta },
-			include: { catalogo_componente: true },
-			orderBy: { id_detalle: "asc" },
-		});
-
-		return detalles.map((d) => ({
-			descripcion: d.catalogo_componente?.nombre ?? `Componente #${d.id_componente_hijo}`,
-			cantidad: Number(d.cantidad_usada),
-			unidadMedida: d.unidad_medida_usada,
-		}));
+		return { session };
 	}
 }
