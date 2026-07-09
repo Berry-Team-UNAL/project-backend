@@ -390,6 +390,7 @@ export const ModelName = {
   ingrediente_base: 'ingrediente_base',
   proveedor: 'proveedor',
   receta_subreceta: 'receta_subreceta',
+  configuracion_tarifas: 'configuracion_tarifas',
   rol: 'rol',
   servicio_costo: 'servicio_costo',
   usuario: 'usuario'
@@ -408,7 +409,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "articulo_proveedor" | "catalogo_componente" | "detalle_formulacion" | "ingrediente_base" | "proveedor" | "receta_subreceta" | "rol" | "servicio_costo" | "usuario"
+    modelProps: "articulo_proveedor" | "catalogo_componente" | "detalle_formulacion" | "ingrediente_base" | "proveedor" | "receta_subreceta" | "configuracion_tarifas" | "rol" | "servicio_costo" | "usuario"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -856,6 +857,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    configuracion_tarifas: {
+      payload: Prisma.$configuracion_tarifasPayload<ExtArgs>
+      fields: Prisma.configuracion_tarifasFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.configuracion_tarifasFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$configuracion_tarifasPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.configuracion_tarifasFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$configuracion_tarifasPayload>
+        }
+        findFirst: {
+          args: Prisma.configuracion_tarifasFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$configuracion_tarifasPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.configuracion_tarifasFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$configuracion_tarifasPayload>
+        }
+        findMany: {
+          args: Prisma.configuracion_tarifasFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$configuracion_tarifasPayload>[]
+        }
+        create: {
+          args: Prisma.configuracion_tarifasCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$configuracion_tarifasPayload>
+        }
+        createMany: {
+          args: Prisma.configuracion_tarifasCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.configuracion_tarifasCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$configuracion_tarifasPayload>[]
+        }
+        delete: {
+          args: Prisma.configuracion_tarifasDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$configuracion_tarifasPayload>
+        }
+        update: {
+          args: Prisma.configuracion_tarifasUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$configuracion_tarifasPayload>
+        }
+        deleteMany: {
+          args: Prisma.configuracion_tarifasDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.configuracion_tarifasUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.configuracion_tarifasUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$configuracion_tarifasPayload>[]
+        }
+        upsert: {
+          args: Prisma.configuracion_tarifasUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$configuracion_tarifasPayload>
+        }
+        aggregate: {
+          args: Prisma.Configuracion_tarifasAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateConfiguracion_tarifas>
+        }
+        groupBy: {
+          args: Prisma.configuracion_tarifasGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Configuracion_tarifasGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.configuracion_tarifasCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.Configuracion_tarifasCountAggregateOutputType> | number
+        }
+      }
+    }
     rol: {
       payload: Prisma.$rolPayload<ExtArgs>
       fields: Prisma.rolFieldRefs
@@ -1137,7 +1212,8 @@ export const Catalogo_componenteScalarFieldEnum = {
   id_componente: 'id_componente',
   nombre: 'nombre',
   tipo_componente: 'tipo_componente',
-  unidad_medida: 'unidad_medida'
+  unidad_medida: 'unidad_medida',
+  activo: 'activo'
 } as const
 
 export type Catalogo_componenteScalarFieldEnum = (typeof Catalogo_componenteScalarFieldEnum)[keyof typeof Catalogo_componenteScalarFieldEnum]
@@ -1149,6 +1225,7 @@ export const Detalle_formulacionScalarFieldEnum = {
   id_componente_hijo: 'id_componente_hijo',
   id_articulo_especifico: 'id_articulo_especifico',
   cantidad_usada: 'cantidad_usada',
+  unidad_medida_usada: 'unidad_medida_usada',
   nota_preparacion: 'nota_preparacion'
 } as const
 
@@ -1180,16 +1257,28 @@ export const Receta_subrecetaScalarFieldEnum = {
   id_componente: 'id_componente',
   ppu_objetivo: 'ppu_objetivo',
   unidades_tanda: 'unidades_tanda',
-  porcentaje_grasa_total: 'porcentaje_grasa_total',
-  porcentaje_agua_hidratacion: 'porcentaje_agua_hidratacion',
   porcentaje_merma_coccion: 'porcentaje_merma_coccion',
-  costo_por_unidad_calculado: 'costo_por_unidad_calculado',
+  tiempo_coccion_horas: 'tiempo_coccion_horas',
   creado_por: 'creado_por',
   creado_en: 'creado_en',
   actualizado_en: 'actualizado_en'
 } as const
 
 export type Receta_subrecetaScalarFieldEnum = (typeof Receta_subrecetaScalarFieldEnum)[keyof typeof Receta_subrecetaScalarFieldEnum]
+
+
+export const Configuracion_tarifasScalarFieldEnum = {
+  id_configuracion: 'id_configuracion',
+  agua_precio_litro: 'agua_precio_litro',
+  agua_porcentaje_adicional: 'agua_porcentaje_adicional',
+  gas_precio_hora: 'gas_precio_hora',
+  electricidad_precio_kwh: 'electricidad_precio_kwh',
+  electricidad_potencia_horno: 'electricidad_potencia_horno',
+  electricidad_recargo_fijo: 'electricidad_recargo_fijo',
+  creado_en: 'creado_en'
+} as const
+
+export type Configuracion_tarifasScalarFieldEnum = (typeof Configuracion_tarifasScalarFieldEnum)[keyof typeof Configuracion_tarifasScalarFieldEnum]
 
 
 export const RolScalarFieldEnum = {
@@ -1442,6 +1531,7 @@ export type GlobalOmitConfig = {
   ingrediente_base?: Prisma.ingrediente_baseOmit
   proveedor?: Prisma.proveedorOmit
   receta_subreceta?: Prisma.receta_subrecetaOmit
+  configuracion_tarifas?: Prisma.configuracion_tarifasOmit
   rol?: Prisma.rolOmit
   servicio_costo?: Prisma.servicio_costoOmit
   usuario?: Prisma.usuarioOmit

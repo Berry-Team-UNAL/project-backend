@@ -57,6 +57,7 @@ export const ModelName = {
   ingrediente_base: 'ingrediente_base',
   proveedor: 'proveedor',
   receta_subreceta: 'receta_subreceta',
+  configuracion_tarifas: 'configuracion_tarifas',
   rol: 'rol',
   servicio_costo: 'servicio_costo',
   usuario: 'usuario'
@@ -98,7 +99,8 @@ export const Catalogo_componenteScalarFieldEnum = {
   id_componente: 'id_componente',
   nombre: 'nombre',
   tipo_componente: 'tipo_componente',
-  unidad_medida: 'unidad_medida'
+  unidad_medida: 'unidad_medida',
+  activo: 'activo'
 } as const
 
 export type Catalogo_componenteScalarFieldEnum = (typeof Catalogo_componenteScalarFieldEnum)[keyof typeof Catalogo_componenteScalarFieldEnum]
@@ -110,6 +112,7 @@ export const Detalle_formulacionScalarFieldEnum = {
   id_componente_hijo: 'id_componente_hijo',
   id_articulo_especifico: 'id_articulo_especifico',
   cantidad_usada: 'cantidad_usada',
+  unidad_medida_usada: 'unidad_medida_usada',
   nota_preparacion: 'nota_preparacion'
 } as const
 
@@ -141,16 +144,28 @@ export const Receta_subrecetaScalarFieldEnum = {
   id_componente: 'id_componente',
   ppu_objetivo: 'ppu_objetivo',
   unidades_tanda: 'unidades_tanda',
-  porcentaje_grasa_total: 'porcentaje_grasa_total',
-  porcentaje_agua_hidratacion: 'porcentaje_agua_hidratacion',
   porcentaje_merma_coccion: 'porcentaje_merma_coccion',
-  costo_por_unidad_calculado: 'costo_por_unidad_calculado',
+  tiempo_coccion_horas: 'tiempo_coccion_horas',
   creado_por: 'creado_por',
   creado_en: 'creado_en',
   actualizado_en: 'actualizado_en'
 } as const
 
 export type Receta_subrecetaScalarFieldEnum = (typeof Receta_subrecetaScalarFieldEnum)[keyof typeof Receta_subrecetaScalarFieldEnum]
+
+
+export const Configuracion_tarifasScalarFieldEnum = {
+  id_configuracion: 'id_configuracion',
+  agua_precio_litro: 'agua_precio_litro',
+  agua_porcentaje_adicional: 'agua_porcentaje_adicional',
+  gas_precio_hora: 'gas_precio_hora',
+  electricidad_precio_kwh: 'electricidad_precio_kwh',
+  electricidad_potencia_horno: 'electricidad_potencia_horno',
+  electricidad_recargo_fijo: 'electricidad_recargo_fijo',
+  creado_en: 'creado_en'
+} as const
+
+export type Configuracion_tarifasScalarFieldEnum = (typeof Configuracion_tarifasScalarFieldEnum)[keyof typeof Configuracion_tarifasScalarFieldEnum]
 
 
 export const RolScalarFieldEnum = {

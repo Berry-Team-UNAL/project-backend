@@ -48,6 +48,7 @@ export type Detalle_formulacionMinAggregateOutputType = {
   id_componente_hijo: number | null
   id_articulo_especifico: number | null
   cantidad_usada: runtime.Decimal | null
+  unidad_medida_usada: string | null
   nota_preparacion: string | null
 }
 
@@ -57,6 +58,7 @@ export type Detalle_formulacionMaxAggregateOutputType = {
   id_componente_hijo: number | null
   id_articulo_especifico: number | null
   cantidad_usada: runtime.Decimal | null
+  unidad_medida_usada: string | null
   nota_preparacion: string | null
 }
 
@@ -66,6 +68,7 @@ export type Detalle_formulacionCountAggregateOutputType = {
   id_componente_hijo: number
   id_articulo_especifico: number
   cantidad_usada: number
+  unidad_medida_usada: number
   nota_preparacion: number
   _all: number
 }
@@ -93,6 +96,7 @@ export type Detalle_formulacionMinAggregateInputType = {
   id_componente_hijo?: true
   id_articulo_especifico?: true
   cantidad_usada?: true
+  unidad_medida_usada?: true
   nota_preparacion?: true
 }
 
@@ -102,6 +106,7 @@ export type Detalle_formulacionMaxAggregateInputType = {
   id_componente_hijo?: true
   id_articulo_especifico?: true
   cantidad_usada?: true
+  unidad_medida_usada?: true
   nota_preparacion?: true
 }
 
@@ -111,6 +116,7 @@ export type Detalle_formulacionCountAggregateInputType = {
   id_componente_hijo?: true
   id_articulo_especifico?: true
   cantidad_usada?: true
+  unidad_medida_usada?: true
   nota_preparacion?: true
   _all?: true
 }
@@ -207,6 +213,7 @@ export type Detalle_formulacionGroupByOutputType = {
   id_componente_hijo: number
   id_articulo_especifico: number | null
   cantidad_usada: runtime.Decimal
+  unidad_medida_usada: string
   nota_preparacion: string | null
   _count: Detalle_formulacionCountAggregateOutputType | null
   _avg: Detalle_formulacionAvgAggregateOutputType | null
@@ -239,6 +246,7 @@ export type detalle_formulacionWhereInput = {
   id_componente_hijo?: Prisma.IntFilter<"detalle_formulacion"> | number
   id_articulo_especifico?: Prisma.IntNullableFilter<"detalle_formulacion"> | number | null
   cantidad_usada?: Prisma.DecimalFilter<"detalle_formulacion"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringFilter<"detalle_formulacion"> | string
   nota_preparacion?: Prisma.StringNullableFilter<"detalle_formulacion"> | string | null
   articulo_proveedor?: Prisma.XOR<Prisma.Articulo_proveedorNullableScalarRelationFilter, Prisma.articulo_proveedorWhereInput> | null
   catalogo_componente?: Prisma.XOR<Prisma.Catalogo_componenteScalarRelationFilter, Prisma.catalogo_componenteWhereInput>
@@ -251,6 +259,7 @@ export type detalle_formulacionOrderByWithRelationInput = {
   id_componente_hijo?: Prisma.SortOrder
   id_articulo_especifico?: Prisma.SortOrderInput | Prisma.SortOrder
   cantidad_usada?: Prisma.SortOrder
+  unidad_medida_usada?: Prisma.SortOrder
   nota_preparacion?: Prisma.SortOrderInput | Prisma.SortOrder
   articulo_proveedor?: Prisma.articulo_proveedorOrderByWithRelationInput
   catalogo_componente?: Prisma.catalogo_componenteOrderByWithRelationInput
@@ -267,6 +276,7 @@ export type detalle_formulacionWhereUniqueInput = Prisma.AtLeast<{
   id_componente_hijo?: Prisma.IntFilter<"detalle_formulacion"> | number
   id_articulo_especifico?: Prisma.IntNullableFilter<"detalle_formulacion"> | number | null
   cantidad_usada?: Prisma.DecimalFilter<"detalle_formulacion"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringFilter<"detalle_formulacion"> | string
   nota_preparacion?: Prisma.StringNullableFilter<"detalle_formulacion"> | string | null
   articulo_proveedor?: Prisma.XOR<Prisma.Articulo_proveedorNullableScalarRelationFilter, Prisma.articulo_proveedorWhereInput> | null
   catalogo_componente?: Prisma.XOR<Prisma.Catalogo_componenteScalarRelationFilter, Prisma.catalogo_componenteWhereInput>
@@ -279,6 +289,7 @@ export type detalle_formulacionOrderByWithAggregationInput = {
   id_componente_hijo?: Prisma.SortOrder
   id_articulo_especifico?: Prisma.SortOrderInput | Prisma.SortOrder
   cantidad_usada?: Prisma.SortOrder
+  unidad_medida_usada?: Prisma.SortOrder
   nota_preparacion?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.detalle_formulacionCountOrderByAggregateInput
   _avg?: Prisma.detalle_formulacionAvgOrderByAggregateInput
@@ -296,11 +307,13 @@ export type detalle_formulacionScalarWhereWithAggregatesInput = {
   id_componente_hijo?: Prisma.IntWithAggregatesFilter<"detalle_formulacion"> | number
   id_articulo_especifico?: Prisma.IntNullableWithAggregatesFilter<"detalle_formulacion"> | number | null
   cantidad_usada?: Prisma.DecimalWithAggregatesFilter<"detalle_formulacion"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringWithAggregatesFilter<"detalle_formulacion"> | string
   nota_preparacion?: Prisma.StringNullableWithAggregatesFilter<"detalle_formulacion"> | string | null
 }
 
 export type detalle_formulacionCreateInput = {
   cantidad_usada: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada: string
   nota_preparacion?: string | null
   articulo_proveedor?: Prisma.articulo_proveedorCreateNestedOneWithoutDetalle_formulacionInput
   catalogo_componente: Prisma.catalogo_componenteCreateNestedOneWithoutDetalle_formulacionInput
@@ -313,11 +326,13 @@ export type detalle_formulacionUncheckedCreateInput = {
   id_componente_hijo: number
   id_articulo_especifico?: number | null
   cantidad_usada: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada: string
   nota_preparacion?: string | null
 }
 
 export type detalle_formulacionUpdateInput = {
   cantidad_usada?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringFieldUpdateOperationsInput | string
   nota_preparacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   articulo_proveedor?: Prisma.articulo_proveedorUpdateOneWithoutDetalle_formulacionNestedInput
   catalogo_componente?: Prisma.catalogo_componenteUpdateOneRequiredWithoutDetalle_formulacionNestedInput
@@ -330,6 +345,7 @@ export type detalle_formulacionUncheckedUpdateInput = {
   id_componente_hijo?: Prisma.IntFieldUpdateOperationsInput | number
   id_articulo_especifico?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cantidad_usada?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringFieldUpdateOperationsInput | string
   nota_preparacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -339,11 +355,13 @@ export type detalle_formulacionCreateManyInput = {
   id_componente_hijo: number
   id_articulo_especifico?: number | null
   cantidad_usada: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada: string
   nota_preparacion?: string | null
 }
 
 export type detalle_formulacionUpdateManyMutationInput = {
   cantidad_usada?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringFieldUpdateOperationsInput | string
   nota_preparacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -353,6 +371,7 @@ export type detalle_formulacionUncheckedUpdateManyInput = {
   id_componente_hijo?: Prisma.IntFieldUpdateOperationsInput | number
   id_articulo_especifico?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cantidad_usada?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringFieldUpdateOperationsInput | string
   nota_preparacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -377,6 +396,7 @@ export type detalle_formulacionCountOrderByAggregateInput = {
   id_componente_hijo?: Prisma.SortOrder
   id_articulo_especifico?: Prisma.SortOrder
   cantidad_usada?: Prisma.SortOrder
+  unidad_medida_usada?: Prisma.SortOrder
   nota_preparacion?: Prisma.SortOrder
 }
 
@@ -394,6 +414,7 @@ export type detalle_formulacionMaxOrderByAggregateInput = {
   id_componente_hijo?: Prisma.SortOrder
   id_articulo_especifico?: Prisma.SortOrder
   cantidad_usada?: Prisma.SortOrder
+  unidad_medida_usada?: Prisma.SortOrder
   nota_preparacion?: Prisma.SortOrder
 }
 
@@ -403,6 +424,7 @@ export type detalle_formulacionMinOrderByAggregateInput = {
   id_componente_hijo?: Prisma.SortOrder
   id_articulo_especifico?: Prisma.SortOrder
   cantidad_usada?: Prisma.SortOrder
+  unidad_medida_usada?: Prisma.SortOrder
   nota_preparacion?: Prisma.SortOrder
 }
 
@@ -550,6 +572,7 @@ export type detalle_formulacionUncheckedUpdateManyWithoutReceta_subrecetaNestedI
 
 export type detalle_formulacionCreateWithoutArticulo_proveedorInput = {
   cantidad_usada: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada: string
   nota_preparacion?: string | null
   catalogo_componente: Prisma.catalogo_componenteCreateNestedOneWithoutDetalle_formulacionInput
   receta_subreceta: Prisma.receta_subrecetaCreateNestedOneWithoutDetalle_formulacionInput
@@ -560,6 +583,7 @@ export type detalle_formulacionUncheckedCreateWithoutArticulo_proveedorInput = {
   id_receta_padre: number
   id_componente_hijo: number
   cantidad_usada: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada: string
   nota_preparacion?: string | null
 }
 
@@ -598,11 +622,13 @@ export type detalle_formulacionScalarWhereInput = {
   id_componente_hijo?: Prisma.IntFilter<"detalle_formulacion"> | number
   id_articulo_especifico?: Prisma.IntNullableFilter<"detalle_formulacion"> | number | null
   cantidad_usada?: Prisma.DecimalFilter<"detalle_formulacion"> | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringFilter<"detalle_formulacion"> | string
   nota_preparacion?: Prisma.StringNullableFilter<"detalle_formulacion"> | string | null
 }
 
 export type detalle_formulacionCreateWithoutCatalogo_componenteInput = {
   cantidad_usada: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada: string
   nota_preparacion?: string | null
   articulo_proveedor?: Prisma.articulo_proveedorCreateNestedOneWithoutDetalle_formulacionInput
   receta_subreceta: Prisma.receta_subrecetaCreateNestedOneWithoutDetalle_formulacionInput
@@ -613,6 +639,7 @@ export type detalle_formulacionUncheckedCreateWithoutCatalogo_componenteInput = 
   id_receta_padre: number
   id_articulo_especifico?: number | null
   cantidad_usada: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada: string
   nota_preparacion?: string | null
 }
 
@@ -644,6 +671,7 @@ export type detalle_formulacionUpdateManyWithWhereWithoutCatalogo_componenteInpu
 
 export type detalle_formulacionCreateWithoutReceta_subrecetaInput = {
   cantidad_usada: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada: string
   nota_preparacion?: string | null
   articulo_proveedor?: Prisma.articulo_proveedorCreateNestedOneWithoutDetalle_formulacionInput
   catalogo_componente: Prisma.catalogo_componenteCreateNestedOneWithoutDetalle_formulacionInput
@@ -654,6 +682,7 @@ export type detalle_formulacionUncheckedCreateWithoutReceta_subrecetaInput = {
   id_componente_hijo: number
   id_articulo_especifico?: number | null
   cantidad_usada: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada: string
   nota_preparacion?: string | null
 }
 
@@ -688,11 +717,13 @@ export type detalle_formulacionCreateManyArticulo_proveedorInput = {
   id_receta_padre: number
   id_componente_hijo: number
   cantidad_usada: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada: string
   nota_preparacion?: string | null
 }
 
 export type detalle_formulacionUpdateWithoutArticulo_proveedorInput = {
   cantidad_usada?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringFieldUpdateOperationsInput | string
   nota_preparacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   catalogo_componente?: Prisma.catalogo_componenteUpdateOneRequiredWithoutDetalle_formulacionNestedInput
   receta_subreceta?: Prisma.receta_subrecetaUpdateOneRequiredWithoutDetalle_formulacionNestedInput
@@ -703,6 +734,7 @@ export type detalle_formulacionUncheckedUpdateWithoutArticulo_proveedorInput = {
   id_receta_padre?: Prisma.IntFieldUpdateOperationsInput | number
   id_componente_hijo?: Prisma.IntFieldUpdateOperationsInput | number
   cantidad_usada?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringFieldUpdateOperationsInput | string
   nota_preparacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -711,6 +743,7 @@ export type detalle_formulacionUncheckedUpdateManyWithoutArticulo_proveedorInput
   id_receta_padre?: Prisma.IntFieldUpdateOperationsInput | number
   id_componente_hijo?: Prisma.IntFieldUpdateOperationsInput | number
   cantidad_usada?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringFieldUpdateOperationsInput | string
   nota_preparacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -719,11 +752,13 @@ export type detalle_formulacionCreateManyCatalogo_componenteInput = {
   id_receta_padre: number
   id_articulo_especifico?: number | null
   cantidad_usada: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada: string
   nota_preparacion?: string | null
 }
 
 export type detalle_formulacionUpdateWithoutCatalogo_componenteInput = {
   cantidad_usada?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringFieldUpdateOperationsInput | string
   nota_preparacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   articulo_proveedor?: Prisma.articulo_proveedorUpdateOneWithoutDetalle_formulacionNestedInput
   receta_subreceta?: Prisma.receta_subrecetaUpdateOneRequiredWithoutDetalle_formulacionNestedInput
@@ -734,6 +769,7 @@ export type detalle_formulacionUncheckedUpdateWithoutCatalogo_componenteInput = 
   id_receta_padre?: Prisma.IntFieldUpdateOperationsInput | number
   id_articulo_especifico?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cantidad_usada?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringFieldUpdateOperationsInput | string
   nota_preparacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -742,6 +778,7 @@ export type detalle_formulacionUncheckedUpdateManyWithoutCatalogo_componenteInpu
   id_receta_padre?: Prisma.IntFieldUpdateOperationsInput | number
   id_articulo_especifico?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cantidad_usada?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringFieldUpdateOperationsInput | string
   nota_preparacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -750,11 +787,13 @@ export type detalle_formulacionCreateManyReceta_subrecetaInput = {
   id_componente_hijo: number
   id_articulo_especifico?: number | null
   cantidad_usada: runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada: string
   nota_preparacion?: string | null
 }
 
 export type detalle_formulacionUpdateWithoutReceta_subrecetaInput = {
   cantidad_usada?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringFieldUpdateOperationsInput | string
   nota_preparacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   articulo_proveedor?: Prisma.articulo_proveedorUpdateOneWithoutDetalle_formulacionNestedInput
   catalogo_componente?: Prisma.catalogo_componenteUpdateOneRequiredWithoutDetalle_formulacionNestedInput
@@ -765,6 +804,7 @@ export type detalle_formulacionUncheckedUpdateWithoutReceta_subrecetaInput = {
   id_componente_hijo?: Prisma.IntFieldUpdateOperationsInput | number
   id_articulo_especifico?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cantidad_usada?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringFieldUpdateOperationsInput | string
   nota_preparacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -773,6 +813,7 @@ export type detalle_formulacionUncheckedUpdateManyWithoutReceta_subrecetaInput =
   id_componente_hijo?: Prisma.IntFieldUpdateOperationsInput | number
   id_articulo_especifico?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   cantidad_usada?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  unidad_medida_usada?: Prisma.StringFieldUpdateOperationsInput | string
   nota_preparacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -784,6 +825,7 @@ export type detalle_formulacionSelect<ExtArgs extends runtime.Types.Extensions.I
   id_componente_hijo?: boolean
   id_articulo_especifico?: boolean
   cantidad_usada?: boolean
+  unidad_medida_usada?: boolean
   nota_preparacion?: boolean
   articulo_proveedor?: boolean | Prisma.detalle_formulacion$articulo_proveedorArgs<ExtArgs>
   catalogo_componente?: boolean | Prisma.catalogo_componenteDefaultArgs<ExtArgs>
@@ -796,6 +838,7 @@ export type detalle_formulacionSelectCreateManyAndReturn<ExtArgs extends runtime
   id_componente_hijo?: boolean
   id_articulo_especifico?: boolean
   cantidad_usada?: boolean
+  unidad_medida_usada?: boolean
   nota_preparacion?: boolean
   articulo_proveedor?: boolean | Prisma.detalle_formulacion$articulo_proveedorArgs<ExtArgs>
   catalogo_componente?: boolean | Prisma.catalogo_componenteDefaultArgs<ExtArgs>
@@ -808,6 +851,7 @@ export type detalle_formulacionSelectUpdateManyAndReturn<ExtArgs extends runtime
   id_componente_hijo?: boolean
   id_articulo_especifico?: boolean
   cantidad_usada?: boolean
+  unidad_medida_usada?: boolean
   nota_preparacion?: boolean
   articulo_proveedor?: boolean | Prisma.detalle_formulacion$articulo_proveedorArgs<ExtArgs>
   catalogo_componente?: boolean | Prisma.catalogo_componenteDefaultArgs<ExtArgs>
@@ -820,10 +864,11 @@ export type detalle_formulacionSelectScalar = {
   id_componente_hijo?: boolean
   id_articulo_especifico?: boolean
   cantidad_usada?: boolean
+  unidad_medida_usada?: boolean
   nota_preparacion?: boolean
 }
 
-export type detalle_formulacionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id_detalle" | "id_receta_padre" | "id_componente_hijo" | "id_articulo_especifico" | "cantidad_usada" | "nota_preparacion", ExtArgs["result"]["detalle_formulacion"]>
+export type detalle_formulacionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id_detalle" | "id_receta_padre" | "id_componente_hijo" | "id_articulo_especifico" | "cantidad_usada" | "unidad_medida_usada" | "nota_preparacion", ExtArgs["result"]["detalle_formulacion"]>
 export type detalle_formulacionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   articulo_proveedor?: boolean | Prisma.detalle_formulacion$articulo_proveedorArgs<ExtArgs>
   catalogo_componente?: boolean | Prisma.catalogo_componenteDefaultArgs<ExtArgs>
@@ -853,6 +898,7 @@ export type $detalle_formulacionPayload<ExtArgs extends runtime.Types.Extensions
     id_componente_hijo: number
     id_articulo_especifico: number | null
     cantidad_usada: runtime.Decimal
+    unidad_medida_usada: string
     nota_preparacion: string | null
   }, ExtArgs["result"]["detalle_formulacion"]>
   composites: {}
@@ -1285,6 +1331,7 @@ export interface detalle_formulacionFieldRefs {
   readonly id_componente_hijo: Prisma.FieldRef<"detalle_formulacion", 'Int'>
   readonly id_articulo_especifico: Prisma.FieldRef<"detalle_formulacion", 'Int'>
   readonly cantidad_usada: Prisma.FieldRef<"detalle_formulacion", 'Decimal'>
+  readonly unidad_medida_usada: Prisma.FieldRef<"detalle_formulacion", 'String'>
   readonly nota_preparacion: Prisma.FieldRef<"detalle_formulacion", 'String'>
 }
     

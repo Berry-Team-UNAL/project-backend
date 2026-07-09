@@ -72,6 +72,11 @@ export type proveedor = Prisma.proveedorModel
  */
 export type receta_subreceta = Prisma.receta_subrecetaModel
 /**
+ * Model configuracion_tarifas
+ * 
+ */
+export type configuracion_tarifas = Prisma.configuracion_tarifasModel
+/**
  * Model rol
  * 
  */

@@ -30,10 +30,8 @@ export type Receta_subrecetaAvgAggregateOutputType = {
   id_componente: number | null
   ppu_objetivo: runtime.Decimal | null
   unidades_tanda: number | null
-  porcentaje_grasa_total: runtime.Decimal | null
-  porcentaje_agua_hidratacion: runtime.Decimal | null
   porcentaje_merma_coccion: runtime.Decimal | null
-  costo_por_unidad_calculado: runtime.Decimal | null
+  tiempo_coccion_horas: runtime.Decimal | null
   creado_por: number | null
 }
 
@@ -41,10 +39,8 @@ export type Receta_subrecetaSumAggregateOutputType = {
   id_componente: number | null
   ppu_objetivo: runtime.Decimal | null
   unidades_tanda: number | null
-  porcentaje_grasa_total: runtime.Decimal | null
-  porcentaje_agua_hidratacion: runtime.Decimal | null
   porcentaje_merma_coccion: runtime.Decimal | null
-  costo_por_unidad_calculado: runtime.Decimal | null
+  tiempo_coccion_horas: runtime.Decimal | null
   creado_por: number | null
 }
 
@@ -52,10 +48,8 @@ export type Receta_subrecetaMinAggregateOutputType = {
   id_componente: number | null
   ppu_objetivo: runtime.Decimal | null
   unidades_tanda: number | null
-  porcentaje_grasa_total: runtime.Decimal | null
-  porcentaje_agua_hidratacion: runtime.Decimal | null
   porcentaje_merma_coccion: runtime.Decimal | null
-  costo_por_unidad_calculado: runtime.Decimal | null
+  tiempo_coccion_horas: runtime.Decimal | null
   creado_por: number | null
   creado_en: Date | null
   actualizado_en: Date | null
@@ -65,10 +59,8 @@ export type Receta_subrecetaMaxAggregateOutputType = {
   id_componente: number | null
   ppu_objetivo: runtime.Decimal | null
   unidades_tanda: number | null
-  porcentaje_grasa_total: runtime.Decimal | null
-  porcentaje_agua_hidratacion: runtime.Decimal | null
   porcentaje_merma_coccion: runtime.Decimal | null
-  costo_por_unidad_calculado: runtime.Decimal | null
+  tiempo_coccion_horas: runtime.Decimal | null
   creado_por: number | null
   creado_en: Date | null
   actualizado_en: Date | null
@@ -78,10 +70,8 @@ export type Receta_subrecetaCountAggregateOutputType = {
   id_componente: number
   ppu_objetivo: number
   unidades_tanda: number
-  porcentaje_grasa_total: number
-  porcentaje_agua_hidratacion: number
   porcentaje_merma_coccion: number
-  costo_por_unidad_calculado: number
+  tiempo_coccion_horas: number
   creado_por: number
   creado_en: number
   actualizado_en: number
@@ -93,10 +83,8 @@ export type Receta_subrecetaAvgAggregateInputType = {
   id_componente?: true
   ppu_objetivo?: true
   unidades_tanda?: true
-  porcentaje_grasa_total?: true
-  porcentaje_agua_hidratacion?: true
   porcentaje_merma_coccion?: true
-  costo_por_unidad_calculado?: true
+  tiempo_coccion_horas?: true
   creado_por?: true
 }
 
@@ -104,10 +92,8 @@ export type Receta_subrecetaSumAggregateInputType = {
   id_componente?: true
   ppu_objetivo?: true
   unidades_tanda?: true
-  porcentaje_grasa_total?: true
-  porcentaje_agua_hidratacion?: true
   porcentaje_merma_coccion?: true
-  costo_por_unidad_calculado?: true
+  tiempo_coccion_horas?: true
   creado_por?: true
 }
 
@@ -115,10 +101,8 @@ export type Receta_subrecetaMinAggregateInputType = {
   id_componente?: true
   ppu_objetivo?: true
   unidades_tanda?: true
-  porcentaje_grasa_total?: true
-  porcentaje_agua_hidratacion?: true
   porcentaje_merma_coccion?: true
-  costo_por_unidad_calculado?: true
+  tiempo_coccion_horas?: true
   creado_por?: true
   creado_en?: true
   actualizado_en?: true
@@ -128,10 +112,8 @@ export type Receta_subrecetaMaxAggregateInputType = {
   id_componente?: true
   ppu_objetivo?: true
   unidades_tanda?: true
-  porcentaje_grasa_total?: true
-  porcentaje_agua_hidratacion?: true
   porcentaje_merma_coccion?: true
-  costo_por_unidad_calculado?: true
+  tiempo_coccion_horas?: true
   creado_por?: true
   creado_en?: true
   actualizado_en?: true
@@ -141,10 +123,8 @@ export type Receta_subrecetaCountAggregateInputType = {
   id_componente?: true
   ppu_objetivo?: true
   unidades_tanda?: true
-  porcentaje_grasa_total?: true
-  porcentaje_agua_hidratacion?: true
   porcentaje_merma_coccion?: true
-  costo_por_unidad_calculado?: true
+  tiempo_coccion_horas?: true
   creado_por?: true
   creado_en?: true
   actualizado_en?: true
@@ -241,10 +221,8 @@ export type Receta_subrecetaGroupByOutputType = {
   id_componente: number
   ppu_objetivo: runtime.Decimal | null
   unidades_tanda: number | null
-  porcentaje_grasa_total: runtime.Decimal | null
-  porcentaje_agua_hidratacion: runtime.Decimal | null
   porcentaje_merma_coccion: runtime.Decimal | null
-  costo_por_unidad_calculado: runtime.Decimal | null
+  tiempo_coccion_horas: runtime.Decimal | null
   creado_por: number | null
   creado_en: Date | null
   actualizado_en: Date | null
@@ -277,10 +255,8 @@ export type receta_subrecetaWhereInput = {
   id_componente?: Prisma.IntFilter<"receta_subreceta"> | number
   ppu_objetivo?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: Prisma.IntNullableFilter<"receta_subreceta"> | number | null
-  porcentaje_grasa_total?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_por?: Prisma.IntNullableFilter<"receta_subreceta"> | number | null
   creado_en?: Prisma.DateTimeNullableFilter<"receta_subreceta"> | Date | string | null
   actualizado_en?: Prisma.DateTimeNullableFilter<"receta_subreceta"> | Date | string | null
@@ -293,10 +269,8 @@ export type receta_subrecetaOrderByWithRelationInput = {
   id_componente?: Prisma.SortOrder
   ppu_objetivo?: Prisma.SortOrderInput | Prisma.SortOrder
   unidades_tanda?: Prisma.SortOrderInput | Prisma.SortOrder
-  porcentaje_grasa_total?: Prisma.SortOrderInput | Prisma.SortOrder
-  porcentaje_agua_hidratacion?: Prisma.SortOrderInput | Prisma.SortOrder
   porcentaje_merma_coccion?: Prisma.SortOrderInput | Prisma.SortOrder
-  costo_por_unidad_calculado?: Prisma.SortOrderInput | Prisma.SortOrder
+  tiempo_coccion_horas?: Prisma.SortOrderInput | Prisma.SortOrder
   creado_por?: Prisma.SortOrderInput | Prisma.SortOrder
   creado_en?: Prisma.SortOrderInput | Prisma.SortOrder
   actualizado_en?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -312,10 +286,8 @@ export type receta_subrecetaWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.receta_subrecetaWhereInput | Prisma.receta_subrecetaWhereInput[]
   ppu_objetivo?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: Prisma.IntNullableFilter<"receta_subreceta"> | number | null
-  porcentaje_grasa_total?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_por?: Prisma.IntNullableFilter<"receta_subreceta"> | number | null
   creado_en?: Prisma.DateTimeNullableFilter<"receta_subreceta"> | Date | string | null
   actualizado_en?: Prisma.DateTimeNullableFilter<"receta_subreceta"> | Date | string | null
@@ -328,10 +300,8 @@ export type receta_subrecetaOrderByWithAggregationInput = {
   id_componente?: Prisma.SortOrder
   ppu_objetivo?: Prisma.SortOrderInput | Prisma.SortOrder
   unidades_tanda?: Prisma.SortOrderInput | Prisma.SortOrder
-  porcentaje_grasa_total?: Prisma.SortOrderInput | Prisma.SortOrder
-  porcentaje_agua_hidratacion?: Prisma.SortOrderInput | Prisma.SortOrder
   porcentaje_merma_coccion?: Prisma.SortOrderInput | Prisma.SortOrder
-  costo_por_unidad_calculado?: Prisma.SortOrderInput | Prisma.SortOrder
+  tiempo_coccion_horas?: Prisma.SortOrderInput | Prisma.SortOrder
   creado_por?: Prisma.SortOrderInput | Prisma.SortOrder
   creado_en?: Prisma.SortOrderInput | Prisma.SortOrder
   actualizado_en?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -349,10 +319,8 @@ export type receta_subrecetaScalarWhereWithAggregatesInput = {
   id_componente?: Prisma.IntWithAggregatesFilter<"receta_subreceta"> | number
   ppu_objetivo?: Prisma.DecimalNullableWithAggregatesFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: Prisma.IntNullableWithAggregatesFilter<"receta_subreceta"> | number | null
-  porcentaje_grasa_total?: Prisma.DecimalNullableWithAggregatesFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: Prisma.DecimalNullableWithAggregatesFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: Prisma.DecimalNullableWithAggregatesFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: Prisma.DecimalNullableWithAggregatesFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: Prisma.DecimalNullableWithAggregatesFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_por?: Prisma.IntNullableWithAggregatesFilter<"receta_subreceta"> | number | null
   creado_en?: Prisma.DateTimeNullableWithAggregatesFilter<"receta_subreceta"> | Date | string | null
   actualizado_en?: Prisma.DateTimeNullableWithAggregatesFilter<"receta_subreceta"> | Date | string | null
@@ -361,10 +329,8 @@ export type receta_subrecetaScalarWhereWithAggregatesInput = {
 export type receta_subrecetaCreateInput = {
   ppu_objetivo?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: number | null
-  porcentaje_grasa_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_en?: Date | string | null
   actualizado_en?: Date | string | null
   detalle_formulacion?: Prisma.detalle_formulacionCreateNestedManyWithoutReceta_subrecetaInput
@@ -376,10 +342,8 @@ export type receta_subrecetaUncheckedCreateInput = {
   id_componente: number
   ppu_objetivo?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: number | null
-  porcentaje_grasa_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_por?: number | null
   creado_en?: Date | string | null
   actualizado_en?: Date | string | null
@@ -389,10 +353,8 @@ export type receta_subrecetaUncheckedCreateInput = {
 export type receta_subrecetaUpdateInput = {
   ppu_objetivo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  porcentaje_grasa_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualizado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detalle_formulacion?: Prisma.detalle_formulacionUpdateManyWithoutReceta_subrecetaNestedInput
@@ -404,10 +366,8 @@ export type receta_subrecetaUncheckedUpdateInput = {
   id_componente?: Prisma.IntFieldUpdateOperationsInput | number
   ppu_objetivo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  porcentaje_grasa_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_por?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualizado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -418,10 +378,8 @@ export type receta_subrecetaCreateManyInput = {
   id_componente: number
   ppu_objetivo?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: number | null
-  porcentaje_grasa_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_por?: number | null
   creado_en?: Date | string | null
   actualizado_en?: Date | string | null
@@ -430,10 +388,8 @@ export type receta_subrecetaCreateManyInput = {
 export type receta_subrecetaUpdateManyMutationInput = {
   ppu_objetivo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  porcentaje_grasa_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualizado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -442,10 +398,8 @@ export type receta_subrecetaUncheckedUpdateManyInput = {
   id_componente?: Prisma.IntFieldUpdateOperationsInput | number
   ppu_objetivo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  porcentaje_grasa_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_por?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualizado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -465,10 +419,8 @@ export type receta_subrecetaCountOrderByAggregateInput = {
   id_componente?: Prisma.SortOrder
   ppu_objetivo?: Prisma.SortOrder
   unidades_tanda?: Prisma.SortOrder
-  porcentaje_grasa_total?: Prisma.SortOrder
-  porcentaje_agua_hidratacion?: Prisma.SortOrder
   porcentaje_merma_coccion?: Prisma.SortOrder
-  costo_por_unidad_calculado?: Prisma.SortOrder
+  tiempo_coccion_horas?: Prisma.SortOrder
   creado_por?: Prisma.SortOrder
   creado_en?: Prisma.SortOrder
   actualizado_en?: Prisma.SortOrder
@@ -478,10 +430,8 @@ export type receta_subrecetaAvgOrderByAggregateInput = {
   id_componente?: Prisma.SortOrder
   ppu_objetivo?: Prisma.SortOrder
   unidades_tanda?: Prisma.SortOrder
-  porcentaje_grasa_total?: Prisma.SortOrder
-  porcentaje_agua_hidratacion?: Prisma.SortOrder
   porcentaje_merma_coccion?: Prisma.SortOrder
-  costo_por_unidad_calculado?: Prisma.SortOrder
+  tiempo_coccion_horas?: Prisma.SortOrder
   creado_por?: Prisma.SortOrder
 }
 
@@ -489,10 +439,8 @@ export type receta_subrecetaMaxOrderByAggregateInput = {
   id_componente?: Prisma.SortOrder
   ppu_objetivo?: Prisma.SortOrder
   unidades_tanda?: Prisma.SortOrder
-  porcentaje_grasa_total?: Prisma.SortOrder
-  porcentaje_agua_hidratacion?: Prisma.SortOrder
   porcentaje_merma_coccion?: Prisma.SortOrder
-  costo_por_unidad_calculado?: Prisma.SortOrder
+  tiempo_coccion_horas?: Prisma.SortOrder
   creado_por?: Prisma.SortOrder
   creado_en?: Prisma.SortOrder
   actualizado_en?: Prisma.SortOrder
@@ -502,10 +450,8 @@ export type receta_subrecetaMinOrderByAggregateInput = {
   id_componente?: Prisma.SortOrder
   ppu_objetivo?: Prisma.SortOrder
   unidades_tanda?: Prisma.SortOrder
-  porcentaje_grasa_total?: Prisma.SortOrder
-  porcentaje_agua_hidratacion?: Prisma.SortOrder
   porcentaje_merma_coccion?: Prisma.SortOrder
-  costo_por_unidad_calculado?: Prisma.SortOrder
+  tiempo_coccion_horas?: Prisma.SortOrder
   creado_por?: Prisma.SortOrder
   creado_en?: Prisma.SortOrder
   actualizado_en?: Prisma.SortOrder
@@ -515,10 +461,8 @@ export type receta_subrecetaSumOrderByAggregateInput = {
   id_componente?: Prisma.SortOrder
   ppu_objetivo?: Prisma.SortOrder
   unidades_tanda?: Prisma.SortOrder
-  porcentaje_grasa_total?: Prisma.SortOrder
-  porcentaje_agua_hidratacion?: Prisma.SortOrder
   porcentaje_merma_coccion?: Prisma.SortOrder
-  costo_por_unidad_calculado?: Prisma.SortOrder
+  tiempo_coccion_horas?: Prisma.SortOrder
   creado_por?: Prisma.SortOrder
 }
 
@@ -623,10 +567,8 @@ export type receta_subrecetaUncheckedUpdateManyWithoutUsuarioNestedInput = {
 export type receta_subrecetaCreateWithoutCatalogo_componenteInput = {
   ppu_objetivo?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: number | null
-  porcentaje_grasa_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_en?: Date | string | null
   actualizado_en?: Date | string | null
   detalle_formulacion?: Prisma.detalle_formulacionCreateNestedManyWithoutReceta_subrecetaInput
@@ -636,10 +578,8 @@ export type receta_subrecetaCreateWithoutCatalogo_componenteInput = {
 export type receta_subrecetaUncheckedCreateWithoutCatalogo_componenteInput = {
   ppu_objetivo?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: number | null
-  porcentaje_grasa_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_por?: number | null
   creado_en?: Date | string | null
   actualizado_en?: Date | string | null
@@ -665,10 +605,8 @@ export type receta_subrecetaUpdateToOneWithWhereWithoutCatalogo_componenteInput 
 export type receta_subrecetaUpdateWithoutCatalogo_componenteInput = {
   ppu_objetivo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  porcentaje_grasa_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualizado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detalle_formulacion?: Prisma.detalle_formulacionUpdateManyWithoutReceta_subrecetaNestedInput
@@ -678,10 +616,8 @@ export type receta_subrecetaUpdateWithoutCatalogo_componenteInput = {
 export type receta_subrecetaUncheckedUpdateWithoutCatalogo_componenteInput = {
   ppu_objetivo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  porcentaje_grasa_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_por?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualizado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -691,10 +627,8 @@ export type receta_subrecetaUncheckedUpdateWithoutCatalogo_componenteInput = {
 export type receta_subrecetaCreateWithoutDetalle_formulacionInput = {
   ppu_objetivo?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: number | null
-  porcentaje_grasa_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_en?: Date | string | null
   actualizado_en?: Date | string | null
   usuario?: Prisma.usuarioCreateNestedOneWithoutReceta_subrecetaInput
@@ -705,10 +639,8 @@ export type receta_subrecetaUncheckedCreateWithoutDetalle_formulacionInput = {
   id_componente: number
   ppu_objetivo?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: number | null
-  porcentaje_grasa_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_por?: number | null
   creado_en?: Date | string | null
   actualizado_en?: Date | string | null
@@ -733,10 +665,8 @@ export type receta_subrecetaUpdateToOneWithWhereWithoutDetalle_formulacionInput 
 export type receta_subrecetaUpdateWithoutDetalle_formulacionInput = {
   ppu_objetivo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  porcentaje_grasa_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualizado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   usuario?: Prisma.usuarioUpdateOneWithoutReceta_subrecetaNestedInput
@@ -747,10 +677,8 @@ export type receta_subrecetaUncheckedUpdateWithoutDetalle_formulacionInput = {
   id_componente?: Prisma.IntFieldUpdateOperationsInput | number
   ppu_objetivo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  porcentaje_grasa_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_por?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   creado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualizado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -759,10 +687,8 @@ export type receta_subrecetaUncheckedUpdateWithoutDetalle_formulacionInput = {
 export type receta_subrecetaCreateWithoutUsuarioInput = {
   ppu_objetivo?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: number | null
-  porcentaje_grasa_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_en?: Date | string | null
   actualizado_en?: Date | string | null
   detalle_formulacion?: Prisma.detalle_formulacionCreateNestedManyWithoutReceta_subrecetaInput
@@ -773,10 +699,8 @@ export type receta_subrecetaUncheckedCreateWithoutUsuarioInput = {
   id_componente: number
   ppu_objetivo?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: number | null
-  porcentaje_grasa_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_en?: Date | string | null
   actualizado_en?: Date | string | null
   detalle_formulacion?: Prisma.detalle_formulacionUncheckedCreateNestedManyWithoutReceta_subrecetaInput
@@ -815,10 +739,8 @@ export type receta_subrecetaScalarWhereInput = {
   id_componente?: Prisma.IntFilter<"receta_subreceta"> | number
   ppu_objetivo?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: Prisma.IntNullableFilter<"receta_subreceta"> | number | null
-  porcentaje_grasa_total?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: Prisma.DecimalNullableFilter<"receta_subreceta"> | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_por?: Prisma.IntNullableFilter<"receta_subreceta"> | number | null
   creado_en?: Prisma.DateTimeNullableFilter<"receta_subreceta"> | Date | string | null
   actualizado_en?: Prisma.DateTimeNullableFilter<"receta_subreceta"> | Date | string | null
@@ -828,10 +750,8 @@ export type receta_subrecetaCreateManyUsuarioInput = {
   id_componente: number
   ppu_objetivo?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: number | null
-  porcentaje_grasa_total?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_en?: Date | string | null
   actualizado_en?: Date | string | null
 }
@@ -839,10 +759,8 @@ export type receta_subrecetaCreateManyUsuarioInput = {
 export type receta_subrecetaUpdateWithoutUsuarioInput = {
   ppu_objetivo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  porcentaje_grasa_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualizado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detalle_formulacion?: Prisma.detalle_formulacionUpdateManyWithoutReceta_subrecetaNestedInput
@@ -853,10 +771,8 @@ export type receta_subrecetaUncheckedUpdateWithoutUsuarioInput = {
   id_componente?: Prisma.IntFieldUpdateOperationsInput | number
   ppu_objetivo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  porcentaje_grasa_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualizado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   detalle_formulacion?: Prisma.detalle_formulacionUncheckedUpdateManyWithoutReceta_subrecetaNestedInput
@@ -866,10 +782,8 @@ export type receta_subrecetaUncheckedUpdateManyWithoutUsuarioInput = {
   id_componente?: Prisma.IntFieldUpdateOperationsInput | number
   ppu_objetivo?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   unidades_tanda?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
-  porcentaje_grasa_total?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  porcentaje_agua_hidratacion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   porcentaje_merma_coccion?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
-  costo_por_unidad_calculado?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  tiempo_coccion_horas?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   creado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   actualizado_en?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
@@ -909,10 +823,8 @@ export type receta_subrecetaSelect<ExtArgs extends runtime.Types.Extensions.Inte
   id_componente?: boolean
   ppu_objetivo?: boolean
   unidades_tanda?: boolean
-  porcentaje_grasa_total?: boolean
-  porcentaje_agua_hidratacion?: boolean
   porcentaje_merma_coccion?: boolean
-  costo_por_unidad_calculado?: boolean
+  tiempo_coccion_horas?: boolean
   creado_por?: boolean
   creado_en?: boolean
   actualizado_en?: boolean
@@ -926,10 +838,8 @@ export type receta_subrecetaSelectCreateManyAndReturn<ExtArgs extends runtime.Ty
   id_componente?: boolean
   ppu_objetivo?: boolean
   unidades_tanda?: boolean
-  porcentaje_grasa_total?: boolean
-  porcentaje_agua_hidratacion?: boolean
   porcentaje_merma_coccion?: boolean
-  costo_por_unidad_calculado?: boolean
+  tiempo_coccion_horas?: boolean
   creado_por?: boolean
   creado_en?: boolean
   actualizado_en?: boolean
@@ -941,10 +851,8 @@ export type receta_subrecetaSelectUpdateManyAndReturn<ExtArgs extends runtime.Ty
   id_componente?: boolean
   ppu_objetivo?: boolean
   unidades_tanda?: boolean
-  porcentaje_grasa_total?: boolean
-  porcentaje_agua_hidratacion?: boolean
   porcentaje_merma_coccion?: boolean
-  costo_por_unidad_calculado?: boolean
+  tiempo_coccion_horas?: boolean
   creado_por?: boolean
   creado_en?: boolean
   actualizado_en?: boolean
@@ -956,16 +864,14 @@ export type receta_subrecetaSelectScalar = {
   id_componente?: boolean
   ppu_objetivo?: boolean
   unidades_tanda?: boolean
-  porcentaje_grasa_total?: boolean
-  porcentaje_agua_hidratacion?: boolean
   porcentaje_merma_coccion?: boolean
-  costo_por_unidad_calculado?: boolean
+  tiempo_coccion_horas?: boolean
   creado_por?: boolean
   creado_en?: boolean
   actualizado_en?: boolean
 }
 
-export type receta_subrecetaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id_componente" | "ppu_objetivo" | "unidades_tanda" | "porcentaje_grasa_total" | "porcentaje_agua_hidratacion" | "porcentaje_merma_coccion" | "costo_por_unidad_calculado" | "creado_por" | "creado_en" | "actualizado_en", ExtArgs["result"]["receta_subreceta"]>
+export type receta_subrecetaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id_componente" | "ppu_objetivo" | "unidades_tanda" | "porcentaje_merma_coccion" | "tiempo_coccion_horas" | "creado_por" | "creado_en" | "actualizado_en", ExtArgs["result"]["receta_subreceta"]>
 export type receta_subrecetaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   detalle_formulacion?: boolean | Prisma.receta_subreceta$detalle_formulacionArgs<ExtArgs>
   usuario?: boolean | Prisma.receta_subreceta$usuarioArgs<ExtArgs>
@@ -992,10 +898,8 @@ export type $receta_subrecetaPayload<ExtArgs extends runtime.Types.Extensions.In
     id_componente: number
     ppu_objetivo: runtime.Decimal | null
     unidades_tanda: number | null
-    porcentaje_grasa_total: runtime.Decimal | null
-    porcentaje_agua_hidratacion: runtime.Decimal | null
     porcentaje_merma_coccion: runtime.Decimal | null
-    costo_por_unidad_calculado: runtime.Decimal | null
+    tiempo_coccion_horas: runtime.Decimal | null
     creado_por: number | null
     creado_en: Date | null
     actualizado_en: Date | null
@@ -1428,10 +1332,8 @@ export interface receta_subrecetaFieldRefs {
   readonly id_componente: Prisma.FieldRef<"receta_subreceta", 'Int'>
   readonly ppu_objetivo: Prisma.FieldRef<"receta_subreceta", 'Decimal'>
   readonly unidades_tanda: Prisma.FieldRef<"receta_subreceta", 'Int'>
-  readonly porcentaje_grasa_total: Prisma.FieldRef<"receta_subreceta", 'Decimal'>
-  readonly porcentaje_agua_hidratacion: Prisma.FieldRef<"receta_subreceta", 'Decimal'>
   readonly porcentaje_merma_coccion: Prisma.FieldRef<"receta_subreceta", 'Decimal'>
-  readonly costo_por_unidad_calculado: Prisma.FieldRef<"receta_subreceta", 'Decimal'>
+  readonly tiempo_coccion_horas: Prisma.FieldRef<"receta_subreceta", 'Decimal'>
   readonly creado_por: Prisma.FieldRef<"receta_subreceta", 'Int'>
   readonly creado_en: Prisma.FieldRef<"receta_subreceta", 'DateTime'>
   readonly actualizado_en: Prisma.FieldRef<"receta_subreceta", 'DateTime'>

@@ -1,12 +1,12 @@
-import { VersionSelectionResult } from "../lib/types/subrecipe";
-import { SUBRECIPES } from "../lib/data/subrecipes";
-import { findMasterRecipeById } from "../lib/data/recipes";
+import { VersionSelectionResult } from "../domain/types/subrecipe";
+import { findSubrecipeById } from "../domain/data/subrecipes";
+import { findMasterRecipeById } from "../domain/data/recipes";
 import { getVersionSummaries, selectVersion } from "../utils/subrecipeUtils";
 
 let currentVersionId: string = "v1";
 
-export function getVersionList(subrecipeId: string) {
-	const subrecipe = SUBRECIPES.find((sr) => sr.id === subrecipeId);
+export async function getVersionList(subrecipeId: string) {
+	const subrecipe = await findSubrecipeById(subrecipeId);
 	if (!subrecipe) {
 		return { error: `Subreceta "${subrecipeId}" no encontrada` };
 	}
@@ -15,17 +15,17 @@ export function getVersionList(subrecipeId: string) {
 	return { versions: summaries, currentVersionId };
 }
 
-export function applyVersion(
+export async function applyVersion(
 	subrecipeId: string,
 	newVersionId: string,
 	masterRecipeId: string,
-): { result?: VersionSelectionResult; error?: string } {
-	const subrecipe = SUBRECIPES.find((sr) => sr.id === subrecipeId);
+): Promise<{ result?: VersionSelectionResult; error?: string }> {
+	const subrecipe = await findSubrecipeById(subrecipeId);
 	if (!subrecipe) {
 		return { error: `Subreceta "${subrecipeId}" no encontrada` };
 	}
 
-	const masterRecipe = findMasterRecipeById(masterRecipeId);
+	const masterRecipe = await findMasterRecipeById(masterRecipeId);
 	if (!masterRecipe) {
 		return { error: `Receta maestra "${masterRecipeId}" no encontrada` };
 	}

@@ -39,6 +39,7 @@ export type Catalogo_componenteMinAggregateOutputType = {
   nombre: string | null
   tipo_componente: string | null
   unidad_medida: string | null
+  activo: boolean | null
 }
 
 export type Catalogo_componenteMaxAggregateOutputType = {
@@ -46,6 +47,7 @@ export type Catalogo_componenteMaxAggregateOutputType = {
   nombre: string | null
   tipo_componente: string | null
   unidad_medida: string | null
+  activo: boolean | null
 }
 
 export type Catalogo_componenteCountAggregateOutputType = {
@@ -53,6 +55,7 @@ export type Catalogo_componenteCountAggregateOutputType = {
   nombre: number
   tipo_componente: number
   unidad_medida: number
+  activo: number
   _all: number
 }
 
@@ -70,6 +73,7 @@ export type Catalogo_componenteMinAggregateInputType = {
   nombre?: true
   tipo_componente?: true
   unidad_medida?: true
+  activo?: true
 }
 
 export type Catalogo_componenteMaxAggregateInputType = {
@@ -77,6 +81,7 @@ export type Catalogo_componenteMaxAggregateInputType = {
   nombre?: true
   tipo_componente?: true
   unidad_medida?: true
+  activo?: true
 }
 
 export type Catalogo_componenteCountAggregateInputType = {
@@ -84,6 +89,7 @@ export type Catalogo_componenteCountAggregateInputType = {
   nombre?: true
   tipo_componente?: true
   unidad_medida?: true
+  activo?: true
   _all?: true
 }
 
@@ -178,6 +184,7 @@ export type Catalogo_componenteGroupByOutputType = {
   nombre: string
   tipo_componente: string
   unidad_medida: string
+  activo: boolean | null
   _count: Catalogo_componenteCountAggregateOutputType | null
   _avg: Catalogo_componenteAvgAggregateOutputType | null
   _sum: Catalogo_componenteSumAggregateOutputType | null
@@ -208,6 +215,7 @@ export type catalogo_componenteWhereInput = {
   nombre?: Prisma.StringFilter<"catalogo_componente"> | string
   tipo_componente?: Prisma.StringFilter<"catalogo_componente"> | string
   unidad_medida?: Prisma.StringFilter<"catalogo_componente"> | string
+  activo?: Prisma.BoolNullableFilter<"catalogo_componente"> | boolean | null
   detalle_formulacion?: Prisma.Detalle_formulacionListRelationFilter
   ingrediente_base?: Prisma.XOR<Prisma.Ingrediente_baseNullableScalarRelationFilter, Prisma.ingrediente_baseWhereInput> | null
   receta_subreceta?: Prisma.XOR<Prisma.Receta_subrecetaNullableScalarRelationFilter, Prisma.receta_subrecetaWhereInput> | null
@@ -219,6 +227,7 @@ export type catalogo_componenteOrderByWithRelationInput = {
   nombre?: Prisma.SortOrder
   tipo_componente?: Prisma.SortOrder
   unidad_medida?: Prisma.SortOrder
+  activo?: Prisma.SortOrderInput | Prisma.SortOrder
   detalle_formulacion?: Prisma.detalle_formulacionOrderByRelationAggregateInput
   ingrediente_base?: Prisma.ingrediente_baseOrderByWithRelationInput
   receta_subreceta?: Prisma.receta_subrecetaOrderByWithRelationInput
@@ -233,6 +242,7 @@ export type catalogo_componenteWhereUniqueInput = Prisma.AtLeast<{
   nombre?: Prisma.StringFilter<"catalogo_componente"> | string
   tipo_componente?: Prisma.StringFilter<"catalogo_componente"> | string
   unidad_medida?: Prisma.StringFilter<"catalogo_componente"> | string
+  activo?: Prisma.BoolNullableFilter<"catalogo_componente"> | boolean | null
   detalle_formulacion?: Prisma.Detalle_formulacionListRelationFilter
   ingrediente_base?: Prisma.XOR<Prisma.Ingrediente_baseNullableScalarRelationFilter, Prisma.ingrediente_baseWhereInput> | null
   receta_subreceta?: Prisma.XOR<Prisma.Receta_subrecetaNullableScalarRelationFilter, Prisma.receta_subrecetaWhereInput> | null
@@ -244,6 +254,7 @@ export type catalogo_componenteOrderByWithAggregationInput = {
   nombre?: Prisma.SortOrder
   tipo_componente?: Prisma.SortOrder
   unidad_medida?: Prisma.SortOrder
+  activo?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.catalogo_componenteCountOrderByAggregateInput
   _avg?: Prisma.catalogo_componenteAvgOrderByAggregateInput
   _max?: Prisma.catalogo_componenteMaxOrderByAggregateInput
@@ -259,12 +270,14 @@ export type catalogo_componenteScalarWhereWithAggregatesInput = {
   nombre?: Prisma.StringWithAggregatesFilter<"catalogo_componente"> | string
   tipo_componente?: Prisma.StringWithAggregatesFilter<"catalogo_componente"> | string
   unidad_medida?: Prisma.StringWithAggregatesFilter<"catalogo_componente"> | string
+  activo?: Prisma.BoolNullableWithAggregatesFilter<"catalogo_componente"> | boolean | null
 }
 
 export type catalogo_componenteCreateInput = {
   nombre: string
   tipo_componente: string
   unidad_medida: string
+  activo?: boolean | null
   detalle_formulacion?: Prisma.detalle_formulacionCreateNestedManyWithoutCatalogo_componenteInput
   ingrediente_base?: Prisma.ingrediente_baseCreateNestedOneWithoutCatalogo_componenteInput
   receta_subreceta?: Prisma.receta_subrecetaCreateNestedOneWithoutCatalogo_componenteInput
@@ -276,6 +289,7 @@ export type catalogo_componenteUncheckedCreateInput = {
   nombre: string
   tipo_componente: string
   unidad_medida: string
+  activo?: boolean | null
   detalle_formulacion?: Prisma.detalle_formulacionUncheckedCreateNestedManyWithoutCatalogo_componenteInput
   ingrediente_base?: Prisma.ingrediente_baseUncheckedCreateNestedOneWithoutCatalogo_componenteInput
   receta_subreceta?: Prisma.receta_subrecetaUncheckedCreateNestedOneWithoutCatalogo_componenteInput
@@ -286,6 +300,7 @@ export type catalogo_componenteUpdateInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   tipo_componente?: Prisma.StringFieldUpdateOperationsInput | string
   unidad_medida?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   detalle_formulacion?: Prisma.detalle_formulacionUpdateManyWithoutCatalogo_componenteNestedInput
   ingrediente_base?: Prisma.ingrediente_baseUpdateOneWithoutCatalogo_componenteNestedInput
   receta_subreceta?: Prisma.receta_subrecetaUpdateOneWithoutCatalogo_componenteNestedInput
@@ -297,6 +312,7 @@ export type catalogo_componenteUncheckedUpdateInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   tipo_componente?: Prisma.StringFieldUpdateOperationsInput | string
   unidad_medida?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   detalle_formulacion?: Prisma.detalle_formulacionUncheckedUpdateManyWithoutCatalogo_componenteNestedInput
   ingrediente_base?: Prisma.ingrediente_baseUncheckedUpdateOneWithoutCatalogo_componenteNestedInput
   receta_subreceta?: Prisma.receta_subrecetaUncheckedUpdateOneWithoutCatalogo_componenteNestedInput
@@ -308,12 +324,14 @@ export type catalogo_componenteCreateManyInput = {
   nombre: string
   tipo_componente: string
   unidad_medida: string
+  activo?: boolean | null
 }
 
 export type catalogo_componenteUpdateManyMutationInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   tipo_componente?: Prisma.StringFieldUpdateOperationsInput | string
   unidad_medida?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type catalogo_componenteUncheckedUpdateManyInput = {
@@ -321,6 +339,7 @@ export type catalogo_componenteUncheckedUpdateManyInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   tipo_componente?: Prisma.StringFieldUpdateOperationsInput | string
   unidad_medida?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
 }
 
 export type catalogo_componenteCountOrderByAggregateInput = {
@@ -328,6 +347,7 @@ export type catalogo_componenteCountOrderByAggregateInput = {
   nombre?: Prisma.SortOrder
   tipo_componente?: Prisma.SortOrder
   unidad_medida?: Prisma.SortOrder
+  activo?: Prisma.SortOrder
 }
 
 export type catalogo_componenteAvgOrderByAggregateInput = {
@@ -339,6 +359,7 @@ export type catalogo_componenteMaxOrderByAggregateInput = {
   nombre?: Prisma.SortOrder
   tipo_componente?: Prisma.SortOrder
   unidad_medida?: Prisma.SortOrder
+  activo?: Prisma.SortOrder
 }
 
 export type catalogo_componenteMinOrderByAggregateInput = {
@@ -346,6 +367,7 @@ export type catalogo_componenteMinOrderByAggregateInput = {
   nombre?: Prisma.SortOrder
   tipo_componente?: Prisma.SortOrder
   unidad_medida?: Prisma.SortOrder
+  activo?: Prisma.SortOrder
 }
 
 export type catalogo_componenteSumOrderByAggregateInput = {
@@ -421,6 +443,7 @@ export type catalogo_componenteCreateWithoutDetalle_formulacionInput = {
   nombre: string
   tipo_componente: string
   unidad_medida: string
+  activo?: boolean | null
   ingrediente_base?: Prisma.ingrediente_baseCreateNestedOneWithoutCatalogo_componenteInput
   receta_subreceta?: Prisma.receta_subrecetaCreateNestedOneWithoutCatalogo_componenteInput
   servicio_costo?: Prisma.servicio_costoCreateNestedOneWithoutCatalogo_componenteInput
@@ -431,6 +454,7 @@ export type catalogo_componenteUncheckedCreateWithoutDetalle_formulacionInput = 
   nombre: string
   tipo_componente: string
   unidad_medida: string
+  activo?: boolean | null
   ingrediente_base?: Prisma.ingrediente_baseUncheckedCreateNestedOneWithoutCatalogo_componenteInput
   receta_subreceta?: Prisma.receta_subrecetaUncheckedCreateNestedOneWithoutCatalogo_componenteInput
   servicio_costo?: Prisma.servicio_costoUncheckedCreateNestedOneWithoutCatalogo_componenteInput
@@ -456,6 +480,7 @@ export type catalogo_componenteUpdateWithoutDetalle_formulacionInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   tipo_componente?: Prisma.StringFieldUpdateOperationsInput | string
   unidad_medida?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   ingrediente_base?: Prisma.ingrediente_baseUpdateOneWithoutCatalogo_componenteNestedInput
   receta_subreceta?: Prisma.receta_subrecetaUpdateOneWithoutCatalogo_componenteNestedInput
   servicio_costo?: Prisma.servicio_costoUpdateOneWithoutCatalogo_componenteNestedInput
@@ -466,6 +491,7 @@ export type catalogo_componenteUncheckedUpdateWithoutDetalle_formulacionInput = 
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   tipo_componente?: Prisma.StringFieldUpdateOperationsInput | string
   unidad_medida?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   ingrediente_base?: Prisma.ingrediente_baseUncheckedUpdateOneWithoutCatalogo_componenteNestedInput
   receta_subreceta?: Prisma.receta_subrecetaUncheckedUpdateOneWithoutCatalogo_componenteNestedInput
   servicio_costo?: Prisma.servicio_costoUncheckedUpdateOneWithoutCatalogo_componenteNestedInput
@@ -475,6 +501,7 @@ export type catalogo_componenteCreateWithoutIngrediente_baseInput = {
   nombre: string
   tipo_componente: string
   unidad_medida: string
+  activo?: boolean | null
   detalle_formulacion?: Prisma.detalle_formulacionCreateNestedManyWithoutCatalogo_componenteInput
   receta_subreceta?: Prisma.receta_subrecetaCreateNestedOneWithoutCatalogo_componenteInput
   servicio_costo?: Prisma.servicio_costoCreateNestedOneWithoutCatalogo_componenteInput
@@ -485,6 +512,7 @@ export type catalogo_componenteUncheckedCreateWithoutIngrediente_baseInput = {
   nombre: string
   tipo_componente: string
   unidad_medida: string
+  activo?: boolean | null
   detalle_formulacion?: Prisma.detalle_formulacionUncheckedCreateNestedManyWithoutCatalogo_componenteInput
   receta_subreceta?: Prisma.receta_subrecetaUncheckedCreateNestedOneWithoutCatalogo_componenteInput
   servicio_costo?: Prisma.servicio_costoUncheckedCreateNestedOneWithoutCatalogo_componenteInput
@@ -510,6 +538,7 @@ export type catalogo_componenteUpdateWithoutIngrediente_baseInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   tipo_componente?: Prisma.StringFieldUpdateOperationsInput | string
   unidad_medida?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   detalle_formulacion?: Prisma.detalle_formulacionUpdateManyWithoutCatalogo_componenteNestedInput
   receta_subreceta?: Prisma.receta_subrecetaUpdateOneWithoutCatalogo_componenteNestedInput
   servicio_costo?: Prisma.servicio_costoUpdateOneWithoutCatalogo_componenteNestedInput
@@ -520,6 +549,7 @@ export type catalogo_componenteUncheckedUpdateWithoutIngrediente_baseInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   tipo_componente?: Prisma.StringFieldUpdateOperationsInput | string
   unidad_medida?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   detalle_formulacion?: Prisma.detalle_formulacionUncheckedUpdateManyWithoutCatalogo_componenteNestedInput
   receta_subreceta?: Prisma.receta_subrecetaUncheckedUpdateOneWithoutCatalogo_componenteNestedInput
   servicio_costo?: Prisma.servicio_costoUncheckedUpdateOneWithoutCatalogo_componenteNestedInput
@@ -529,6 +559,7 @@ export type catalogo_componenteCreateWithoutReceta_subrecetaInput = {
   nombre: string
   tipo_componente: string
   unidad_medida: string
+  activo?: boolean | null
   detalle_formulacion?: Prisma.detalle_formulacionCreateNestedManyWithoutCatalogo_componenteInput
   ingrediente_base?: Prisma.ingrediente_baseCreateNestedOneWithoutCatalogo_componenteInput
   servicio_costo?: Prisma.servicio_costoCreateNestedOneWithoutCatalogo_componenteInput
@@ -539,6 +570,7 @@ export type catalogo_componenteUncheckedCreateWithoutReceta_subrecetaInput = {
   nombre: string
   tipo_componente: string
   unidad_medida: string
+  activo?: boolean | null
   detalle_formulacion?: Prisma.detalle_formulacionUncheckedCreateNestedManyWithoutCatalogo_componenteInput
   ingrediente_base?: Prisma.ingrediente_baseUncheckedCreateNestedOneWithoutCatalogo_componenteInput
   servicio_costo?: Prisma.servicio_costoUncheckedCreateNestedOneWithoutCatalogo_componenteInput
@@ -564,6 +596,7 @@ export type catalogo_componenteUpdateWithoutReceta_subrecetaInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   tipo_componente?: Prisma.StringFieldUpdateOperationsInput | string
   unidad_medida?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   detalle_formulacion?: Prisma.detalle_formulacionUpdateManyWithoutCatalogo_componenteNestedInput
   ingrediente_base?: Prisma.ingrediente_baseUpdateOneWithoutCatalogo_componenteNestedInput
   servicio_costo?: Prisma.servicio_costoUpdateOneWithoutCatalogo_componenteNestedInput
@@ -574,6 +607,7 @@ export type catalogo_componenteUncheckedUpdateWithoutReceta_subrecetaInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   tipo_componente?: Prisma.StringFieldUpdateOperationsInput | string
   unidad_medida?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   detalle_formulacion?: Prisma.detalle_formulacionUncheckedUpdateManyWithoutCatalogo_componenteNestedInput
   ingrediente_base?: Prisma.ingrediente_baseUncheckedUpdateOneWithoutCatalogo_componenteNestedInput
   servicio_costo?: Prisma.servicio_costoUncheckedUpdateOneWithoutCatalogo_componenteNestedInput
@@ -583,6 +617,7 @@ export type catalogo_componenteCreateWithoutServicio_costoInput = {
   nombre: string
   tipo_componente: string
   unidad_medida: string
+  activo?: boolean | null
   detalle_formulacion?: Prisma.detalle_formulacionCreateNestedManyWithoutCatalogo_componenteInput
   ingrediente_base?: Prisma.ingrediente_baseCreateNestedOneWithoutCatalogo_componenteInput
   receta_subreceta?: Prisma.receta_subrecetaCreateNestedOneWithoutCatalogo_componenteInput
@@ -593,6 +628,7 @@ export type catalogo_componenteUncheckedCreateWithoutServicio_costoInput = {
   nombre: string
   tipo_componente: string
   unidad_medida: string
+  activo?: boolean | null
   detalle_formulacion?: Prisma.detalle_formulacionUncheckedCreateNestedManyWithoutCatalogo_componenteInput
   ingrediente_base?: Prisma.ingrediente_baseUncheckedCreateNestedOneWithoutCatalogo_componenteInput
   receta_subreceta?: Prisma.receta_subrecetaUncheckedCreateNestedOneWithoutCatalogo_componenteInput
@@ -618,6 +654,7 @@ export type catalogo_componenteUpdateWithoutServicio_costoInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   tipo_componente?: Prisma.StringFieldUpdateOperationsInput | string
   unidad_medida?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   detalle_formulacion?: Prisma.detalle_formulacionUpdateManyWithoutCatalogo_componenteNestedInput
   ingrediente_base?: Prisma.ingrediente_baseUpdateOneWithoutCatalogo_componenteNestedInput
   receta_subreceta?: Prisma.receta_subrecetaUpdateOneWithoutCatalogo_componenteNestedInput
@@ -628,6 +665,7 @@ export type catalogo_componenteUncheckedUpdateWithoutServicio_costoInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   tipo_componente?: Prisma.StringFieldUpdateOperationsInput | string
   unidad_medida?: Prisma.StringFieldUpdateOperationsInput | string
+  activo?: Prisma.NullableBoolFieldUpdateOperationsInput | boolean | null
   detalle_formulacion?: Prisma.detalle_formulacionUncheckedUpdateManyWithoutCatalogo_componenteNestedInput
   ingrediente_base?: Prisma.ingrediente_baseUncheckedUpdateOneWithoutCatalogo_componenteNestedInput
   receta_subreceta?: Prisma.receta_subrecetaUncheckedUpdateOneWithoutCatalogo_componenteNestedInput
@@ -669,6 +707,7 @@ export type catalogo_componenteSelect<ExtArgs extends runtime.Types.Extensions.I
   nombre?: boolean
   tipo_componente?: boolean
   unidad_medida?: boolean
+  activo?: boolean
   detalle_formulacion?: boolean | Prisma.catalogo_componente$detalle_formulacionArgs<ExtArgs>
   ingrediente_base?: boolean | Prisma.catalogo_componente$ingrediente_baseArgs<ExtArgs>
   receta_subreceta?: boolean | Prisma.catalogo_componente$receta_subrecetaArgs<ExtArgs>
@@ -681,6 +720,7 @@ export type catalogo_componenteSelectCreateManyAndReturn<ExtArgs extends runtime
   nombre?: boolean
   tipo_componente?: boolean
   unidad_medida?: boolean
+  activo?: boolean
 }, ExtArgs["result"]["catalogo_componente"]>
 
 export type catalogo_componenteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -688,6 +728,7 @@ export type catalogo_componenteSelectUpdateManyAndReturn<ExtArgs extends runtime
   nombre?: boolean
   tipo_componente?: boolean
   unidad_medida?: boolean
+  activo?: boolean
 }, ExtArgs["result"]["catalogo_componente"]>
 
 export type catalogo_componenteSelectScalar = {
@@ -695,9 +736,10 @@ export type catalogo_componenteSelectScalar = {
   nombre?: boolean
   tipo_componente?: boolean
   unidad_medida?: boolean
+  activo?: boolean
 }
 
-export type catalogo_componenteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id_componente" | "nombre" | "tipo_componente" | "unidad_medida", ExtArgs["result"]["catalogo_componente"]>
+export type catalogo_componenteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id_componente" | "nombre" | "tipo_componente" | "unidad_medida" | "activo", ExtArgs["result"]["catalogo_componente"]>
 export type catalogo_componenteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   detalle_formulacion?: boolean | Prisma.catalogo_componente$detalle_formulacionArgs<ExtArgs>
   ingrediente_base?: boolean | Prisma.catalogo_componente$ingrediente_baseArgs<ExtArgs>
@@ -721,6 +763,7 @@ export type $catalogo_componentePayload<ExtArgs extends runtime.Types.Extensions
     nombre: string
     tipo_componente: string
     unidad_medida: string
+    activo: boolean | null
   }, ExtArgs["result"]["catalogo_componente"]>
   composites: {}
 }
@@ -1152,6 +1195,7 @@ export interface catalogo_componenteFieldRefs {
   readonly nombre: Prisma.FieldRef<"catalogo_componente", 'String'>
   readonly tipo_componente: Prisma.FieldRef<"catalogo_componente", 'String'>
   readonly unidad_medida: Prisma.FieldRef<"catalogo_componente", 'String'>
+  readonly activo: Prisma.FieldRef<"catalogo_componente", 'Boolean'>
 }
     
 

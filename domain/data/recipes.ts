@@ -1,31 +1,40 @@
+/* eslint-disable camelcase */
 import { MasterRecipe } from "../types/sandbox";
+import { Subrecipe } from "../types/subrecipe";
+import { prisma } from "../prisma";
+import { mapPrismaToMasterRecipe } from "./mappers";
+import { findSubrecipeById } from "./subrecipes";
 
-export const MASTER_RECIPES: MasterRecipe[] = [
-	{
-		id: "fr_001",
-		name: "Medialuna Premium",
-		version: "V1",
-		components: [
-			{ type: "ingredient", id: "i_harina", name: "Harina", quantityGrams: 500 },
-			{ type: "ingredient", id: "i_mantequilla", name: "Mantequilla", quantityGrams: 300 },
-			{ type: "ingredient", id: "i_agua", name: "Agua", quantityGrams: 250 },
-			{ type: "ingredient", id: "i_sal", name: "Sal", quantityGrams: 10 },
-			{ type: "subrecipe", id: "sr_001", name: "Masa Base Hojaldre", quantityGrams: 500, selectedVersionId: "v1" },
-		],
-		ingredients: [
-			{ id: "i_harina", name: "Harina", waterPercentage: 0, pricePerGram: 3.2, quantityGrams: 500 },
-			{ id: "i_mantequilla", name: "Mantequilla", waterPercentage: 16, pricePerGram: 22, quantityGrams: 300 },
-			{ id: "i_agua", name: "Agua", waterPercentage: 100, pricePerGram: 0.1, quantityGrams: 250 },
-			{ id: "i_sal", name: "Sal", waterPercentage: 0, pricePerGram: 1, quantityGrams: 10 },
-		],
-		subrecipeVersions: [],
-		bakingParameters: {
-			bakingTimeHours: 0.42,
-			unitsPerBatch: 60,
+async function findRaw(id: number) {
+	return await prisma.receta_subreceta.findUnique({
+		where: { id_componente: id },
+		include: {
+			catalogo_componente: true,
+			detalle_formulacion: {
+				include: {
+					catalogo_componente: {
+						include: { ingrediente_base: { include: { articulo_proveedor: true } } },
+					},
+					articulo_proveedor: true,
+				},
+			},
 		},
-	},
-];
-
-export function findMasterRecipeById(recipeId: string): MasterRecipe | undefined {
-	return MASTER_RECIPES.find((r) => r.id === recipeId);
+	});
 }
+
+// subrecipeFetcher injectable for tests; in production reads from data adapter
+async function defaultSubrecipeFetcher(subrecipeId: string): Promise<Subrecipe | null> {
+	return await findSubrecipeById(subrecipeId);
+}
+
+export async function findMasterRecipeById(
+	recipeId: string,
+	subrecipeFetcher: (subrecipeId: string) => Promise<Subrecipe | null> = defaultSubrecipeFetcher,
+): Promise<MasterRecipe | null> {
+	const id = parseInt(recipeId.replace("fr_", ""), 10);
+	if (isNaN(id)) {return null;}
+	const receta = await findRaw(id);
+	if (!receta || receta.catalogo_componente.tipo_componente !== "RECETA") {return null;}
+	return await mapPrismaToMasterRecipe(receta, subrecipeFetcher);
+}
+

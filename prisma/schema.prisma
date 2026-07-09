@@ -76,13 +76,24 @@ model receta_subreceta {
   ppu_objetivo             Decimal?              @db.Decimal(10, 2)
   unidades_tanda           Int?                  @default(1)
   porcentaje_merma_coccion Decimal?              @default(0.00) @db.Decimal(5, 2)
-  // <-- ELIMINADOS: grasa_total, agua_hidratacion y costo_calculado.
+  tiempo_coccion_horas     Decimal?              @default(0.42) @db.Decimal(5, 2)
   creado_por               Int?
   creado_en                DateTime?             @default(now()) @db.Timestamp(6)
   actualizado_en           DateTime?             @db.Timestamp(6)
   detalle_formulacion      detalle_formulacion[]
   usuario                  usuario?              @relation(fields: [creado_por], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction)
   catalogo_componente      catalogo_componente   @relation(fields: [id_componente], references: [id_componente], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model configuracion_tarifas {
+  id_configuracion             Int      @id @default(autoincrement())
+  agua_precio_litro            Decimal  @db.Decimal(10, 4)
+  agua_porcentaje_adicional    Decimal  @db.Decimal(5, 2)
+  gas_precio_hora              Decimal  @db.Decimal(10, 4)
+  electricidad_precio_kwh      Decimal  @db.Decimal(10, 4)
+  electricidad_potencia_horno  Decimal  @db.Decimal(5, 2)
+  electricidad_recargo_fijo    Decimal  @db.Decimal(10, 4)
+  creado_en                    DateTime @default(now()) @db.Timestamp(6)
 }
 
 model rol {

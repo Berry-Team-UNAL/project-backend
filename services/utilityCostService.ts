@@ -1,25 +1,26 @@
-import { UtilityTariffs, RecipeCostSummary, TariffValidationError } from "../lib/types/utilities";
-import { DEFAULT_UTILITY_TARIFFS } from "../lib/data/utilities";
+import { UtilityTariffs, RecipeCostSummary, TariffValidationError } from "../domain/types/utilities";
+import { DEFAULT_UTILITY_TARIFFS, saveGlobalTariffs } from "../domain/data/utilities";
 import { computeRecipeCost, validateTariffs } from "../utils/utilityCostUtils";
-import { MasterRecipe } from "../lib/types/sandbox";
+import { MasterRecipe } from "../domain/types/sandbox";
 
 let currentTariffs: UtilityTariffs = structuredClone(DEFAULT_UTILITY_TARIFFS);
 
-export function getTariffs(): UtilityTariffs {
+export async function getTariffs(): Promise<UtilityTariffs> {
 	return structuredClone(currentTariffs);
 }
 
-export function updateTariffs(updated: UtilityTariffs): { tariffs?: UtilityTariffs; errors?: TariffValidationError[] } {
+export async function updateTariffs(updated: UtilityTariffs): Promise<{ tariffs?: UtilityTariffs; errors?: TariffValidationError[] }> {
 	const errors = validateTariffs(updated);
 	if (errors.length > 0) {
 		return { errors };
 	}
+	await saveGlobalTariffs(updated);
 	currentTariffs = structuredClone(updated);
-	return { tariffs: getTariffs() };
+	return { tariffs: structuredClone(currentTariffs) };
 }
 
-export function computeServiceCosts(
+export async function computeServiceCosts(
 	recipe: Pick<MasterRecipe, "ingredients" | "bakingParameters">,
-): RecipeCostSummary {
+): Promise<RecipeCostSummary> {
 	return computeRecipeCost(currentTariffs, recipe);
 }
