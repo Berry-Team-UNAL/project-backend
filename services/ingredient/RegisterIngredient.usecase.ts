@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+ 
 import { PrismaClient } from "@prisma/client";
 import { computeIngredientRealCost } from "@/domain/ingredientLogic"; // <-- Importamos tu lógica
 

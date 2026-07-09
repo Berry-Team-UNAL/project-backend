@@ -14,7 +14,7 @@ export class ListProductionReportsUseCase {
 			},
 		});
 
-		if (reportesBase.length === 0) return [];
+		if (reportesBase.length === 0) {return [];}
 
 		// 2. Extraemos los IDs únicos para hacer las consultas en bloque (Evita el problema N+1)
 		const recetaIds = Array.from(new Set(reportesBase.map((r) => r.id_receta)));
@@ -55,22 +55,22 @@ export class ListProductionReportsUseCase {
 				observaciones: reporte.observaciones,
 				receta_subreceta: recetaObj
 					? {
-							catalogo_componente: {
-								nombre: recetaObj.catalogo_componente?.nombre ?? null,
-							},
-						}
+						catalogo_componente: {
+							nombre: recetaObj.catalogo_componente?.nombre ?? null,
+						},
+					}
 					: null,
 				responsable: respObj
 					? {
-							nombre_usuario: respObj.nombre_usuario,
-							apellido_usuario: respObj.apellido_usuario,
-						}
+						nombre_usuario: respObj.nombre_usuario,
+						apellido_usuario: respObj.apellido_usuario,
+					}
 					: null,
 				supervisor: supObj
 					? {
-							nombre_usuario: supObj.nombre_usuario,
-							apellido_usuario: supObj.apellido_usuario,
-						}
+						nombre_usuario: supObj.nombre_usuario,
+						apellido_usuario: supObj.apellido_usuario,
+					}
 					: null,
 				tanda_produccion: reporte.tanda_produccion.map((t) => ({
 					numero_tanda: t.numero_tanda,

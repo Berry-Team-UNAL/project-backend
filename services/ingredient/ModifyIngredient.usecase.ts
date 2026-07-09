@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+ 
 import { PrismaClient } from "@prisma/client";
 import { computeIngredientRealCost } from "@/domain/ingredientLogic";
 
@@ -36,12 +36,12 @@ export class ModifyIngredientUseCase {
 				include: { ingrediente_base: { include: { articulo_proveedor: true } } } 
 			});
 
-			if (!existing) throw new Error(`No se encontró el ingrediente con ID ${id}`);
+			if (!existing) {throw new Error(`No se encontró el ingrediente con ID ${id}`);}
 
 			const duplicado = await prisma.catalogo_componente.findFirst({
 				where: { nombre: data.nombre, id_componente: { not: id } }
 			});
-			if (duplicado) throw new Error(`El ingrediente '${data.nombre}' ya existe en el catálogo.`);
+			if (duplicado) {throw new Error(`El ingrediente '${data.nombre}' ya existe en el catálogo.`);}
 
 			// 3. ACTUALIZACIÓN ARQUITECTÓNICA
 			// A. Actualizar el catálogo (datos genéricos)

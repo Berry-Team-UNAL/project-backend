@@ -1,60 +1,71 @@
--- 1. INSERTAR ROLES (Nombres obligatorios por el sistema)
-INSERT INTO "rol" ("nombre_rol") VALUES 
-('admin'),
-('editor'),
-('panadero');
+BEGIN;
 
--- 2. INSERTAR USUARIO (Asociado al rol 'admin' / id_rol: 1)
-INSERT INTO "usuario" ("nombre_usuario", "apellido_usuario", "email", "password", "id_rol", "activo") VALUES
-('Niko', 'Chef', 'niko@banneton.com', '$2b$10$xyz...', 1, true); -- password hash simulado
+-- 1. Asegurar que la secuencia de IDs de catalogo_componente esté perfectamente sincronizada
+SELECT setval(
+	pg_get_serial_sequence('public.catalogo_componente', 'id_componente'), 
+	COALESCE(MAX(id_componente), 1)
+) FROM public.catalogo_componente;
 
--- 3. INSERTAR CATÁLOGO DE COMPONENTES (Insumos Base y Recetas)
--- Nota: Usamos las unidades exactas según el estándar culinario
-INSERT INTO "catalogo_componente" ("id_componente", "nombre", "tipo_componente", "unidad_medida", "activo") VALUES
--- Harinas e Insumos base
-(1, 'Harina de Trigo Fuerza', 'INGREDIENTE', 'G', true),
-(2, 'Agua Purificada', 'INGREDIENTE', 'G', true),
-(3, 'Sal Marina', 'INGREDIENTE', 'G', true),
-(4, 'Masa Madre (100% Hidratación)', 'INGREDIENTE', 'G', true),
-(5, 'Levadura Seca Instantánea', 'INGREDIENTE', 'G', true),
-(6, 'Mantequilla sin Sal', 'INGREDIENTE', 'G', true),
-(7, 'Azúcar Estándar', 'INGREDIENTE', 'G', true),
--- Componentes tipo Receta (Los contenedores)
-(100, 'Pan de Masa Madre Clásico', 'RECETA', 'G', true),
-(201, 'Baguette Tradición', 'RECETA', 'G', true),
-(302, 'Brioche de la Casa', 'RECETA', 'G', true);
+-- 2. Insertar el Usuario Administrador (Apuntando al id_rol = 1)
+INSERT INTO public.usuario (nombre_usuario, apellido_usuario, email, password, id_rol, activo)
+VALUES (
+	'Carlos', 
+	'Mendoza', 
+	'admin@panaderia.com', 
+	'$2b$10$UnR1GshK82p9mX0yL4/L0O8mREfN8QWv7CqLOB9T3i.LwX7.5z6v.', 
+	1, 
+	true
+)
+ON CONFLICT (email) DO NOTHING;
 
--- 4. REGISTRAR LOS COMPONENTES EN LA TABLA DE INGREDIENTES BASE
-INSERT INTO "ingrediente_base" ("id_componente") VALUES 
-(1), (2), (3), (4), (5), (6), (7);
+-- 3. Insertar el Sándwich asegurando que no se duplique por nombre
+INSERT INTO public.catalogo_componente (nombre, tipo_componente, unidad_medida, activo)
+SELECT 'Sándwich Especial de la Casa', 'RECETA', 'unidades', true
+WHERE NOT EXISTS (
+	SELECT 1 FROM public.catalogo_componente WHERE nombre = 'Sándwich Especial de la Casa'
+);
 
--- 5. CREAR LAS 3 RECETAS EN LA TABLA MAESTRA
--- Definimos las unidades por tanda y el creador (id_usuario: 1)
-INSERT INTO "receta_subreceta" ("id_componente", "unidades_tanda", "creado_por") VALUES
-(100, 1, 1), -- Pan de Masa Madre
-(201, 1, 1), -- Baguette
-(302, 1, 1); -- Brioche
+-- 4. Convertir ese componente en la Receta Oficial
+INSERT INTO public.receta_subreceta (id_componente, ppu_objetivo, unidades_tanda, porcentaje_merma_coccion, creado_por)
+SELECT 
+	c.id_componente, 
+	2500.00,  
+	10,       
+	0.00,     
+	u.id_usuario
+FROM public.catalogo_componente c
+CROSS JOIN public.usuario u
+WHERE c.nombre = 'Sándwich Especial de la Casa'
+  AND u.email = 'admin@panaderia.com'
+  AND NOT EXISTS (
+      SELECT 1 FROM public.receta_subreceta WHERE id_componente = c.id_componente
+  )
+LIMIT 1;
 
--- 6. DETALLE DE FORMULACIÓN (Donde ocurre la magia del Porcentaje Panadero)
--- CRÍTICO: La Harina Principal (id: 1) DEBE tener 'aporta_a_base_panadera' = true
--- para que tu lógica de dominio pueda calcular el divisor base.
-INSERT INTO "detalle_formulacion" ("id_receta_padre", "id_componente_hijo", "cantidad_usada", "unidad_medida_usada", "aporta_a_base_panadera") VALUES
--- --- RECETA 1: Pan de Masa Madre Clásico ---
-(100, 1, 500.0000, 'G', true),  -- Harina Fuerza (Base 100%)
-(100, 2, 325.0000, 'G', false), -- Agua (65% Hidratación)
-(100, 4, 100.0000, 'G', false), -- Masa Madre (20%)
-(100, 3, 10.0000,  'G', false), -- Sal (2%)
+-- 5. Generar el Primer Reporte de Producción (Lote Piloto)
+INSERT INTO public.reporte_produccion (identificador_lote, id_receta, fecha_produccion, hora_produccion, cantidad_producida, unidad_medida, id_responsable, id_supervisor, observaciones)
+SELECT 
+	'LOTE-SANDWICH-001', 
+	c.id_componente, 
+	CURRENT_DATE,            
+	'10:30:00'::time,        
+	40.00,                   
+	'unidades', 
+	u.id_usuario,            
+	NULL,                    
+	'Lote inicial de prueba inyectado exitosamente por SQL para validar la vista del historial.'
+FROM public.catalogo_componente c
+CROSS JOIN public.usuario u
+WHERE c.nombre = 'Sándwich Especial de la Casa'
+  AND u.email = 'admin@panaderia.com'
+LIMIT 1
+ON CONFLICT (identificador_lote) DO NOTHING;
 
--- --- RECETA 2: Baguette Tradición ---
-(201, 1, 600.0000, 'G', true),  -- Harina Fuerza (Base 100%)
-(201, 2, 390.0000, 'G', false), -- Agua (65%)
-(201, 5, 6.0000,   'G', false), -- Levadura Seca (1%)
-(201, 3, 12.0000,  'G', false), -- Sal (2%)
+-- 6. Insertar las Tandas vinculadas a ese Lote Piloto
+INSERT INTO public.tanda_produccion (id_reporte, numero_tanda, cantidad)
+SELECT id_reporte, 1, 20.00 FROM public.reporte_produccion WHERE identificador_lote = 'LOTE-SANDWICH-001'
+UNION ALL
+SELECT id_reporte, 2, 20.00 FROM public.reporte_produccion WHERE identificador_lote = 'LOTE-SANDWICH-001'
+ON CONFLICT (id_reporte, numero_tanda) DO NOTHING;
 
--- --- RECETA 3: Brioche de la Casa (Receta Enriquecida) ---
-(302, 1, 400.0000, 'G', true),  -- Harina Fuerza (Base 100%)
-(302, 6, 200.0000, 'G', false), -- Mantequilla (50%)
-(302, 2, 120.0000, 'G', false), -- Agua/Líquidos (30%)
-(302, 7, 60.0000,  'G', false), -- Azúcar (15%)
-(302, 5, 8.0000,   'G', false), -- Levadura (2%)
-(302, 3, 8.0000,   'G', false); -- Sal (2%)
+COMMIT;

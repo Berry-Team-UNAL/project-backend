@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+ 
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -14,7 +14,7 @@ export class DeleteIngredientUseCase {
 				throw new Error(`No se encontró el ingrediente con ID ${id}`);
 			}
 
-            // Hacemos el "Soft Delete" (Desactivar) que tu equipo diseñó
+			// Hacemos el "Soft Delete" (Desactivar) que tu equipo diseñó
 			const deletedIngredient = await prisma.catalogo_componente.update({
 				where: { id_componente: id },
 				data: { activo: false }

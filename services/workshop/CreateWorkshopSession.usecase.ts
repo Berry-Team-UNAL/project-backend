@@ -25,11 +25,11 @@ export class CreateWorkshopSessionUseCase {
 			command.ingredientes && command.ingredientes.length > 0
 				? command.ingredientes
 				: [
-						{ descripcion: "Harina", cantidad: 500, unidadMedida: "g" },
-						{ descripcion: "Agua", cantidad: 300, unidadMedida: "ml" },
-						{ descripcion: "Sal", cantidad: 10, unidadMedida: "g" },
-						{ descripcion: "Levadura", cantidad: 5, unidadMedida: "g" },
-					];
+					{ descripcion: "Harina", cantidad: 500, unidadMedida: "g" },
+					{ descripcion: "Agua", cantidad: 300, unidadMedida: "ml" },
+					{ descripcion: "Sal", cantidad: 10, unidadMedida: "g" },
+					{ descripcion: "Levadura", cantidad: 5, unidadMedida: "g" },
+				];
 
 		const items = buildChecklistItems({ ...command, ingredientes });
 

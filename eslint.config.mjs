@@ -46,7 +46,6 @@ export default [
 			"quotes": ["error", "double", { "avoidEscape": true, "allowTemplateLiterals": true }],
 			"semi": ["error", "always"],
 			"eol-last": ["error", "always"],
-			"prefer-const": "error",
 			"no-var": "error",
 			"curly": ["error", "all"]
 		}

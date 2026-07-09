@@ -1,40 +1,43 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { BookOpen, Settings, DollarSign, BarChart3, Croissant, ClipboardCheck, CloudSun, ClipboardList, Circle, Calculator, Wheat } from "lucide-react";
-import {
-} from "@/components/ui/select";
+import { usePathname, useRouter } from "next/navigation";
+import { BookOpen, Croissant, ClipboardCheck, ClipboardList, Circle, Calculator, Wheat, LogOut } from "lucide-react";
+import Cookies from "js-cookie";
 
-// Agregamos "Ingredientes" a tu lista de navegación para cumplir con tu Roadmap
 const navItems = [
 	{ path: "/recetas", label: "Recetas", icon: BookOpen },
 	{ path: "/ingredientes", label: "Ingredientes", icon: Wheat },
-	//{ path: "/taller", label: "Modo Taller", icon: ClipboardCheck },
 	{ path: "/produccion", label: "Producción", icon: ClipboardList },
-	//{ path: "/ambiente", label: "Ambiente", icon: CloudSun },
-	//{ path: "/configuracion", label: "Configuración", icon: Settings },
-	//{ path: "/costos", label: "Costos", icon: DollarSign },
-	//{ path: "/reportes", label: "Reportes", icon: BarChart3 },
 	{ path: "/scale", label: "Escalar", icon: Circle },
-	{ path: "/calculadora-porciones", label: "Calculadora", icon: Calculator },
+	{ path: "/calculadora", label: "Calculadora", icon: Calculator },
 	{ path: "/check", label: "CheckList", icon: ClipboardCheck },
 ];
 
 export default function DashboardLayout({
 	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }) {
 	const pathname = usePathname();
-
+	const router = useRouter();
 	const isActive = (path: string) => pathname === path;
+
+	// 🚪 Función para cerrar sesión desde el menú lateral
+	const handleLogout = () => {
+		Cookies.remove("session_role_display", { path: "/" });
+		Cookies.remove("session_email", { path: "/" });
+		
+		router.push("/login");
+		router.refresh();
+	};
 
 	return (
 		<div className="flex h-screen bg-background overflow-hidden">
-			{/* Sidebar */}
+			{/* Sidebar Fijo */}
 			<aside className="w-60 bg-[#8B6F4E] text-white flex flex-col shadow-lg shrink-0">
-				{/* Logo */}
+				
+				{/* Logo de Banneton */}
 				<div className="p-6 border-b border-white/10">
 					<div className="flex items-center gap-3">
 						<div className="w-10 h-10 bg-white/10 rounded-xl flex items-center justify-center">
@@ -47,8 +50,8 @@ export default function DashboardLayout({
 					</div>
 				</div>
 
-				{/* Navigation */}
-				<nav className="flex-1 p-4 space-y-1">
+				{/* Menú de Navegación principal */}
+				<nav className="p-4 space-y-1">
 					{navItems.map((item) => {
 						const Icon = item.icon;
 						return (
@@ -67,9 +70,21 @@ export default function DashboardLayout({
 						);
 					})}
 				</nav>
+
+				{/* 🎯 BOTÓN DE CERRAR SESIÓN EN LA BASE DEL MENU (mt-auto lo empuja hasta abajo) */}
+				<div className="mt-auto p-4 border-t border-white/10">
+					<button
+						onClick={handleLogout}
+						className="flex items-center gap-3 w-full px-4 py-3 text-white/80 hover:bg-red-500/20 hover:text-red-200 rounded-xl transition-all font-medium cursor-pointer"
+					>
+						<LogOut className="w-5 h-5" strokeWidth={1.5} />
+						<span>Cerrar sesión</span>
+					</button>
+				</div>
+
 			</aside>
 
-			{/* Main Content */}
+			{/* Contenido de las páginas del sistema */}
 			<main className="flex-1 overflow-auto bg-background">
 				{children}
 			</main>
