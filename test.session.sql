@@ -1,33 +1,60 @@
--- 1. REGISTRO EN EL CATÁLOGO MAESTRO (Asignamos el ID 7 para esta nueva obra de arte)
-INSERT INTO "catalogo_componente" ("id_componente", "nombre", "tipo_componente", "unidad_medida", "activo") VALUES 
-(7, 'Media Luna', 'RECETA', 'g', true);
+-- 1. INSERTAR ROLES (Nombres obligatorios por el sistema)
+INSERT INTO "rol" ("nombre_rol") VALUES 
+('admin'),
+('editor'),
+('panadero');
 
--- 2. VINCULARLO COMO RECETA/SUBRECETA
--- Seteamos una tanda inicial de 40 unidades (basado en el peso multiplicado por unidades de tu tabla)
-INSERT INTO "receta_subreceta" ("id_componente", "ppu_objetivo", "unidades_tanda", "porcentaje_merma_coccion", "creado_por") VALUES 
-(7, 4.50, 40, 10.00, 1); -- Creado por el Administrador (id_usuario 1)
+-- 2. INSERTAR USUARIO (Asociado al rol 'admin' / id_rol: 1)
+INSERT INTO "usuario" ("nombre_usuario", "apellido_usuario", "email", "password", "id_rol", "activo") VALUES
+('Niko', 'Chef', 'niko@banneton.com', '$2b$10$xyz...', 1, true); -- password hash simulado
 
--- 3. NUEVOS INGREDIENTES EN EL CATÁLOGO (Si no existían los IDs anteriores, agregamos Leche y Yogurt)
-INSERT INTO "catalogo_componente" ("id_componente", "nombre", "tipo_componente", "unidad_medida", "activo") VALUES 
-(17, 'Leche Entera Industrial', 'INGREDIENTE', 'g', true), -- Manejado en gramos para consistencia de costos
-(18, 'Yogurt Griego Natural', 'INGREDIENTE', 'g', true);
+-- 3. INSERTAR CATÁLOGO DE COMPONENTES (Insumos Base y Recetas)
+-- Nota: Usamos las unidades exactas según el estándar culinario
+INSERT INTO "catalogo_componente" ("id_componente", "nombre", "tipo_componente", "unidad_medida", "activo") VALUES
+-- Harinas e Insumos base
+(1, 'Harina de Trigo Fuerza', 'INGREDIENTE', 'G', true),
+(2, 'Agua Purificada', 'INGREDIENTE', 'G', true),
+(3, 'Sal Marina', 'INGREDIENTE', 'G', true),
+(4, 'Masa Madre (100% Hidratación)', 'INGREDIENTE', 'G', true),
+(5, 'Levadura Seca Instantánea', 'INGREDIENTE', 'G', true),
+(6, 'Mantequilla sin Sal', 'INGREDIENTE', 'G', true),
+(7, 'Azúcar Estándar', 'INGREDIENTE', 'G', true),
+-- Componentes tipo Receta (Los contenedores)
+(100, 'Pan de Masa Madre Clásico', 'RECETA', 'G', true),
+(201, 'Baguette Tradición', 'RECETA', 'G', true),
+(302, 'Brioche de la Casa', 'RECETA', 'G', true);
 
--- 4. VINCULARLOS COMO INGREDIENTES BASE
-INSERT INTO "ingrediente_base" ("id_componente", "aporta_a_base_panadera") VALUES 
-(17, false), -- Líquido (Hidratación enriquecida)
-(18, false);
+-- 4. REGISTRAR LOS COMPONENTES EN LA TABLA DE INGREDIENTES BASE
+INSERT INTO "ingrediente_base" ("id_componente") VALUES 
+(1), (2), (3), (4), (5), (6), (7);
 
--- 5. ASIGNAR ARTÍCULOS DE PROVEEDORES Y COSTOS PARA LOS NUEVOS INGREDIENTES
-INSERT INTO "articulo_proveedor" ("id_articulo", "id_componente", "id_proveedor", "marca_descripcion", "costo_por_unidad", "porcentaje_agua", "porcentaje_grasa", "porcentaje_merma_limpieza", "es_predeterminado") VALUES 
-(8, 17, 2, 'Litro Leche Alianza', 0.0011, 87.00, 3.50, 0.00, true),   -- $0.0011 por gramo
-(9, 18, 2, 'Balde Yogurt Griego 5kg', 0.0045, 80.00, 10.00, 0.00, true); -- $0.0045 por gramo
+-- 5. CREAR LAS 3 RECETAS EN LA TABLA MAESTRA
+-- Definimos las unidades por tanda y el creador (id_usuario: 1)
+INSERT INTO "receta_subreceta" ("id_componente", "unidades_tanda", "creado_por") VALUES
+(100, 1, 1), -- Pan de Masa Madre
+(201, 1, 1), -- Baguette
+(302, 1, 1); -- Brioche
 
--- 6. MAESTRO-DETALLE: FORMULACIÓN DE LA RECETA COMPLETA (Usando la columna 'Peso X unidades' de tu imagen)
-INSERT INTO "detalle_formulacion" ("id_detalle", "id_receta_padre", "id_componente_hijo", "id_articulo_especifico", "cantidad_usada", "unidad_medida_usada", "nota_preparacion") VALUES 
-(19, 7, 10, 1, 4371.6000, 'g', 'Harina de trigo (100% Base Panadera).'),
-(20, 7, 17, 8, 2185.8000, 'g', 'Leche (50% de hidratación enriquecida).'),
-(21, 7, 18, 9, 437.2000, 'g', 'Yogurt griego para dar suavidad y acidez controlada (10%).'),
-(22, 7, 16, 7, 349.7000, 'g', 'Azúcar blanca para activar y dorar (8%).'),
-(23, 7, 13, 4, 87.4000, 'g', 'Sal marina fina (2%).'),
-(24, 7, 14, 5, 131.1000, 'g', 'Levadura seca instantánea (3%).'),
-(25, 7, 15, 6, 437.2000, 'g', 'Mantequilla sin sal añadida al final del proceso de amasado (10%).');
+-- 6. DETALLE DE FORMULACIÓN (Donde ocurre la magia del Porcentaje Panadero)
+-- CRÍTICO: La Harina Principal (id: 1) DEBE tener 'aporta_a_base_panadera' = true
+-- para que tu lógica de dominio pueda calcular el divisor base.
+INSERT INTO "detalle_formulacion" ("id_receta_padre", "id_componente_hijo", "cantidad_usada", "unidad_medida_usada", "aporta_a_base_panadera") VALUES
+-- --- RECETA 1: Pan de Masa Madre Clásico ---
+(100, 1, 500.0000, 'G', true),  -- Harina Fuerza (Base 100%)
+(100, 2, 325.0000, 'G', false), -- Agua (65% Hidratación)
+(100, 4, 100.0000, 'G', false), -- Masa Madre (20%)
+(100, 3, 10.0000,  'G', false), -- Sal (2%)
+
+-- --- RECETA 2: Baguette Tradición ---
+(201, 1, 600.0000, 'G', true),  -- Harina Fuerza (Base 100%)
+(201, 2, 390.0000, 'G', false), -- Agua (65%)
+(201, 5, 6.0000,   'G', false), -- Levadura Seca (1%)
+(201, 3, 12.0000,  'G', false), -- Sal (2%)
+
+-- --- RECETA 3: Brioche de la Casa (Receta Enriquecida) ---
+(302, 1, 400.0000, 'G', true),  -- Harina Fuerza (Base 100%)
+(302, 6, 200.0000, 'G', false), -- Mantequilla (50%)
+(302, 2, 120.0000, 'G', false), -- Agua/Líquidos (30%)
+(302, 7, 60.0000,  'G', false), -- Azúcar (15%)
+(302, 5, 8.0000,   'G', false), -- Levadura (2%)
+(302, 3, 8.0000,   'G', false); -- Sal (2%)

@@ -1,36 +1,37 @@
 "use client";
-import { calcFinalOvenTime } from "../../../domain/portionCalcLogic";
-
-import { SetData } from "../../../domain/portionCalcLogic";
-
-import { FinalEstimation } from "../../../domain/portionCalcLogic";
 
 import React, { useState } from "react";
+import { Clock, Check, Hourglass, Layers, Flame } from "lucide-react";
+import { calcFinalOvenTime } from "../../../domain/portionCalcLogic";
+import { SetData } from "../../../domain/portionCalcLogic";
+import { FinalEstimation } from "../../../domain/portionCalcLogic";
 
 interface EstimatorModalProps {
-  onCancel: () => void;
-  onEstimate: (data: EstimatorData) => void;
+	onCancel: () => void;
+	onEstimate: (data: EstimatorData) => void;
 }
 
 interface EstimatorData {
-  unidades: number;
-  unidadesPorTanda: number;
-  numeroDeHornos: number;
-  tiempoDeHorneado: number;
-  tiempoDeManiobra: number;
+	unidades: number;
+	unidadesPorTanda: number;
+	numeroDeHornos: number;
+	tiempoDeHorneado: number;
+	tiempoDeManiobra: number;
 }
 
-export default function ProductionEstimatorModal({ 
-	onCancel, 
+export default function ProductionEstimatorModal({
+	onCancel
 }: Partial<EstimatorModalProps>) {
-	// Estado local para capturar los parámetros de producción
+	// --- ESTADOS DE CONTROL (camelCase) ---
 	const [formData, setFormData] = useState<EstimatorData>({
 		unidades: 120,
 		unidadesPorTanda: 20,
 		numeroDeHornos: 2,
 		tiempoDeHorneado: 10,
-		tiempoDeManiobra: 20,
+		tiempoDeManiobra: 20
 	});
+
+	const [resultado, setResultado] = useState<FinalEstimation | null>(null);
 
 	const handleChange = (field: keyof EstimatorData, value: number) => {
 		setFormData(prev => ({ ...prev, [field]: value }));
@@ -38,161 +39,173 @@ export default function ProductionEstimatorModal({
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		const datos : SetData  = {
+		const datos: SetData = {
 			units: formData.unidades,
 			unitsPerSet: formData.unidadesPorTanda,
 			ovenTime: formData.tiempoDeHorneado,
-			handlingTime: formData.tiempoDeManiobra,  
+			handlingTime: formData.tiempoDeManiobra,
 			ovenNumber: formData.numeroDeHornos
 		};
 
-		const resultado : FinalEstimation = calcFinalOvenTime(datos);
-		// <------ FALTA UN CONSTRUCTOR PARA CUMPLIR CON CLEAN CODE ------>
-		alert("Tiempo: " + resultado.finalTimeMinutes + " minutos" +
-      "\n Numero de Tandas: " + resultado.setNumber +
-    "\n Tiempo de maniobra: " + resultado.totalHandlingTime + " minutos" +
-    "\n Tiempo en el horno: " + resultado.totalTimeOven + " minutos" );
+		const res: FinalEstimation = calcFinalOvenTime(datos);
+		setResultado(res);
 	};
 
 	return (
-		<div className="flex items-center justify-center min-h-screen bg-neutral-100 p-4 font-sans antialiased">
-			{/* Contenedor Principal del Formulario */}
-			<div className="w-full max-w-lg bg-white rounded-2xl shadow-xl overflow-hidden border border-neutral-200/60 p-6 md:p-8 transition-all">
+		<div className="min-h-screen p-8 bg-background font-sans text-foreground antialiased flex items-center justify-center">
+			<div className="w-full max-w-xl bg-card border-[1.5px] border-border rounded-xl shadow-sm p-6 md:p-8 transition-all space-y-6">
         
 				{/* Encabezado */}
-				<div className="flex items-start gap-3 mb-2">
-					<div className="text-[#934B00] mt-0.5 shrink-0">
-						{/* Icono de Reloj con Engranaje/Check */}
-						<svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-							<path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-						</svg>
-					</div>
+				<div className="flex items-start gap-3">
+					<Clock className="w-7 h-7 text-[#8B6F4E]" strokeWidth={1.5} />
 					<div>
-						<h2 className="text-xl font-bold text-[#5C3206] tracking-tight">Estimador de tiempo</h2>
-						<p className="text-xs text-neutral-500 mt-0.5">
-              Calcula el tiempo de tu proximo ciclo de horneado
+						<h2 className="text-2xl font-semibold text-foreground tracking-tight">Estimador de tiempo</h2>
+						<p className="text-sm text-muted-foreground mt-1">
+							Calcula el tiempo de tu próximo ciclo de horneado
 						</p>
 					</div>
 				</div>
 
-				<hr className="border-neutral-100 my-4" />
+				<hr className="border-border" />
 
 				{/* Formulario */}
-				<form onSubmit={handleSubmit} className="space-y-4">
+				<form onSubmit={handleSubmit} className="space-y-6">
           
-
-
-
-					{/* Fila superior: 3 columnas para inputs numéricos */}
+					{/* Grid de 3 Columnas */}
 					<div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-						{/* Input: Número de Unidades */}
 						<div>
-							<label className="block text-[10px] font-bold text-neutral-500 uppercase tracking-wider mb-1">
-                Número de Unidades
+							<label className="block text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+								Número de Unidades
 							</label>
 							<input
 								type="number"
 								value={formData.unidades === 0 ? "" : formData.unidades}
 								onChange={(e) => handleChange("unidades", parseInt(e.target.value) || 0)}
-								className="w-full bg-white border border-neutral-200 rounded-xl px-3 py-2 text-sm text-neutral-800 placeholder-neutral-300 focus:outline-none focus:border-[#934B00] focus:ring-1 focus:ring-[#934B00] transition-colors"
+								className="w-full h-10 px-3 bg-background border border-input rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-[#8B6F4E]/20 focus:border-[#8B6F4E] transition-all"
 								placeholder="120"
 							/>
 						</div>
 
-						{/* Input: Unidades por Tanda */}
 						<div>
-							<label className="block text-[10px] font-bold text-neutral-500 uppercase tracking-wider mb-1">
-                Unidades por Tanda
+							<label className="block text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+								Unidades por Tanda
 							</label>
 							<input
 								type="number"
 								value={formData.unidadesPorTanda === 0 ? "" : formData.unidadesPorTanda}
 								onChange={(e) => handleChange("unidadesPorTanda", parseInt(e.target.value) || 0)}
-								className="w-full bg-white border border-neutral-200 rounded-xl px-3 py-2 text-sm text-neutral-800 placeholder-neutral-300 focus:outline-none focus:border-[#934B00] focus:ring-1 focus:ring-[#934B00] transition-colors"
+								className="w-full h-10 px-3 bg-background border border-input rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-[#8B6F4E]/20 focus:border-[#8B6F4E] transition-all"
 								placeholder="24"
 							/>
 						</div>
 
-						{/* Input: Número de Hornos */}
 						<div>
-							<label className="block text-[10px] font-bold text-neutral-500 uppercase tracking-wider mb-1">
-                Número de Hornos
+							<label className="block text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+								Número de Hornos
 							</label>
 							<input
 								type="number"
-								value={formData.numeroDeHornos  === 0 ? "" : formData.numeroDeHornos}
+								value={formData.numeroDeHornos === 0 ? "" : formData.numeroDeHornos}
 								onChange={(e) => handleChange("numeroDeHornos", parseInt(e.target.value) || 0)}
-								className="w-full bg-white border border-neutral-200 rounded-xl px-3 py-2 text-sm text-neutral-800 placeholder-neutral-300 focus:outline-none focus:border-[#934B00] focus:ring-1 focus:ring-[#934B00] transition-colors"
+								className="w-full h-10 px-3 bg-background border border-input rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-[#8B6F4E]/20 focus:border-[#8B6F4E] transition-all"
 								placeholder="2"
 							/>
 						</div>
 					</div>
 
-					{/* Fila intermedia: Selects de Tiempo */}
+					{/* Grid de 2 Columnas */}
 					<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-						{/* Select: Tiempo de Horneado */}
 						<div>
-							<label className="block text-[10px] font-bold text-neutral-500 uppercase tracking-wider mb-1">
-                Tiempo de Horneado
+							<label className="block text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+								Tiempo de Horneado
 							</label>
-							<div className="relative">
-								<input
-									type="number"
-									value={formData.tiempoDeHorneado  === 0 ? "" : formData.tiempoDeHorneado}
-									onChange={(e) => handleChange("tiempoDeHorneado", parseInt(e.target.value) || 0)}
-									className="w-full bg-white border border-neutral-200 rounded-xl px-3 py-2 text-sm text-neutral-800 placeholder-neutral-300 focus:outline-none focus:border-[#934B00] focus:ring-1 focus:ring-[#934B00] transition-colors"
-									placeholder="2"
-								/>
-							</div>
+							<input
+								type="number"
+								value={formData.tiempoDeHorneado === 0 ? "" : formData.tiempoDeHorneado}
+								onChange={(e) => handleChange("tiempoDeHorneado", parseInt(e.target.value) || 0)}
+								className="w-full h-10 px-3 bg-background border border-input rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-[#8B6F4E]/20 focus:border-[#8B6F4E] transition-all"
+								placeholder="2"
+							/>
 						</div>
 
-						{/* Select: Tiempo de maniobra */}
 						<div>
-							<label className="block text-[10px] font-bold text-neutral-500 uppercase tracking-wider mb-1">
-                Tiempo de maniobra
+							<label className="block text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">
+								Tiempo de maniobra
 							</label>
-							<div className="relative">
-								<input
-									type="number"
-									value={formData.tiempoDeManiobra  === 0 ? "" : formData.tiempoDeManiobra} 
-									onChange={(e) => handleChange("tiempoDeManiobra", parseInt(e.target.value) || 0)}
-									className="w-full bg-white border border-neutral-200 rounded-xl px-3 py-2 text-sm text-neutral-800 placeholder-neutral-300 focus:outline-none focus:border-[#934B00] focus:ring-1 focus:ring-[#934B00] transition-colors"
-									placeholder="10"
-								/>
-							</div>
+							<input
+								type="number"
+								value={formData.tiempoDeManiobra === 0 ? "" : formData.tiempoDeManiobra}
+								onChange={(e) => handleChange("tiempoDeManiobra", parseInt(e.target.value) || 0)}
+								className="w-full h-10 px-3 bg-background border border-input rounded-md text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-[#8B6F4E]/20 focus:border-[#8B6F4E] transition-all"
+								placeholder="10"
+							/>
 						</div>
 					</div>
 
-					{/* Info Box: Nota aclaratoria */}
-					<div className="w-full bg-[#FDF2E9] border border-[#FADBD8]/30 rounded-xl p-3.5 flex gap-3 items-start">
-						<div className="bg-[#5C3206]/10 text-[#5C3206] p-1 rounded-full shrink-0 mt-0.5">
-							<svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-								<path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.852l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
-							</svg>
+					{/* Info Box */}
+					<div className="w-full bg-[#FDF6EE] border border-border rounded-lg p-4 flex gap-3 items-start">
+						<div className="text-[#8B6F4E] shrink-0 mt-0.5">
+							<Check className="w-4 h-4" strokeWidth={2.5} />
 						</div>
-						<p className="text-[11px] text-[#A06A38] leading-normal font-medium">
-              La estimación toma en cuenta el uso de hornos en simultáneo
+						<p className="text-xs text-muted-foreground leading-normal font-medium">
+							La estimación toma en cuenta el uso de hornos en simultáneo.
 						</p>
 					</div>
 
 					{/* Botones de Acción */}
-					<div className="flex items-center justify-end gap-3 pt-2">
+					<div className="flex items-center justify-end gap-4 pt-2">
 						<button
 							type="button"
 							onClick={onCancel}
-							className="px-5 py-2.5 rounded-xl text-xs font-semibold text-neutral-500 hover:text-neutral-800 hover:bg-neutral-50 transition-colors"
+							className="h-10 px-4 rounded-md text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-all"
 						>
-              Cancelar
+							Cancelar
 						</button>
 						<button
 							type="submit"
-							className="bg-[#934B00] hover:bg-[#7A3E00] active:scale-[0.98] text-white text-xs font-semibold py-2.5 px-6 rounded-xl transition-all shadow-md shadow-[#934B00]/10"
+							className="h-10 bg-[#8B6F4E] hover:bg-[#7A5F42] active:scale-[0.98] text-white text-sm font-medium px-6 rounded-md transition-all shadow-sm"
 						>
-              Estimar tiempo
+							Estimar tiempo
 						</button>
 					</div>
-
 				</form>
+
+				{/* Nueva Sección de Resultados Consolidada */}
+				{resultado && (
+					<div className="border-t border-border pt-6 space-y-4 animate-in fade-in duration-200">
+						<div className="w-full bg-[#FDF6EE] border border-border rounded-xl p-4 flex justify-between items-center">
+							<span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+								<Hourglass className="w-4 h-4 text-[#8B6F4E]" /> Tiempo Final Estimado:
+							</span>
+							<span className="text-lg font-bold text-[#8B6F4E]">
+								{resultado.finalTimeMinutes} minutos
+							</span>
+						</div>
+
+						<div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+							<div className="bg-background border border-border rounded-lg p-3 flex flex-col gap-1">
+								<span className="text-muted-foreground font-medium flex items-center gap-1.5">
+									<Layers className="w-3.5 h-3.5 text-[#8B6F4E]" /> Tandas
+								</span>
+								<span className="text-sm font-semibold text-foreground">{resultado.setNumber}</span>
+							</div>
+
+							<div className="bg-background border border-border rounded-lg p-3 flex flex-col gap-1">
+								<span className="text-muted-foreground font-medium flex items-center gap-1.5">
+									<Clock className="w-3.5 h-3.5 text-[#8B6F4E]" /> Maniobra
+								</span>
+								<span className="text-sm font-semibold text-foreground">{resultado.totalHandlingTime} min</span>
+							</div>
+
+							<div className="bg-background border border-border rounded-lg p-3 flex flex-col gap-1">
+								<span className="text-muted-foreground font-medium flex items-center gap-1.5">
+									<Flame className="w-3.5 h-3.5 text-[#8B6F4E]" /> Horno
+								</span>
+								<span className="text-sm font-semibold text-foreground">{resultado.totalTimeOven} min</span>
+							</div>
+						</div>
+					</div>
+				)}
 			</div>
 		</div>
 	);
