@@ -1,78 +1,149 @@
-import { Wheat, Droplet, Flame, Zap, TrendingUp, AlertTriangle } from "lucide-react";
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
+import { Wheat, Droplet, Flame, Zap, TrendingUp, AlertTriangle, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 
-interface CostItem {
-  label: string;
-  amount: number;
-  icon: React.ReactNode;
-  color: string;
-  calculated: boolean;
+interface CostBreakdown {
+	ingredientsCost: number;
+	services: {
+		waterCost: number;
+		gasCost: number;
+		electricityCost: number;
+		subtotalServicesCost: number;
+	};
+	totalCost: number;
+	costPerUnit: number;
 }
 
-export default function CostosPage() {
-	const ingredients = 8.45;
-	const water = 0.32;
-	const gas = 0;
-	const electricity = 0;
-	const total = ingredients + water + gas + electricity;
-	const unitsPerBatch = 12;
-	const costPerUnit = total / unitsPerBatch;
-	const sellingPrice = 0.65;
-	const isProfitable = costPerUnit <= sellingPrice;
+// Precio de venta sugerido para c&aacute;lculo de rentabilidad (placeholder, ajustable)
+const SELLING_PRICE = 3000;
 
-	const costItems: CostItem[] = [
+export default function CostosPage() {
+	const [summary, setSummary] = useState<CostBreakdown | null>(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+
+	const loadCosts = useCallback(async () => {
+		setLoading(true);
+		setError(null);
+		try {
+			// Hardcoded fr_001 (master recipe &uacute;nica sembrada en Fase 2)
+			const res = await fetch("/api/tarifas/costeo/fr_1");
+			if (res.status === 404) {
+				setError("No hay receta configurada para costeo.");
+				return;
+			}
+			if (!res.ok) {
+				setError("Error al calcular costeo.");
+				return;
+			}
+			const data = await res.json();
+			setSummary(data.summary);
+		} catch {
+			setError("Error de red al cargar el costeo.");
+		} finally {
+			setLoading(false);
+		}
+	}, []);
+
+	useEffect(() => {
+		loadCosts();
+	}, [loadCosts]);
+
+	if (loading) {
+		return (
+			<div className="min-h-screen p-8 bg-background">
+				<div className="max-w-6xl mx-auto flex flex-col items-center justify-center py-24">
+					<Loader2 className="w-10 h-10 animate-spin text-[#8B6F4E]" />
+					<p className="mt-4 text-muted-foreground">
+						Calculando costeo de la receta...
+					</p>
+				</div>
+			</div>
+		);
+	}
+
+	if (error || !summary) {
+		return (
+			<div className="min-h-screen p-8 bg-background">
+				<div className="max-w-6xl mx-auto">
+					<Card className="p-8 border-[#D4816A] bg-[#D4816A]/5">
+						<div className="flex items-start gap-3">
+							<AlertTriangle className="w-6 h-6 text-[#D4816A]" />
+							<div>
+								<p className="font-medium text-[#D4816A] mb-1">
+									No se pudo cargar el costeo
+								</p>
+								<p className="text-sm text-foreground">
+									{error ?? "Error desconocido. Verifica que la receta maestra est&eacute; sembrada en Supabase."}
+								</p>
+								<Button
+									variant="outline"
+									size="sm"
+									className="mt-4 border-[#8B6F4E] text-[#8B6F4E] hover:bg-[#8B6F4E]/10"
+									onClick={loadCosts}
+								>
+									Reintentar
+								</Button>
+							</div>
+						</div>
+					</Card>
+				</div>
+			</div>
+		);
+	}
+
+	const isProfitable = summary.costPerUnit <= SELLING_PRICE;
+
+	const costItems = [
 		{
 			label: "Ingredientes",
-			amount: ingredients,
+			amount: summary.ingredientsCost,
 			icon: <Wheat className="w-6 h-6" strokeWidth={1.5} />,
 			color: "#8B6F4E",
-			calculated: true,
 		},
 		{
 			label: "Agua",
-			amount: water,
+			amount: summary.services.waterCost,
 			icon: <Droplet className="w-6 h-6" strokeWidth={1.5} />,
 			color: "#A8C5A0",
-			calculated: true,
 		},
 		{
 			label: "Gas",
-			amount: gas,
+			amount: summary.services.gasCost,
 			icon: <Flame className="w-6 h-6" strokeWidth={1.5} />,
 			color: "#D4816A",
-			calculated: false,
 		},
 		{
 			label: "Electricidad",
-			amount: electricity,
+			amount: summary.services.electricityCost,
 			icon: <Zap className="w-6 h-6" strokeWidth={1.5} />,
 			color: "#E8B86D",
-			calculated: false,
 		},
 	];
 
 	return (
 		<div className="min-h-screen p-8 bg-background">
 			<div className="max-w-6xl mx-auto">
-				{/* Header */}
 				<div className="mb-8">
 					<div className="flex items-center justify-between mb-2">
 						<h1 className="text-3xl font-semibold text-foreground">
-              Pan de Molde Integral
+							Costeo Producci&oacute;n
 						</h1>
 						<Badge className="bg-[#A8C5A0] text-[#3D3229] hover:bg-[#A8C5A0]/90 px-4 py-1">
-              Costeo
+							Costeo
 						</Badge>
 					</div>
 					<p className="text-sm text-muted-foreground">
-            Desglose completo de costos por tanda de producci&oacute;n
+						Desglose completo de costos por tanda de producci&oacute;n
 					</p>
 				</div>
 
-				{/* Cost Dashboard */}
+				{/* Cards por componente */}
 				<div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
 					{costItems.map((item) => (
 						<Card
@@ -88,20 +159,14 @@ export default function CostosPage() {
 							<div className="text-sm text-muted-foreground mb-1">
 								{item.label}
 							</div>
-							{item.calculated ? (
-								<div className="text-2xl font-semibold text-foreground">
-                  ${item.amount.toFixed(2)}
-								</div>
-							) : (
-								<div className="text-sm text-muted-foreground italic">
-                  $0.00 (no calculado)
-								</div>
-							)}
+							<div className="text-2xl font-semibold text-foreground">
+								${item.amount.toLocaleString("es-CO")}
+							</div>
 						</Card>
 					))}
 				</div>
 
-				{/* Total Card */}
+				{/* Total */}
 				<Card
 					className={`p-8 mb-6 shadow-md border-[2px] ${
 						!isProfitable
@@ -113,51 +178,45 @@ export default function CostosPage() {
 						<div className="flex-1">
 							<div className="flex items-center gap-3 mb-4">
 								<h2 className="text-2xl font-semibold text-foreground">
-                  Costo Total
+									Costo Total
 								</h2>
 								{!isProfitable && (
 									<AlertTriangle className="w-6 h-6 text-[#D4816A]" />
 								)}
 							</div>
 							<div className="text-4xl font-bold text-foreground mb-4">
-                ${total.toFixed(2)}
+								${summary.totalCost.toLocaleString("es-CO")}
 							</div>
 							<div className="flex items-center gap-6 text-sm">
 								<div>
-									<span className="text-muted-foreground">Por tanda:</span>
-									<span className="ml-2 font-medium text-foreground">
-										{unitsPerBatch} unidades
-									</span>
-								</div>
-								<div>
 									<span className="text-muted-foreground">Por unidad:</span>
 									<span className="ml-2 font-medium text-foreground">
-                    ${costPerUnit.toFixed(2)}
+										${summary.costPerUnit.toLocaleString("es-CO")}
 									</span>
 								</div>
 								<div>
 									<span className="text-muted-foreground">
-                    Precio de venta:
+										Precio de venta sugerido:
 									</span>
 									<span className="ml-2 font-medium text-foreground">
-                    ${sellingPrice.toFixed(2)}
+										${SELLING_PRICE.toLocaleString("es-CO")}
 									</span>
 								</div>
 							</div>
 
-							{/* FA3: Warning if cost > selling price */}
 							{!isProfitable && (
 								<div className="mt-4 p-4 bg-white rounded-lg border border-[#D4816A]">
 									<div className="flex items-start gap-3">
 										<AlertTriangle className="w-5 h-5 text-[#D4816A] mt-0.5" />
 										<div>
 											<p className="font-medium text-[#D4816A] mb-1">
-                        Alerta de rentabilidad
+												Alerta de rentabilidad
 											</p>
 											<p className="text-sm text-foreground">
-                        El costo por unidad (${costPerUnit.toFixed(2)}) supera
-                        el precio de venta actual (${sellingPrice.toFixed(2)}).
-                        Se recomienda ajustar las tarifas o el precio de venta.
+												El costo por unidad (${summary.costPerUnit.toLocaleString("es-CO")})
+												supera el precio de venta sugerido
+												(${SELLING_PRICE.toLocaleString("es-CO")}). Se recomienda
+												ajustar las tarifas o el precio de venta.
 											</p>
 										</div>
 									</div>
@@ -175,9 +234,7 @@ export default function CostosPage() {
 							>
 								<TrendingUp
 									className={`w-12 h-12 ${
-										isProfitable
-											? "text-[#A8C5A0]"
-											: "text-[#D4816A]"
+										isProfitable ? "text-[#A8C5A0]" : "text-[#D4816A]"
 									}`}
 									strokeWidth={1.5}
 								/>
@@ -186,56 +243,53 @@ export default function CostosPage() {
 					</div>
 				</Card>
 
-				{/* Breakdown Details */}
+				{/* Desglose */}
 				<Card className="p-6 mb-8 shadow-sm border-[1.5px]">
 					<h3 className="text-lg font-semibold text-foreground mb-4">
-            Detalles del costeo
+						Detalles del costeo
 					</h3>
 					<div className="space-y-3">
 						<div className="flex justify-between items-center pb-3 border-b border-border">
 							<span className="text-sm text-foreground">Ingredientes base</span>
 							<span className="font-medium text-foreground">
-                ${ingredients.toFixed(2)}
+								${summary.ingredientsCost.toLocaleString("es-CO")}
 							</span>
 						</div>
 						<div className="flex justify-between items-center pb-3 border-b border-border">
-							<span className="text-sm text-foreground">Agua (incluye 15% adicional)</span>
+							<span className="text-sm text-foreground">Agua (incluye % adicional)</span>
 							<span className="font-medium text-foreground">
-                ${water.toFixed(2)}
+								${summary.services.waterCost.toLocaleString("es-CO")}
 							</span>
 						</div>
 						<div className="flex justify-between items-center pb-3 border-b border-border">
-							<div className="flex items-center gap-2">
-								<span className="text-sm text-muted-foreground">Gas</span>
-								<span className="text-xs text-muted-foreground italic">
-                  (requiere tiempo de horneado)
-								</span>
-							</div>
-							<span className="text-sm text-muted-foreground">
-                $0.00
+							<span className="text-sm text-foreground">Gas</span>
+							<span className="font-medium text-foreground">
+								${summary.services.gasCost.toLocaleString("es-CO")}
 							</span>
 						</div>
 						<div className="flex justify-between items-center pb-3 border-b border-border">
-							<div className="flex items-center gap-2">
-								<span className="text-sm text-muted-foreground">Electricidad</span>
-								<span className="text-xs text-muted-foreground italic">
-                  (no configurado)
-								</span>
-							</div>
+							<span className="text-sm text-foreground">Electricidad</span>
+							<span className="font-medium text-foreground">
+								${summary.services.electricityCost.toLocaleString("es-CO")}
+							</span>
+						</div>
+						<div className="flex justify-between items-center pb-3 border-b border-border">
 							<span className="text-sm text-muted-foreground">
-                $0.00
+								Subtotal servicios
+							</span>
+							<span className="font-medium text-muted-foreground">
+								${summary.services.subtotalServicesCost.toLocaleString("es-CO")}
 							</span>
 						</div>
 						<div className="flex justify-between items-center pt-2">
 							<span className="font-semibold text-foreground">Total</span>
 							<span className="text-xl font-bold text-foreground">
-                ${total.toFixed(2)}
+								${summary.totalCost.toLocaleString("es-CO")}
 							</span>
 						</div>
 					</div>
 				</Card>
 
-				{/* Action Buttons */}
 				<div className="flex gap-4 justify-end">
 					<Button
 						variant="outline"
@@ -248,8 +302,9 @@ export default function CostosPage() {
 					<Button
 						size="lg"
 						className="bg-[#8B6F4E] hover:bg-[#7A5F42] text-white px-8"
+						onClick={loadCosts}
 					>
-            Aprobar costeo
+						Recalcular costeo
 					</Button>
 				</div>
 			</div>

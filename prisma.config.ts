@@ -1,6 +1,7 @@
-import { defineConfig } from "@prisma/config"; // Asegúrate de que sea @prisma/config
+import { defineConfig } from "@prisma/config";
+import { config } from "dotenv";
 
-process.loadEnvFile();
+config();
 
 export default defineConfig({
 	schema: "prisma/schema.prisma",
@@ -8,7 +9,6 @@ export default defineConfig({
 		path: "prisma/migrations",
 	},
 	datasource: {
-		// Ponemos la URL directamente aquí para saltarnos el problema del .env en la terminal
-		url: process.env.DATABASE_URL,
+		url: process.env.DATABASE_URL!,
 	},
 });

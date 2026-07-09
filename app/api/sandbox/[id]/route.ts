@@ -5,6 +5,7 @@ import {
 	getSessionMetrics,
 	modifyIngredientQuantity,
 	modifyBakingParameter,
+	modifyIngredientSubstitute,
 	saveSessionAsVersion,
 	discardSession,
 } from "../../../../services/sandboxService";
@@ -19,7 +20,7 @@ export async function GET(
 
 	switch (scope) {
 		case "comparison": {
-			const result = getComparison(id);
+			const result = await getComparison(id);
 			if (result.error) {return NextResponse.json({ error: result.error }, { status: 400 });}
 			return NextResponse.json(result);
 		}
@@ -70,6 +71,18 @@ export async function POST(
 				);
 			}
 			const result = modifyBakingParameter(id, field, value);
+			if (result.error) {return NextResponse.json({ error: result.error }, { status: 400 });}
+			return NextResponse.json(result);
+		}
+		case "modifySubstitute": {
+			const { ingredientId, articleId } = body;
+			if (!ingredientId || articleId == null) {
+				return NextResponse.json(
+					{ error: "ingredientId y articleId son requeridos" },
+					{ status: 400 },
+				);
+			}
+			const result = await modifyIngredientSubstitute(id, ingredientId, Number(articleId));
 			if (result.error) {return NextResponse.json({ error: result.error }, { status: 400 });}
 			return NextResponse.json(result);
 		}

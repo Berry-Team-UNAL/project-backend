@@ -1,5 +1,5 @@
 import { Ingredient } from "./recipe";
-import { SubrecipeVersion } from "./subrecipe";
+import { SubrecipeVersion, SubrecipeVersionSummary } from "./subrecipe";
 
 export type SandboxStatus = "active" | "expired" | "saved" | "discarded"
 
@@ -9,6 +9,8 @@ export interface RecipeComponent {
   name: string
   quantityGrams: number
   selectedVersionId?: string
+  subrecipeId?: string
+  versions?: SubrecipeVersionSummary[]
 }
 
 export interface BakingParameters {
@@ -28,9 +30,11 @@ export interface MasterRecipe {
 
 export interface SandboxModification {
   componentId: string
-  field: "quantityGrams" | "selectedVersionId" | "bakingTimeHours" | "unitsPerBatch"
+  field: "quantityGrams" | "selectedVersionId" | "bakingTimeHours" | "unitsPerBatch" | "substitute"
   previousValue: number | string
   newValue: number | string
+  previousIngredient?: Ingredient
+  substitutedIngredient?: Ingredient
 }
 
 export interface SandboxSession {

@@ -6,7 +6,7 @@ export async function GET(
 	{ params }: { params: Promise<{ id: string }> },
 ) {
 	const { id } = await params;
-	const result = getVersionList(id);
+	const result = await getVersionList(id);
 	if (result.error) {
 		return NextResponse.json({ error: result.error }, { status: 404 });
 	}
@@ -28,7 +28,7 @@ export async function POST(
 		);
 	}
 
-	const result = applyVersion(id, newVersionId, masterRecipeId);
+	const result = await applyVersion(id, newVersionId, masterRecipeId);
 	if (result.error) {
 		const status = result.error.includes("no encontrada") ? 404 : 400;
 		return NextResponse.json({ error: result.error }, { status });

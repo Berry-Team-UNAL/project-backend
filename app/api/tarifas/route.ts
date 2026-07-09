@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getTariffs, updateTariffs } from "../../../services/utilityCostService";
 
 export async function GET() {
-	const tariffs = getTariffs();
+	const tariffs = await getTariffs();
 	return NextResponse.json({ tariffs });
 }
 
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 		);
 	}
 
-	const result = updateTariffs(tariffs);
+	const result = await updateTariffs(tariffs);
 	if (result.errors) {
 		return NextResponse.json({ errors: result.errors }, { status: 422 });
 	}

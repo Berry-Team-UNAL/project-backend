@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { SUBRECIPES } from "../../../../../../domain/data/subrecipes";
+import { findSubrecipeById } from "../../../../../../domain/data/subrecipes";
 import { findVersionById } from "../../../../../../utils/subrecipeUtils";
 
 export async function GET(
@@ -7,7 +7,7 @@ export async function GET(
 	{ params }: { params: Promise<{ id: string; versionId: string }> },
 ) {
 	const { id, versionId } = await params;
-	const subrecipe = SUBRECIPES.find((sr) => sr.id === id);
+	const subrecipe = await findSubrecipeById(id);
 	if (!subrecipe) {
 		return NextResponse.json({ error: "Subreceta no encontrada" }, { status: 404 });
 	}

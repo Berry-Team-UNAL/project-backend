@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
 		);
 	}
 
-	const result = openSession(recipeId);
+	const result = await openSession(recipeId);
 	if (result.error) {
 		return NextResponse.json({ error: result.error }, { status: 404 });
 	}
