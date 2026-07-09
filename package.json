@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",
-    "@prisma/client": "^7.8.0",
+    "@prisma/client": "^6.19.3",
+    "@prisma/config": "^7.8.0",
     "@radix-ui/react-alert-dialog": "^1.1.16",
     "@radix-ui/react-dialog": "^1.1.16",
     "@radix-ui/react-label": "^2.1.9",
@@ -38,6 +39,7 @@
     "uuid": "^14.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -45,8 +47,12 @@
     "@types/uuid": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.0",
+    "eslint-plugin-react": "^7.37.5",
+    "globals": "^17.7.0",
+    "jiti": "^2.7.0",
     "tailwindcss": "^4",
     "typescript": "^5",
+    "typescript-eslint": "^8.63.0",
     "vitest": "^2.1.8"
   },
   "allowScripts": {

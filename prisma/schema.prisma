@@ -1,10 +1,10 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+	provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+	provider = "postgresql"
+	url      = env("DATABASE_URL")
 }
 
 model articulo_proveedor {
@@ -45,6 +45,7 @@ model detalle_formulacion {
   cantidad_usada         Decimal             @db.Decimal(10, 4)
   unidad_medida_usada    String              @db.VarChar(20) // <-- NUEVO: Fuente de la verdad
   nota_preparacion       String?             @db.VarChar(255)
+  aporta_a_base_panadera Boolean             @default(false)
   articulo_proveedor     articulo_proveedor? @relation(fields: [id_articulo_especifico], references: [id_articulo], onDelete: NoAction, onUpdate: NoAction)
   catalogo_componente    catalogo_componente @relation(fields: [id_componente_hijo], references: [id_componente], onDelete: NoAction, onUpdate: NoAction)
   receta_subreceta       receta_subreceta    @relation(fields: [id_receta_padre], references: [id_componente], onDelete: NoAction, onUpdate: NoAction)
@@ -55,7 +56,7 @@ model detalle_formulacion {
 
 model ingrediente_base {
   id_componente          Int                  @id
-  aporta_a_base_panadera Boolean?             @default(false)
+  // aporta_a_base_panadera Boolean?             @default(false)
   articulo_proveedor     articulo_proveedor[]
   catalogo_componente    catalogo_componente  @relation(fields: [id_componente], references: [id_componente], onDelete: Cascade, onUpdate: NoAction)
 }
@@ -112,9 +113,39 @@ model usuario {
   id_usuario       Int                @id @default(autoincrement())
   nombre_usuario   String             @db.VarChar(50)
   apellido_usuario String?            @db.VarChar(100)
-  email            String?            @unique @db.VarChar(100)
+  email            String            @unique @db.VarChar(100)
+  password         String             @db.VarChar(255)
   id_rol           Int
   activo           Boolean?           @default(true)
   receta_subreceta receta_subreceta[]
   rol              rol                @relation(fields: [id_rol], references: [id_rol], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model reporte_produccion {
+	id_reporte          Int                @id @default(autoincrement())
+	identificador_lote  String             @unique @db.VarChar(50)
+	id_receta           Int
+	fecha_produccion    DateTime           @db.Date
+	hora_produccion     DateTime           @db.Time(6)
+	cantidad_producida  Decimal            @db.Decimal(10, 2)
+	unidad_medida       String             @db.VarChar(20)
+	id_responsable      Int
+	id_supervisor       Int?
+	observaciones       String?            @db.VarChar(500)
+	creado_en           DateTime?          @default(now()) @db.Timestamp(6)
+
+	// Mantener únicamente la relación interna hacia nuestras tandas nuevas
+	tanda_produccion    tanda_produccion[]
+}
+
+model tanda_produccion {
+	id_tanda            Int                @id @default(autoincrement())
+	id_reporte          Int
+	numero_tanda        Int
+	cantidad            Decimal            @db.Decimal(10, 2)
+
+	// Relación hacia nuestro propio reporte nuevo
+	reporte_produccion  reporte_produccion @relation(fields: [id_reporte], references: [id_reporte], onDelete: Cascade, onUpdate: NoAction)
+
+	@@unique([id_reporte, numero_tanda], map: "uk_reporte_tanda")
 }

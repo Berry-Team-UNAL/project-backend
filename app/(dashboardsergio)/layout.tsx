@@ -2,21 +2,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { BookOpen, Settings, DollarSign, BarChart3, Croissant } from "lucide-react";
+import { BookOpen, Settings, DollarSign, BarChart3, Croissant, ClipboardCheck, CloudSun, ClipboardList, Circle, Calculator, Wheat } from "lucide-react";
 import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
 } from "@/components/ui/select";
 
+// Agregamos "Ingredientes" a tu lista de navegación para cumplir con tu Roadmap
 const navItems = [
 	{ path: "/recetas", label: "Recetas", icon: BookOpen },
-	{ path: "/configuracion", label: "Configuración", icon: Settings },
-	{ path: "/costos", label: "Costos", icon: DollarSign },
-	{ path: "/reportes", label: "Reportes", icon: BarChart3 },
+	{ path: "/ingredientes", label: "Ingredientes", icon: Wheat },
+	//{ path: "/taller", label: "Modo Taller", icon: ClipboardCheck },
+	{ path: "/produccion", label: "Producción", icon: ClipboardList },
+	//{ path: "/ambiente", label: "Ambiente", icon: CloudSun },
+	//{ path: "/configuracion", label: "Configuración", icon: Settings },
+	//{ path: "/costos", label: "Costos", icon: DollarSign },
+	//{ path: "/reportes", label: "Reportes", icon: BarChart3 },
+	{ path: "/scale", label: "Escalar", icon: Circle },
+	{ path: "/calculadora-porciones", label: "Calculadora", icon: Calculator },
+	{ path: "/check", label: "CheckList", icon: ClipboardCheck },
 ];
 
 export default function DashboardLayout({
@@ -25,7 +27,6 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
 	const pathname = usePathname();
-	const [role, setRole] = useState("maestro");
 
 	const isActive = (path: string) => pathname === path;
 
@@ -41,7 +42,7 @@ export default function DashboardLayout({
 						</div>
 						<div>
 							<h1 className="text-xl font-semibold text-white">Banneton</h1>
-							<p className="text-xs text-white/70">Gesti&oacute;n Artesanal</p>
+							<p className="text-xs text-white/70">Gestión Artesanal</p>
 						</div>
 					</div>
 				</div>
@@ -66,23 +67,6 @@ export default function DashboardLayout({
 						);
 					})}
 				</nav>
-
-				{/* Role Selector */}
-				<div className="p-4 border-t border-white/10">
-					<label className="text-xs text-white/70 mb-2 block font-medium">
-            Rol actual
-					</label>
-					<Select value={role} onValueChange={setRole}>
-						<SelectTrigger className="w-full bg-white/10 border-white/20 text-white hover:bg-white/15 rounded-lg">
-							<SelectValue />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="maestro">Maestro Panadero</SelectItem>
-							<SelectItem value="jefe">Jefe de Panader&iacute;a</SelectItem>
-							<SelectItem value="admin">Administrador</SelectItem>
-						</SelectContent>
-					</Select>
-				</div>
 			</aside>
 
 			{/* Main Content */}

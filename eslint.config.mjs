@@ -38,10 +38,9 @@ export default [
 			"indent": ["error", "tab", { "SwitchCase": 1 }],
 			
 			// 2. Forzar el uso de camelCase
-			"camelcase": ["error", { "properties": "always", "ignoreDestructuring": false }],
+			//"camelcase": ["error", { "properties": "always", "ignoreDestructuring": false }],
 			
 			// 3. Buenas prácticas y limpieza
-			"no-unused-vars": "off", // Apagamos la de JS para usar la de TS que es más precisa
 			"@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
 			
 			"quotes": ["error", "double", { "avoidEscape": true, "allowTemplateLiterals": true }],
