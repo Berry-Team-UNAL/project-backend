@@ -46,3 +46,13 @@
 // 		"/((?!_next/static|_next/image|favicon.ico|public).*)",
 // 	],
 // };
+// (Aquí terminan los comentarios de tu equipo...)
+// };
+
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+
+export function middleware(request: NextRequest) {
+    // Función temporal que deja pasar todo mientras tu equipo termina el login
+    return NextResponse.next();
+}
